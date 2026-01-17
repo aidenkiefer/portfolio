@@ -14,8 +14,8 @@ export default function ExperiencePage() {
   return (
     <Container className="py-16">
       <div className="mb-20">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary">Experience</h1>
-        <p className="text-text-primary leading-relaxed max-w-2xl text-lg">
+        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Experience</h1>
+        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
           My professional experience reflects engineering work across web development, systems optimization, and data-driven decision making. Each role has involved building and maintaining systems—not just pages—with attention to performance, structure, and measurable impact.
         </p>
       </div>
@@ -25,6 +25,9 @@ export default function ExperiencePage() {
           <div
             key={idx}
             className="rounded-md border border-border bg-background p-8"
+            style={{
+              boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
+            }}
           >
             <div className="mb-6">
               <h2 className="text-2xl font-semibold text-text-primary mb-2">
@@ -58,10 +61,10 @@ export default function ExperiencePage() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-accent-primary font-medium hover:text-accent-primary/80 transition-colors duration-200 ease-out inline-flex items-center gap-1"
+                    className="text-sm text-accent-primary font-medium hover:text-accent-primary/80 transition-all duration-200 ease-out inline-flex items-center gap-1 group"
                   >
                     {link.label}
-                    <ArrowRight className="h-3 w-3" />
+                    <ArrowRight className="h-3 w-3 transition-transform duration-200 ease-out group-hover:translate-x-1" />
                   </a>
                 ))}
               </div>

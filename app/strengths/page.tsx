@@ -11,15 +11,35 @@ export default function StrengthsPage() {
   return (
     <Container className="py-16">
       <div className="mb-20">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary">About</h1>
-        <p className="text-text-primary leading-relaxed max-w-2xl text-lg">
+        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">About</h1>
+        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
           This isn't a personality test page — it's an explanation of my engineering mindset. These patterns shape how I approach problems, learn new systems, work on teams, and communicate technical ideas.
         </p>
       </div>
 
       <div className="space-y-20">
         <section>
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Strategic Thinking</h2>
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 64 64"
+              fill="none"
+              className="h-5 w-5 text-text-secondary flex-shrink-0"
+            >
+              <rect
+                x="18"
+                y="18"
+                width="28"
+                height="28"
+                rx="4"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Strategic Thinking
+          </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
               I approach problems systemically and proactively. I see patterns and failure modes early, consider multiple paths before committing, and reduce complexity through structure rather than adding layers.
@@ -31,7 +51,28 @@ export default function StrengthsPage() {
         </section>
 
         <section>
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Ideation & Creative Problem-Solving</h2>
+          <div className="mb-8 h-px bg-border" />
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 64 64"
+              fill="none"
+              className="h-5 w-5 text-text-secondary flex-shrink-0"
+            >
+              <rect
+                x="18"
+                y="18"
+                width="28"
+                height="28"
+                rx="4"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Ideation & Creative Problem-Solving
+          </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
               I'm comfortable with ambiguity and non-obvious solutions. I generate multiple approaches, connect ideas across domains, and enjoy design-heavy, underspecified problems that require exploring alternatives rather than applying a single pattern.
@@ -43,7 +84,28 @@ export default function StrengthsPage() {
         </section>
 
         <section>
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Continuous Learning</h2>
+          <div className="mb-8 h-px bg-border" />
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 64 64"
+              fill="none"
+              className="h-5 w-5 text-text-secondary flex-shrink-0"
+            >
+              <rect
+                x="18"
+                y="18"
+                width="28"
+                height="28"
+                rx="4"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Continuous Learning
+          </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
               I enjoy learning difficult material and go beyond surface-level familiarity. When I pick up a new technology or system, I read documentation and source code, learn how it works under the hood, and build real projects that require understanding internals, not just using the API.
@@ -55,7 +117,28 @@ export default function StrengthsPage() {
         </section>
 
         <section>
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Communication & Collaboration</h2>
+          <div className="mb-8 h-px bg-border" />
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 64 64"
+              fill="none"
+              className="h-5 w-5 text-text-secondary flex-shrink-0"
+            >
+              <rect
+                x="18"
+                y="18"
+                width="28"
+                height="28"
+                rx="4"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Communication & Collaboration
+          </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
               I explain technical ideas clearly and enjoy design discussions. I value shared understanding — making sure others can understand and build on my work is as important as the work itself.
@@ -67,7 +150,28 @@ export default function StrengthsPage() {
         </section>
 
         <section>
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Approach to Design Decisions</h2>
+          <div className="mb-8 h-px bg-border" />
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 64 64"
+              fill="none"
+              className="h-5 w-5 text-text-secondary flex-shrink-0"
+            >
+              <rect
+                x="18"
+                y="18"
+                width="28"
+                height="28"
+                rx="4"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Approach to Design Decisions
+          </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
               I evaluate tradeoffs, consider constraints, and balance short-term needs with long-term maintainability. When making architectural decisions or choosing technologies, I think through multiple possibilities and choose solutions that are simple, explainable, and maintainable rather than clever for their own sake.
@@ -79,7 +183,28 @@ export default function StrengthsPage() {
         </section>
 
         <section>
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Working on Teams</h2>
+          <div className="mb-8 h-px bg-border" />
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 64 64"
+              fill="none"
+              className="h-5 w-5 text-text-secondary flex-shrink-0"
+            >
+              <rect
+                x="18"
+                y="18"
+                width="28"
+                height="28"
+                rx="4"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Working on Teams
+          </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
               I bring energy and optimism to collaborative work. I value collaboration and recognize others' contributions, which builds trust and makes team dynamics healthier.
@@ -90,8 +215,9 @@ export default function StrengthsPage() {
           </div>
         </section>
 
-        <section className="rounded-md border border-border bg-background p-8 mt-16">
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary">What This Means for Engineering Work</h2>
+        <section className="rounded-md border border-border bg-background p-8 mt-16" style={{ boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)' }}>
+          <div className="mb-6 h-1 bg-accent-primary" />
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight">What This Means for Engineering Work</h2>
           <p className="text-text-primary mb-6 leading-relaxed">
             These patterns translate to concrete behaviors:
           </p>

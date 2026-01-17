@@ -40,17 +40,20 @@ export default function Home() {
           I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
         </p>
         
-        <p className="text-sm text-text-secondary mb-8">
+        <p className="text-sm text-text-secondary mb-2">
           Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
+        </p>
+        <p className="text-xs text-text-secondary mb-8 tracking-wider uppercase">
+          — systems • clarity • long-term thinking
         </p>
 
         <div className="flex flex-wrap gap-4">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 rounded-md border border-accent-primary bg-accent-primary px-6 py-3 text-white font-medium transition-colors duration-200 ease-out hover:bg-accent-primary/90"
+            className="inline-flex items-center gap-2 rounded-md border border-accent-primary bg-accent-primary px-6 py-3 text-white font-medium transition-all duration-200 ease-out hover:bg-accent-primary/90 group"
           >
             View Projects
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
           </Link>
           <Link
             href="/resume"
@@ -69,7 +72,7 @@ export default function Home() {
 
       {/* About Me Section */}
       <section className="mb-20">
-        <SectionHeading>About Me</SectionHeading>
+        <SectionHeading showSeparator={false} showChip={false}>About Me</SectionHeading>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
           <p>
             I'm a computer science graduate from the University of Illinois Chicago with a strong interest in systems, software design, and the intersection between theory and real-world engineering. I enjoy working on problems that are ambiguous, design-heavy, and require careful tradeoffs rather than purely mechanical execution.
@@ -86,8 +89,9 @@ export default function Home() {
       {/* Selected Work Section */}
       {featuredProjects.length > 0 && (
         <section className="mb-20">
-          <SectionHeading>Selected Work</SectionHeading>
-          <p className="mb-10 text-text-secondary max-w-2xl">
+          <div className="mb-8 h-px bg-border" />
+          <SectionHeading showSeparator={true}>Selected Work</SectionHeading>
+          <p className="mb-10 text-sm text-text-secondary max-w-2xl">
             A small selection of projects that represent how I think and work as an engineer.
           </p>
           <div className="grid gap-6 md:grid-cols-2">
@@ -98,10 +102,10 @@ export default function Home() {
           <div className="mt-10">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 text-accent-primary font-medium hover:text-accent-primary/80 transition-colors duration-200 ease-out"
+              className="inline-flex items-center gap-2 text-accent-primary font-medium hover:text-accent-primary/80 transition-all duration-200 ease-out group"
             >
               View all projects
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
             </Link>
           </div>
         </section>
@@ -109,7 +113,7 @@ export default function Home() {
 
       {/* How I Approach Engineering Section */}
       <section className="mb-20">
-        <SectionHeading>How I Approach Engineering</SectionHeading>
+        <SectionHeading showSeparator={true}>How I Approach Engineering</SectionHeading>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
           <p>
             When I work on software, I focus first on understanding the problem space and the constraints involved. I prefer to think through multiple possible approaches, weigh tradeoffs, and choose solutions that are simple, explainable, and maintainable rather than clever for their own sake.
@@ -122,7 +126,7 @@ export default function Home() {
 
       {/* Experience Snapshot Section */}
       <section className="mb-20">
-        <SectionHeading>Experience</SectionHeading>
+        <SectionHeading showSeparator={true}>Experience</SectionHeading>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-6">
           <p>
             I've worked on real-world software projects in both academic and professional contexts, including freelance and internship-style roles. My experience includes building and maintaining production websites, working with databases and analytics, and collaborating with non-technical stakeholders while maintaining engineering standards.
@@ -130,16 +134,16 @@ export default function Home() {
         </div>
         <Link
           href="/experience"
-          className="inline-flex items-center gap-2 text-accent-primary font-medium hover:text-accent-primary/80 transition-colors duration-200 ease-out"
+          className="inline-flex items-center gap-2 text-accent-primary font-medium hover:text-accent-primary/80 transition-all duration-200 ease-out group"
         >
           View Full Experience
-          <ArrowRight className="h-4 w-4" />
+          <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
         </Link>
       </section>
 
       {/* Resume Callout Section */}
       <section className="mb-20">
-        <SectionHeading>Resume</SectionHeading>
+        <SectionHeading showSeparator={true}>Resume</SectionHeading>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-6">
           <p>
             For a concise overview of my background, experience, and skills, you can view or download my resume below.
@@ -164,7 +168,8 @@ export default function Home() {
 
       {/* Get in Touch Section */}
       <section>
-        <SectionHeading>Get in Touch</SectionHeading>
+        <SectionHeading showSeparator={true}>Get in Touch</SectionHeading>
+        <div className="mb-6 h-1 bg-accent-primary" />
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-8">
           <p>
             If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect.

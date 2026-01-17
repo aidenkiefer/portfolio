@@ -13,8 +13,8 @@ export default function ContactPage() {
   return (
     <Container className="py-16">
       <div className="mb-12">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary">Contact</h1>
-        <p className="text-text-primary leading-relaxed max-w-2xl text-lg">
+        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Contact</h1>
+        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
           If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect.
         </p>
       </div>
@@ -24,6 +24,9 @@ export default function ContactPage() {
           <a
             href={siteConfig.links.email}
             className="group flex items-center gap-4 rounded-md border border-border bg-background p-6 transition-colors duration-200 ease-out hover:border-accent-primary"
+            style={{
+              boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
+            }}
           >
             <div className="rounded-md border border-border bg-background p-3">
               <Mail className="h-5 w-5 text-accent-primary" />
@@ -40,6 +43,9 @@ export default function ContactPage() {
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center gap-4 rounded-md border border-border bg-background p-6 transition-colors duration-200 ease-out hover:border-accent-primary"
+            style={{
+              boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
+            }}
           >
             <div className="rounded-md border border-border bg-background p-3">
               <Linkedin className="h-5 w-5 text-accent-primary" />
@@ -56,6 +62,9 @@ export default function ContactPage() {
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center gap-4 rounded-md border border-border bg-background p-6 transition-colors duration-200 ease-out hover:border-accent-primary"
+            style={{
+              boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
+            }}
           >
             <div className="rounded-md border border-border bg-background p-3">
               <Github className="h-5 w-5 text-accent-primary" />

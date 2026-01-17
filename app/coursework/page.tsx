@@ -23,10 +23,10 @@ export default function CourseworkPage() {
   return (
     <Container className="py-16">
       <div className="mb-20">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary">Coursework & Skills</h1>
+        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Coursework & Skills</h1>
         <div className="flex flex-col md:flex-row gap-8 items-start">
           <div className="flex-1">
-            <p className="text-text-primary leading-relaxed max-w-2xl text-lg">
+            <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
               My coursework is curated to show strong computer science fundamentals and exposure across systems, algorithms, machine learning, databases, and UI. These courses have shaped how I think about engineering problems and informed my approach to system design.
             </p>
           </div>
@@ -43,7 +43,26 @@ export default function CourseworkPage() {
       </div>
 
       <section className="mb-20">
-        <h2 className="mb-10 text-2xl font-semibold text-text-primary">
+        <div className="mb-8 h-px bg-border" />
+        <h2 className="mb-10 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 64 64"
+            fill="none"
+            className="h-5 w-5 text-text-secondary flex-shrink-0"
+          >
+            <rect
+              x="18"
+              y="18"
+              width="28"
+              height="28"
+              rx="4"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
           Coursework
         </h2>
         <div className="space-y-16">
@@ -57,6 +76,9 @@ export default function CourseworkPage() {
                   <div
                     key={courseIdx}
                     className="rounded-md border border-border bg-background p-6 transition-colors duration-200 ease-out hover:border-accent-primary"
+                    style={{
+                      boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
+                    }}
                   >
                     <div className="mb-4">
                       <span className="font-mono text-xs text-accent-primary font-medium">
@@ -101,8 +123,30 @@ export default function CourseworkPage() {
       </section>
 
       <section>
-        <h2 className="mb-10 text-2xl font-semibold text-text-primary">Technical Skills</h2>
-        <p className="mb-10 text-text-primary leading-relaxed max-w-2xl">
+        <div className="mb-8 h-px bg-border" />
+        <div className="mb-6 h-1 bg-accent-primary" />
+        <h2 className="mb-10 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 64 64"
+            fill="none"
+            className="h-5 w-5 text-text-secondary flex-shrink-0"
+          >
+            <rect
+              x="18"
+              y="18"
+              width="28"
+              height="28"
+              rx="4"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Technical Skills
+        </h2>
+        <p className="mb-10 text-sm text-text-secondary leading-relaxed max-w-2xl">
           A quick, scannable overview of technical tools and domains. Skills listed here are supported by coursework, projects, or experience and represent real working knowledge.
         </p>
         <div className="space-y-10">

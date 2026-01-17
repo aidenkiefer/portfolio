@@ -10,10 +10,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group block rounded-md border border-border bg-background p-6 transition-colors duration-200 ease-out hover:border-accent-primary"
+      className="group block rounded-md border border-border bg-background p-6 transition-all duration-200 ease-out hover:border-accent-primary"
+      style={{
+        boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
+      }}
     >
       <div className="mb-3 flex items-start justify-between">
-        <h3 className="text-xl font-semibold text-text-primary group-hover:text-accent-primary transition-colors duration-200 ease-out">
+        <h3 className="text-xl font-semibold text-text-primary group-hover:text-accent-primary transition-all duration-200 ease-out group-hover:opacity-90">
           {project.title}
         </h3>
         {project.featured && (

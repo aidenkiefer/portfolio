@@ -27,7 +27,7 @@ export function NavLink({ href, label }: NavLinkProps) {
     <Link
       ref={linkRef}
       href={href}
-      className="relative text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors duration-200 ease-out overflow-visible rounded-md px-2 py-1"
+      className="relative text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors duration-200 ease-out overflow-hidden rounded-md px-2 py-1"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onMouseMove={handleMouseMove}
@@ -35,14 +35,14 @@ export function NavLink({ href, label }: NavLinkProps) {
       <span className="relative z-10">{label}</span>
       {isHovering && (
         <span
-          className="absolute pointer-events-none rounded-lg opacity-30 blur-xl transition-opacity duration-200"
+          className="absolute pointer-events-none rounded-full opacity-30 blur-xl transition-opacity duration-200"
           style={{
             left: `${glowPosition.x}px`,
             top: `${glowPosition.y}px`,
             transform: 'translate(-50%, -50%)',
-            width: '120px',
-            height: '60px',
-            background: `radial-gradient(ellipse, var(--color-accent-primary) 0%, transparent 70%)`,
+            width: '80px',
+            height: '80px',
+            background: `radial-gradient(circle, var(--color-accent-primary) 0%, transparent 70%)`,
           }}
         />
       )}

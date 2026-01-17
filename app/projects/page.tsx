@@ -15,8 +15,8 @@ export default function ProjectsPage() {
   return (
     <Container className="py-16">
       <div className="mb-20">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary">Projects</h1>
-        <p className="text-text-primary leading-relaxed max-w-2xl text-lg">
+        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Projects</h1>
+        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
           Each project is a case study in problem-solving. I focus on design decisions, technical tradeoffs, and what I learned—not just what I built. These projects reflect how I approach systems, ambiguity, and real engineering constraints.
         </p>
       </div>

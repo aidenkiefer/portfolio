@@ -21,7 +21,7 @@ export default function StrengthsPage() {
       <div className="space-y-20">
         <section>
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+            <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             Strategic Thinking
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -37,7 +37,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+            <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             Ideation & Creative Problem-Solving
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -53,7 +53,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+            <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             Continuous Learning
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -69,7 +69,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+            <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             Communication & Collaboration
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -85,7 +85,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+            <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             Approach to Design Decisions
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -101,7 +101,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+            <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             Working on Teams
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">

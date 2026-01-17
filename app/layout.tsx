@@ -23,6 +23,29 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      {
+        rel: 'manifest',
+        url: '/site.webmanifest',
+      },
+    ],
+  },
+  manifest: '/site.webmanifest',
+  themeColor: '#1E3A5F',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: siteConfig.name,
+  },
 };
 
 export default function RootLayout({

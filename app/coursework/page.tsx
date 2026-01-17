@@ -46,7 +46,7 @@ export default function CourseworkPage() {
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
         <h2 className="mb-10 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
           Coursework
         </h2>
         <div className="space-y-16">
@@ -110,7 +110,7 @@ export default function CourseworkPage() {
         <div className="mb-8 h-px bg-border" />
         <div className="mb-6 h-1 bg-accent-secondary" />
         <h2 className="mb-10 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
           Technical Skills
         </h2>
         <p className="mb-10 text-sm text-text-secondary leading-relaxed max-w-2xl">

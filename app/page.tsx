@@ -75,7 +75,7 @@ export default function Home() {
       {/* About Me Section */}
       <section className="mb-20">
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">About Me</h2>
         </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -97,7 +97,7 @@ export default function Home() {
           <div className="mb-8 h-px bg-border" />
           <div className="mb-8 h-px bg-border" />
           <div className="mb-8 flex items-center gap-3">
-            <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+            <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Selected Work</h2>
           </div>
           <p className="mb-10 text-sm text-text-secondary max-w-2xl">
@@ -124,7 +124,7 @@ export default function Home() {
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">How I Approach Engineering</h2>
         </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -141,7 +141,7 @@ export default function Home() {
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Experience</h2>
         </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-6">
@@ -162,7 +162,7 @@ export default function Home() {
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Resume</h2>
         </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-6">
@@ -191,7 +191,7 @@ export default function Home() {
       <section>
         <div className="mb-8 h-px bg-border" />
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Get in Touch</h2>
         </div>
         <div className="mb-6 h-1 bg-accent-secondary" />

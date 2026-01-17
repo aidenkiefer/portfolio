@@ -15,7 +15,7 @@ export default function StrengthsPage() {
         <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">About</h1>
         <div className="max-w-prose">
           <p className="text-sm text-text-secondary leading-relaxed">
-            This isn't a personality test page — it's an explanation of my engineering mindset. These patterns shape how I approach problems, learn new systems, work on teams, and communicate technical ideas.
+            This isn't a personality test page: it's an explanation of my engineering mindset. These patterns shape how I approach problems, learn new systems, work on teams, and communicate technical ideas.
           </p>
         </div>
       </div>
@@ -28,10 +28,10 @@ export default function StrengthsPage() {
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
             <p>
-              I approach problems systemically and proactively. I see patterns and failure modes early, consider multiple paths before committing, and reduce complexity through structure rather than adding layers. This isn't about overthinking—it's about recognizing that most engineering problems have multiple valid solutions, and the best one depends on the specific context and constraints.
+              I approach problems systemically and proactively. I see patterns and failure modes early, consider multiple paths before committing, and reduce complexity through structure rather than adding layers. This isn't about overthinking: it's about recognizing that most engineering problems have multiple valid solutions, and the best one depends on the specific context and constraints.
             </p>
             <p>
-              In engineering contexts, this shows up in system architecture, algorithm design, debugging and root-cause analysis, and anticipating edge cases. I think before I code — understanding the problem space and constraints helps me choose solutions that are simple, explainable, and maintainable. For example, when designing a database schema, I'll consider not just the immediate requirements but how the data model might need to evolve, what queries will be most common, and how to maintain data integrity as the system grows.
+              In engineering contexts, this shows up in system architecture, algorithm design, debugging and root-cause analysis, and anticipating edge cases. I think before I code: understanding the problem space and constraints helps me choose solutions that are simple, explainable, and maintainable. For example, when designing a database schema, I'll consider not just the immediate requirements but how the data model might need to evolve, what queries will be most common, and how to maintain data integrity as the system grows.
             </p>
             <p>
               This systematic approach has saved me time in the long run. By thinking through edge cases early, I avoid debugging sessions that could have been prevented. By considering multiple approaches, I often find simpler solutions than my first instinct. And by reducing complexity through structure, I build systems that are easier for others to understand and extend.
@@ -50,7 +50,7 @@ export default function StrengthsPage() {
               I'm comfortable with ambiguity and non-obvious solutions. I generate multiple approaches, connect ideas across domains, and enjoy design-heavy, underspecified problems that require exploring alternatives rather than applying a single pattern. When a problem is underspecified or the requirements are unclear, I see that as an opportunity to ask questions, explore options, and design something that fits the actual need rather than forcing a standard solution.
             </p>
             <p>
-              This translates to engineering as exploring alternative designs, applying concepts across domains (like using database normalization principles in API design), and avoiding one-size-fits-all solutions. I don't just apply patterns — I understand them and adapt them to the context. For instance, when building an e-commerce platform, I didn't just follow a React tutorial. I thought about how the data model should be structured, how to optimize for SEO while maintaining performance, and how to design the architecture so it could evolve as requirements changed.
+              This translates to engineering as exploring alternative designs, applying concepts across domains (like using database normalization principles in API design), and avoiding one-size-fits-all solutions. I don't just apply patterns: I understand them and adapt them to the context. For instance, when building an e-commerce platform, I didn't just follow a React tutorial. I thought about how the data model should be structured, how to optimize for SEO while maintaining performance, and how to design the architecture so it could evolve as requirements changed.
             </p>
             <p>
               This approach means I sometimes take longer on the design phase, but it results in solutions that are more thoughtful and better suited to the specific problem. I'd rather spend time exploring alternatives upfront than discover later that the obvious solution doesn't actually fit the constraints.
@@ -82,7 +82,7 @@ export default function StrengthsPage() {
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
-              I explain technical ideas clearly and enjoy design discussions. I value shared understanding — making sure others can understand and build on my work is as important as the work itself. I've found that the best technical solutions are often the ones that are easiest to explain. If I can't clearly articulate why a design decision makes sense, that's usually a sign I need to reconsider the approach.
+              I explain technical ideas clearly and enjoy design discussions. I value shared understanding: making sure others can understand and build on my work is as important as the work itself. I've found that the best technical solutions are often the ones that are easiest to explain. If I can't clearly articulate why a design decision makes sense, that's usually a sign I need to reconsider the approach.
             </p>
             <p>
               This shows up in writing design docs, conducting code reviews, explaining tradeoffs in technical decisions, and onboarding others to systems I've built. I place a high value on communication because it makes collaboration more effective and helps the team make better decisions together. When I'm working on a project, I document not just what I built, but why I made certain choices, what tradeoffs I considered, and what I learned along the way.
@@ -104,7 +104,7 @@ export default function StrengthsPage() {
               I evaluate tradeoffs, consider constraints, and balance short-term needs with long-term maintainability. When making architectural decisions or choosing technologies, I think through multiple possibilities and choose solutions that are simple, explainable, and maintainable rather than clever for their own sake.
             </p>
             <p>
-              This disciplined decision-making shows up in refactoring strategy, technology choices, and how I approach system design. I'm comfortable with ambiguity during the design phase — exploring options, asking "what if?" questions, and refining the approach as I learn more about the problem space.
+              This disciplined decision-making shows up in refactoring strategy, technology choices, and how I approach system design. I'm comfortable with ambiguity during the design phase: exploring options, asking "what if?" questions, and refining the approach as I learn more about the problem space.
             </p>
           </div>
         </section>
@@ -142,7 +142,7 @@ export default function StrengthsPage() {
             </li>
             <li className="flex items-start gap-3">
               <span className="text-accent-primary font-medium mt-1">→</span>
-              <span><strong>Deep learning:</strong> When I pick up a new technology, I learn it thoroughly—reading docs, understanding internals, and building real projects</span>
+              <span><strong>Deep learning:</strong> When I pick up a new technology, I learn it thoroughly: reading docs, understanding internals, and building real projects</span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-accent-primary font-medium mt-1">→</span>

@@ -19,13 +19,13 @@ export default function ExperiencePage() {
         <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Experience</h1>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
           <p>
-            My professional experience reflects engineering work across web development, systems optimization, and data-driven decision making. Each role has involved building and maintaining systems—not just pages—with attention to performance, structure, and measurable impact.
+            My professional experience reflects engineering work across web development, systems optimization, and data-driven decision making. Each role has involved building and maintaining systems, not just pages, with attention to performance, structure, and measurable impact.
           </p>
           <p>
             What I've learned from these experiences is that good engineering work requires more than technical skills. It demands understanding business context, collaborating with non-technical stakeholders, making decisions under uncertainty, and maintaining systems that real people depend on. Whether I'm optimizing ad campaigns, building e-commerce platforms, or maintaining content management systems, I approach each project with the same principles: understand the problem deeply, design for maintainability, and measure what matters.
           </p>
           <p>
-            The roles below represent a mix of freelance work, internships, and ongoing projects. Each one has taught me something different about how software gets built in the real world—from balancing technical debt with feature delivery, to communicating technical decisions to stakeholders, to maintaining systems that need to evolve over time. I'm particularly proud of the measurable impact I've been able to deliver, whether that's improved conversion rates, increased organic traffic, or more efficient campaign performance.
+            The roles below represent a mix of freelance work, internships, and ongoing projects. Each one has taught me something different about how software gets built in the real world: from balancing technical debt with feature delivery, to communicating technical decisions to stakeholders, to maintaining systems that need to evolve over time. I'm particularly proud of the measurable impact I've been able to deliver, whether that's improved conversion rates, increased organic traffic, or more efficient campaign performance.
           </p>
         </div>
       </div>

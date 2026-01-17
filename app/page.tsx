@@ -38,7 +38,7 @@ export default function Home() {
         </div>
         
         <p className="text-xs text-accent-primary mb-4 tracking-wider uppercase">
-          — systems • clarity • long-term thinking
+          systems • clarity • long-term thinking
         </p>
         
         <div className="max-w-prose">
@@ -138,10 +138,10 @@ export default function Home() {
             This approach has served me well across different domains. Whether I'm designing a database schema, building a machine learning pipeline, or architecting a web application, I start by asking: What are we actually trying to solve? What constraints matter most? What will this look like in six months or a year? These questions help me avoid premature optimization and choose solutions that fit the context.
           </p>
           <p>
-            I enjoy learning new systems and technologies deeply, especially when they expose lower-level details or challenge my assumptions. When I pick up a new framework or tool, I read the documentation thoroughly, explore the source code when possible, and build real projects that require understanding internals—not just using the API. This depth-first approach means I compound knowledge over time rather than collecting surface-level familiarity with many tools.
+            I enjoy learning new systems and technologies deeply, especially when they expose lower-level details or challenge my assumptions. When I pick up a new framework or tool, I read the documentation thoroughly, explore the source code when possible, and build real projects that require understanding internals, not just using the API. This depth-first approach means I compound knowledge over time rather than collecting surface-level familiarity with many tools.
           </p>
           <p>
-            I also place a high value on communication — writing clear documentation, explaining technical decisions, and making sure others can understand and build on my work. I've found that the best technical solutions are often the ones that are easiest to explain. If I can't clearly articulate why a design decision makes sense, that's usually a sign I need to reconsider the approach.
+            I also place a high value on communication: writing clear documentation, explaining technical decisions, and making sure others can understand and build on my work. I've found that the best technical solutions are often the ones that are easiest to explain. If I can't clearly articulate why a design decision makes sense, that's usually a sign I need to reconsider the approach.
           </p>
         </div>
       </section>
@@ -158,7 +158,7 @@ export default function Home() {
             I've worked on real-world software projects in both academic and professional contexts, including freelance and internship-style roles. My experience includes building and maintaining production websites, working with databases and analytics, and collaborating with non-technical stakeholders while maintaining engineering standards.
           </p>
           <p>
-            What I value most in these experiences is the opportunity to work on systems that have real users and real constraints. Whether it's optimizing a search campaign's performance, building a content management system that needs to scale, or designing database schemas that support complex business logic, I've learned to balance immediate needs with long-term maintainability. These projects have taught me that good engineering isn't just about writing code—it's about understanding context, making informed tradeoffs, and building systems that others can understand and extend.
+            What I value most in these experiences is the opportunity to work on systems that have real users and real constraints. Whether it's optimizing a search campaign's performance, building a content management system that needs to scale, or designing database schemas that support complex business logic, I've learned to balance immediate needs with long-term maintainability. These projects have taught me that good engineering isn't just about writing code: it's about understanding context, making informed tradeoffs, and building systems that others can understand and extend.
           </p>
         </div>
         <Link
@@ -212,7 +212,7 @@ export default function Home() {
             If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect. I'm particularly drawn to roles that involve systems thinking, thoughtful design, and collaboration with other engineers. Whether you're building new products, maintaining existing systems, or solving complex technical challenges, I'd love to hear about what you're working on.
           </p>
           <p>
-            I'm open to full-time opportunities, contract work, and conversations about interesting problems—even if there isn't an immediate role. Feel free to reach out via email or LinkedIn, and I'll respond promptly.
+            I'm open to full-time opportunities, contract work, and conversations about interesting problems, even if there isn't an immediate role. Feel free to reach out via email or LinkedIn, and I'll respond promptly.
           </p>
         </div>
         <div className="flex flex-wrap gap-4">

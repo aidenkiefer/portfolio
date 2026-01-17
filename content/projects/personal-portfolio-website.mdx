@@ -1,0 +1,198 @@
+---
+title: "Personal Portfolio Website"
+slug: "personal-portfolio-website"
+date: "2025-01-01"
+featured: true
+tags: ["Web Development", "Systems Design", "Content Strategy", "UI/UX Design", "SEO"]
+stack: ["Next.js", "TypeScript", "TailwindCSS", "React", "MDX", "Vercel"]
+repoUrl: ""
+liveUrl: ""
+summary: "A content-first portfolio website built with Next.js and TypeScript, designed to showcase engineering work through case studies, experience, and thoughtful design decisions."
+highlights:
+  - "Built with Next.js 16 App Router for optimal SEO and static generation"
+  - "Implemented responsive design system with TailwindCSS 4"
+  - "Created search functionality with tag-based filtering and relevance scoring"
+  - "Designed content architecture supporting MDX case studies and structured data"
+  - "Optimized for performance, accessibility, and long-term maintainability"
+---
+
+## Overview
+
+This portfolio website represents a complete rethinking of how to present engineering work online. Rather than a simple gallery of projects, I built a content-first platform that emphasizes case studies, design decisions, and engineering thinking. The site demonstrates my approach to systems design, content architecture, and building maintainable web applications.
+
+## Problem & Context
+
+Traditional portfolio sites often feel like marketing pages: flashy but shallow, emphasizing visuals over substance. For someone pursuing software engineering roles, I needed a site that:
+
+- Showcases not just what I built, but how I think about problems
+- Allows employers to search and filter by specific technologies or skills
+- Maintains credibility and professionalism without feeling corporate
+- Scales easily as I add new projects and experience
+- Performs well and remains maintainable over time
+
+The challenge was balancing depth with clarity, creating a system that could handle both detailed case studies and quick scanning, while maintaining a calm, engineer-oriented aesthetic.
+
+## Constraints
+
+- **Content-first approach**: The design must support long-form case studies and structured data
+- **Performance**: Fast load times and excellent SEO for recruiter discovery
+- **Maintainability**: Easy to add new projects, update content, and evolve the design
+- **Responsive design**: Works well on mobile, tablet, and desktop without feeling cramped or overly wide
+- **Accessibility**: Meets WCAG standards and works for all users
+- **Budget**: Free or low-cost hosting (Vercel free tier)
+
+## Approach & Design Decisions
+
+### Architecture: Next.js App Router
+
+I chose Next.js 16 with the App Router for several reasons:
+
+1. **Static Generation**: All pages are pre-rendered at build time, ensuring fast load times and excellent SEO
+2. **Type Safety**: TypeScript throughout provides compile-time safety and better developer experience
+3. **File-based Routing**: The App Router's file-based system makes adding new pages intuitive
+4. **Built-in Optimizations**: Image optimization, font loading, and metadata management are handled automatically
+
+### Content Architecture: Hybrid Approach
+
+Rather than choosing between a CMS or static files, I implemented a hybrid system:
+
+- **MDX for Case Studies**: Project case studies are written in MDX, allowing rich formatting, code blocks, and embedded React components
+- **TypeScript Modules for Structured Data**: Experience, coursework, and skills are defined in TypeScript files, providing type safety and easy updates
+- **Separation of Concerns**: Content lives in `content/` and `data/` directories, separate from presentation logic
+
+This approach gives me the flexibility of markdown for long-form content while maintaining type safety and structure for data-driven pages.
+
+### Design System: TailwindCSS 4 with Custom Theme
+
+I migrated to TailwindCSS 4's new CSS-first approach, defining a custom theme using the `@theme` directive:
+
+- **Color System**: Warm, paper-like background with muted navy and brick red accents
+- **Typography**: IBM Plex Sans for body text, IBM Plex Mono for code
+- **Spacing & Layout**: Responsive spacing that scales from mobile to desktop
+- **Components**: Reusable components (BadgeRow, SectionHeading, ChipMark) that maintain consistency
+
+The design system prioritizes clarity and readability over visual flair, aligning with the site's content-first philosophy.
+
+### Search Functionality
+
+I implemented a custom search system that allows filtering by:
+
+- **Keywords**: Searches across titles, descriptions, content, and tech stacks
+- **Tags**: Click any technology tag to see all projects/experience using that technology
+- **Type Filtering**: Filter to show only projects or only experience
+- **Relevance Scoring**: Results are sorted by relevance, with exact tag matches scoring highest
+
+The search API route handles server-side processing, while the search page uses client-side state management for responsive filtering.
+
+### Responsive Design Strategy
+
+Following the dynamic spacing guidelines, I implemented a two-tier container system:
+
+- **Wide Page Containers**: `max-w-7xl` for sections and grids, allowing content to use available width on desktop
+- **Prose Containers**: `max-w-prose` for long-form text, maintaining optimal reading width
+- **Responsive Grids**: Project cards scale from 1 column (mobile) to 2 columns (tablet) to 3 columns (desktop)
+- **Typography Scaling**: Headings and spacing scale responsively across breakpoints
+
+This approach prevents the "skinny center column" problem on desktop while maintaining readability.
+
+## Technical Implementation
+
+### Component Architecture
+
+The site uses a modular component structure:
+
+- **Layout Components**: Navbar, Footer, Container handle site-wide structure
+- **Common Components**: BadgeRow, SectionHeading, ChipMark provide reusable UI elements
+- **Project Components**: ProjectCard, ProjectMeta, ProjectNavigation handle project-specific displays
+- **Search Components**: SearchableBadge enables tag-based navigation
+
+Each component is typed with TypeScript and follows consistent styling patterns.
+
+### MDX Processing
+
+Project case studies are processed using `next-mdx-remote` with:
+
+- **remark-gfm**: GitHub Flavored Markdown support for tables, strikethrough, etc.
+- **rehype-pretty-code**: Syntax highlighting for code blocks with the GitHub Dark theme
+- **Custom Components**: MDX components for consistent formatting of code blocks, links, and other elements
+
+This setup allows me to write case studies in markdown while maintaining full control over rendering.
+
+### Search Implementation
+
+The search system consists of:
+
+1. **Search Utility** (`lib/search.ts`): Relevance scoring algorithm that weights different match types
+2. **API Route** (`app/api/search/route.ts`): Server-side endpoint that processes search queries
+3. **Search Page** (`app/search/page.tsx`): Client-side interface with filtering and results display
+
+The relevance algorithm prioritizes:
+- Exact tag matches (100 points)
+- Title/role matches (50 points)
+- Summary matches (30 points)
+- Tech stack matches (20 points per match)
+- Content matches (10 points per match, capped)
+
+### Performance Optimizations
+
+- **Static Generation**: All pages are pre-rendered at build time
+- **Image Optimization**: Next.js Image component with AVIF format support
+- **Font Loading**: IBM Plex fonts loaded with `display: swap` for performance
+- **Code Splitting**: Automatic code splitting via Next.js App Router
+- **Minimal JavaScript**: Client-side JavaScript only where needed (search, interactive elements)
+
+## Challenges & Solutions
+
+### Challenge: MDX Build Configuration
+
+**Problem**: Initial setup with `@next/mdx` caused build errors on Vercel due to serialization issues.
+
+**Solution**: Switched to `next-mdx-remote` for runtime MDX processing, removing the need for build-time MDX compilation. This simplified the configuration and resolved the build errors.
+
+### Challenge: TailwindCSS v4 Migration
+
+**Problem**: TailwindCSS v4 introduced a new CSS-first approach, breaking existing custom color utilities.
+
+**Solution**: Migrated to the `@theme` directive in `globals.css`, defining all custom colors, fonts, and animations as CSS variables. This approach is more maintainable and aligns with TailwindCSS v4's philosophy.
+
+### Challenge: Responsive Design Without Feeling Narrow
+
+**Problem**: Initial design used `max-w-3xl` containers, making the site feel cramped on desktop.
+
+**Solution**: Implemented two-tier container system: wide containers (`max-w-7xl`) for sections and grids, prose containers (`max-w-prose`) for text. This allows grids and cards to expand on desktop while keeping text readable.
+
+### Challenge: Search Functionality Without External Services
+
+**Problem**: Needed search functionality but wanted to avoid external services or complex indexing.
+
+**Solution**: Built a simple but effective server-side search API that processes queries against all projects and experience entries. The relevance scoring algorithm provides good results without requiring a search index.
+
+## What I Learned
+
+Building this site reinforced several important lessons:
+
+1. **Content Architecture Matters**: The decision to use MDX for case studies and TypeScript for structured data has made adding new content straightforward and type-safe.
+
+2. **Design Systems Scale**: Investing time in a well-defined design system (colors, typography, spacing, components) pays off as the site grows. Changes can be made globally by updating the system.
+
+3. **Performance is a Feature**: Static generation and image optimization mean the site loads quickly even with rich content. This improves both user experience and SEO.
+
+4. **Search Enhances Discovery**: The tag-based search functionality makes it easy for employers to find specific examples of technologies or skills, which is valuable for a portfolio site.
+
+5. **Responsive Design Requires Planning**: The two-tier container system wasn't obvious initially, but it solved the "skinny column" problem elegantly. Planning responsive behavior upfront saves refactoring later.
+
+## Future Improvements
+
+Potential enhancements I'm considering:
+
+- **Analytics**: Add privacy-focused analytics to understand how visitors use the site
+- **RSS Feed**: Generate an RSS feed for case studies
+- **Dark Mode**: Optional dark mode that maintains the warm, paper-like aesthetic
+- **Project Filtering**: Add more sophisticated filtering options on the projects page
+- **Performance Monitoring**: Track Core Web Vitals and optimize further if needed
+
+## Reflection
+
+This project represents a significant investment in thinking through how to present engineering work online. Rather than building a simple gallery, I created a system that can grow with my career while maintaining clarity and professionalism.
+
+The site demonstrates several engineering principles: thoughtful architecture, maintainable code, performance optimization, and user-centered design. It's a meta-project: a portfolio about building portfolios, showcasing not just what I can build, but how I approach building things.

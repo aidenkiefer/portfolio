@@ -1,0 +1,49 @@
+{
+  "title": "Restaurant Decision Tree Classifier",
+  "slug": "restaurant-decision-tree",
+  "featured": false,
+  "caseStudy": false,
+  "dateRange": "2025",
+  "role": "Solo",
+  "teamSize": "1",
+  "oneLiner": "ID3 decision tree learning implementation from scratch for restaurant wait prediction",
+  "overview": "Implemented the ID3 decision tree learning algorithm from scratch in Python to predict whether a customer will wait at a restaurant based on multiple attributes. The implementation includes entropy calculation, information gain optimization, and recursive tree construction without external machine learning libraries.",
+  "stack": [
+    {
+      "name": "Python",
+      "evidence": "main.py uses Python syntax and standard library (csv, math, collections)"
+    }
+  ],
+  "skills": [
+    "Information gain and entropy",
+    "Recursive algorithm design",
+    "Greedy attribute selection",
+    "Decision tree induction",
+    "Supervised classification",
+    "Data preprocessing"
+  ],
+  "tags": [
+    "machine-learning",
+    "decision-trees",
+    "id3",
+    "classification",
+    "python"
+  ],
+  "links": {
+    "repo": "TODO",
+    "demo": "TODO",
+    "writeup": "TODO"
+  },
+  "highlights": [
+    "Implemented information gain calculation from scratch using entropy reduction",
+    "Built recursive tree construction following DECISION-TREE-LEARNING pseudocode",
+    "Handled edge cases including empty sets, uniform classes, and unseen values",
+    "Designed modular architecture separating utilities, core algorithm, and classification"
+  ],
+  "notes": {
+    "publicSafe": true,
+    "redactions": [
+      "Consider removing Assignment10_CS411_undergrad.pdf if publishing publicly (academic assignment)"
+    ]
+  }
+}

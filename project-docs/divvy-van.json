@@ -1,0 +1,83 @@
+{
+  "title": "Divvy Route Optimizer",
+  "slug": "divvy-van",
+  "featured": false,
+  "caseStudy": true,
+  "dateRange": "2025",
+  "role": "Full-stack developer",
+  "teamSize": "Solo / Team",
+  "oneLiner": "Route optimization system for bike-share maintenance vans using TSP algorithms and real-time traffic data",
+  "overview": "A production-ready web application that optimizes routes for Divvy bike-share maintenance vans across 600+ stations in Chicago. Solves the Traveling Salesman Problem using real-time traffic data and weather conditions to minimize route completion time. Built as a React SPA with sophisticated algorithm implementations and external API integrations.",
+  "stack": [
+    {
+      "name": "React 19.1.1",
+      "evidence": "project/frontend/package.json line 16"
+    },
+    {
+      "name": "Vite 7.1.2",
+      "evidence": "project/frontend/package.json line 30, vite.config.js"
+    },
+    {
+      "name": "Tailwind CSS 4.1.13",
+      "evidence": "project/frontend/package.json line 19, vite.config.js"
+    },
+    {
+      "name": "React Router DOM 7.9.1",
+      "evidence": "project/frontend/package.json line 18, main.jsx"
+    },
+    {
+      "name": "Google Maps JavaScript API",
+      "evidence": "@googlemaps/js-api-loader and @googlemaps/react-wrapper in package.json, distanceMatrixService.js"
+    },
+    {
+      "name": "OpenWeather API",
+      "evidence": "weatherService.js implementation"
+    },
+    {
+      "name": "ESLint 9.33.0",
+      "evidence": "project/frontend/package.json line 26, eslint.config.js"
+    }
+  ],
+  "skills": [
+    "Algorithm Design (TSP, Knapsack)",
+    "React & Modern JavaScript",
+    "API Integration & Caching",
+    "State Management",
+    "Performance Optimization",
+    "Real-time Data Processing",
+    "User Experience Design",
+    "Error Handling & Resilience"
+  ],
+  "tags": [
+    "Route Optimization",
+    "TSP Algorithm",
+    "React",
+    "API Integration",
+    "Real-time Data",
+    "Google Maps",
+    "Weather API",
+    "Frontend Development"
+  ],
+  "links": {
+    "repo": "TODO",
+    "demo": "TODO",
+    "writeup": "TODO"
+  },
+  "highlights": [
+    "Implemented time-optimized 2-opt TSP solver that considers real-time traffic data",
+    "Built weather-aware route planning with OpenWeather API integration and driving condition assessment",
+    "Developed 0/1 Knapsack solver for capacity-constrained bike collection optimization",
+    "Created multi-driver optimization system with greedy load-balancing algorithm",
+    "Built comprehensive analytics dashboard with route metrics and weather impact visualization",
+    "Implemented undo/redo functionality with history tracking for route editing",
+    "Designed fallback system that works fully offline with estimated calculations"
+  ],
+  "notes": {
+    "publicSafe": true,
+    "redactions": [
+      "API keys should be kept in .env file (not committed)",
+      "Station data uses real locations but generated bike inventory for demo",
+      "CS 440 course project - contains demo/mock data"
+    ]
+  }
+}

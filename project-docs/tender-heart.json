@@ -1,0 +1,94 @@
+{
+  "title": "Tender Heart Vintage Website",
+  "slug": "tender-heart-vintage",
+  "featured": false,
+  "caseStudy": true,
+  "dateRange": "2024 – 2025",
+  "role": "Full-stack Developer",
+  "teamSize": "Solo",
+  "oneLiner": "Full-stack serverless website with client-side CMS for a local vintage shop",
+  "overview": "A complete website for a local vintage shop built with a serverless JAMstack architecture. Features a client-side content management system, event management, form submissions with email notifications, and comprehensive accessibility features. The site emphasizes community connection and serves as both an online presence and community hub.",
+  "stack": [
+    {
+      "name": "HTML5",
+      "evidence": "code/*.html files with semantic markup"
+    },
+    {
+      "name": "CSS3",
+      "evidence": "code/css/styles.css with custom properties and animations"
+    },
+    {
+      "name": "Vanilla JavaScript",
+      "evidence": "code/js/*.js files, no framework dependencies"
+    },
+    {
+      "name": "Cloudflare Pages",
+      "evidence": "wrangler.toml deployment configuration"
+    },
+    {
+      "name": "Cloudflare Workers",
+      "evidence": "functions/api/*.js serverless functions"
+    },
+    {
+      "name": "Cloudflare R2",
+      "evidence": "wrangler.toml R2 binding, functions use env.R2"
+    },
+    {
+      "name": "Resend API",
+      "evidence": "functions/api/submissions/contact.js email integration"
+    },
+    {
+      "name": "Fetch API",
+      "evidence": "code/js/api-client.js uses native fetch()"
+    },
+    {
+      "name": "LocalStorage",
+      "evidence": "extensive use in admin.js, main.js, events.js"
+    }
+  ],
+  "skills": [
+    "Serverless Architecture",
+    "RESTful API Design",
+    "Client-Side State Management",
+    "Progressive Enhancement",
+    "Accessibility (WCAG 2.1 AA)",
+    "Responsive Design",
+    "Error Handling & Fallbacks",
+    "Caching Strategies",
+    "Timezone Handling",
+    "Cross-Tab Communication",
+    "JAMstack Development",
+    "Cloudflare Platform"
+  ],
+  "tags": [
+    "Full-stack",
+    "Serverless",
+    "CMS",
+    "Accessibility",
+    "Responsive Design",
+    "JAMstack",
+    "Cloudflare",
+    "REST API"
+  ],
+  "links": {
+    "repo": "TODO",
+    "demo": "https://tenderheartvintage.com",
+    "writeup": "TODO"
+  },
+  "highlights": [
+    "Built serverless architecture on Cloudflare Pages with Workers for API endpoints",
+    "Implemented client-side CMS with localStorage persistence and R2 synchronization",
+    "Created RESTful API with automatic fallback to localStorage when API calls fail",
+    "Developed comprehensive timezone handling to prevent date display bugs",
+    "Achieved WCAG 2.1 AA accessibility compliance with keyboard navigation and screen reader support",
+    "Implemented real-time cross-tab content synchronization using localStorage events",
+    "Integrated Resend API for email notifications on form submissions",
+    "Designed progressive enhancement approach ensuring site functions without JavaScript"
+  ],
+  "notes": {
+    "publicSafe": true,
+    "redactions": [
+      "Admin credentials are hardcoded in code/js/admin.js — should be moved to environment variables in production"
+    ]
+  }
+}

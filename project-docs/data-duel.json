@@ -1,0 +1,88 @@
+{
+  "title": "DataDuel",
+  "slug": "data-duel",
+  "featured": true,
+  "caseStudy": true,
+  "dateRange": "2025",
+  "role": "Full-stack Developer",
+  "teamSize": "7",
+  "oneLiner": "Fair fitness competition platform that scores runners based on personal improvement, not raw performance",
+  "overview": "DataDuel is a web application that creates equitable running competitions by integrating with Strava and using a custom improvement-based scoring algorithm. Instead of rewarding raw athletic ability, the platform scores users based on progress relative to their personal baselines, consistency through streaks, and challenge completion—ensuring beginners and elite runners can compete fairly.",
+  "stack": [
+    {
+      "name": "Flask 3.0.0",
+      "evidence": "requirements.txt line 1, app.py imports Flask"
+    },
+    {
+      "name": "Python 3.8+",
+      "evidence": "Backend structure, app.py, Person.py, Score.py"
+    },
+    {
+      "name": "Supabase (PostgreSQL)",
+      "evidence": "requirements.txt line 5, supabase_stravaDB/strava_user.py uses create_client"
+    },
+    {
+      "name": "Vanilla JavaScript (ES6+)",
+      "evidence": "Frontend uses ES6 modules, no framework dependencies in package.json"
+    },
+    {
+      "name": "Strava API v3",
+      "evidence": "app.py implements OAuth flow, strava_parser.py processes activities"
+    },
+    {
+      "name": "Cloudflare Pages",
+      "evidence": "wrangler.toml configures deployment, DEPLOYMENT.md documents setup"
+    },
+    {
+      "name": "Render.com",
+      "evidence": "Procfile specifies deployment command, DEPLOYMENT.md documents backend setup"
+    }
+  ],
+  "skills": [
+    "RESTful API Design",
+    "OAuth 2.0 Implementation",
+    "Algorithm Design",
+    "Database Schema Design",
+    "Real-time Data Synchronization",
+    "Gamification Systems",
+    "Session Management",
+    "Cross-origin Resource Sharing (CORS)",
+    "Environment Configuration",
+    "Data Normalization"
+  ],
+  "tags": [
+    "full-stack",
+    "fitness",
+    "api-integration",
+    "oauth",
+    "algorithm",
+    "real-time",
+    "postgresql",
+    "flask",
+    "javascript"
+  ],
+  "links": {
+    "repo": "TODO",
+    "demo": "TODO",
+    "writeup": "TODO"
+  },
+  "highlights": [
+    "Designed and implemented improvement-based scoring algorithm that normalizes performance across fitness levels",
+    "Built complete OAuth 2.0 flow with Strava API including automatic token refresh and secure session management",
+    "Migrated from JSON file storage to Supabase PostgreSQL while maintaining backward compatibility",
+    "Created gamification system with automatic badge detection and weekly challenge tracking",
+    "Implemented friends system with bidirectional relationships and request workflow using Supabase",
+    "Built custom leagues feature allowing users to create private groups with separate leaderboards",
+    "Developed environment-aware frontend configuration that auto-detects development vs production",
+    "Created centralized authentication helper with automatic token refresh to handle session expiration"
+  ],
+  "notes": {
+    "publicSafe": false,
+    "redactions": [
+      "Strava API credentials should be removed from any public documentation",
+      "Supabase service role keys should be moved to environment variables",
+      "Hardcoded localhost URLs should be replaced with environment variables",
+      "Repository may need to remain private due to academic project status"
+    ]
+  }
+}

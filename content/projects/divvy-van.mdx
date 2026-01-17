@@ -1,0 +1,133 @@
+---
+title: "Divvy Route Optimizer"
+slug: "divvy-van"
+date: "2025-01-01"
+featured: false
+tags: ["Route Optimization", "TSP Algorithm", "React", "API Integration", "Real-time Data", "Google Maps", "Weather API", "Frontend Development"]
+stack: ["React", "Vite", "Tailwind CSS", "React Router DOM", "Google Maps JavaScript API", "OpenWeather API", "ESLint"]
+repoUrl: ""
+liveUrl: ""
+summary: "Route optimization system for bike-share maintenance vans using TSP algorithms and real-time traffic data"
+highlights:
+  - "Implemented time-optimized 2-opt TSP solver that considers real-time traffic data"
+  - "Built weather-aware route planning with OpenWeather API integration and driving condition assessment"
+  - "Developed 0/1 Knapsack solver for capacity-constrained bike collection optimization"
+  - "Created multi-driver optimization system with greedy load-balancing algorithm"
+  - "Built comprehensive analytics dashboard with route metrics and weather impact visualization"
+  - "Implemented undo/redo functionality with history tracking for route editing"
+  - "Designed fallback system that works fully offline with estimated calculations"
+---
+
+## Overview
+
+A production-ready web application that optimizes routes for Divvy bike-share maintenance vans across 600+ stations in Chicago. The system solves the Traveling Salesman Problem (TSP) using real-time traffic data and weather conditions to minimize route completion time, not just distance. Built as a single-page React application with sophisticated algorithm implementations and external API integrations.
+
+## Problem & Context
+
+Divvy operates hundreds of bike stations across Chicago, and maintenance vans need to efficiently visit stations to collect broken bikes, redistribute inventory, and perform repairs. Manual route planning is time-consuming and doesn't account for real-world factors like traffic congestion, weather conditions, or van capacity constraints. The challenge is to create an optimization system that considers both algorithmic efficiency (TSP) and real-world variables (traffic, weather) to produce practical, actionable routes for drivers.
+
+## Constraints
+
+- Must optimize for time, not just distance, using real-time traffic data
+- System must account for weather conditions affecting driving times
+- Van capacity constraints limit how many bikes can be collected
+- Multiple drivers need balanced route assignments
+- Solution must work offline as fallback when APIs are unavailable
+- Route optimization must complete in reasonable time (under 5 seconds for 10+ stations)
+- User interface must be intuitive for non-technical drivers
+
+## Approach & Design Decisions
+
+I structured the solution as a React SPA with a services layer architecture:
+
+1. **Algorithm Layer**: Separate modules for TSP solving, Knapsack optimization, and redistribution planning
+2. **API Integration**: Google Maps Distance Matrix API for traffic-aware routing with intelligent caching
+3. **Weather Integration**: OpenWeather API for driving condition assessment with impact multipliers
+4. **State Management**: React Context API for global station data, component-level state for routes
+5. **Fallback Strategy**: Haversine distance calculations and mock data when APIs unavailable
+
+The architecture prioritizes modularity, allowing each algorithm and service to be tested and optimized independently while maintaining a cohesive user experience.
+
+## Technical Implementation
+
+### 2-opt TSP Algorithm
+
+Implemented time-optimized variant that considers traffic-aware travel times instead of Euclidean distance, achieving 10-20% route improvements over naive nearest-neighbor. The algorithm uses local search to iteratively improve routes by swapping edges.
+
+### Real-time API Integration
+
+Integrated Google Maps Distance Matrix API with intelligent caching (5-minute TTL) and graceful fallback to Haversine calculations when API unavailable. The system pre-computes N×N distance/time matrices to reduce repeated API calls.
+
+### Weather Impact Modeling
+
+Built weather assessment system that analyzes temperature, precipitation, wind, and visibility to calculate driving condition multipliers (1.0x to 1.5x) and generate safety recommendations. Weather data is cached for 30 minutes to reduce API calls.
+
+### Multi-Constraint Optimization
+
+Combined TSP route optimization with 0/1 Knapsack capacity optimization and greedy redistribution planning to solve multi-constraint problem. The system optimizes both route order and bike selection within capacity limits.
+
+### State Management & UX
+
+Used React Context API for global station data sharing and component-level state for route optimization, with history manager for undo/redo operations. The interface provides real-time feedback during optimization and clear visualization of routes.
+
+```javascript
+// Code coming soon...
+// Implementation details will be added here
+```
+
+## Architecture
+
+```
+React SPA (Vite)
+├── Pages (React Router)
+│   ├── Login
+│   ├── SystemOverview
+│   └── VanDashboard (main optimizer)
+├── Components
+│   ├── Van_Route_Optimizer_Map (main UI)
+│   ├── RouteAnalytics (metrics dashboard)
+│   └── StationsContext (global state)
+└── Services Layer
+    ├── tspSolverTimeOptimized.js (TSP algorithm)
+    ├── distanceMatrixService.js (Google Maps API)
+    ├── weatherService.js (OpenWeather API)
+    ├── knapsackSolver.js (capacity optimization)
+    ├── redistributionPlanner.js (bike redistribution)
+    └── routeHistoryManager.js (undo/redo)
+        ↓
+    External APIs
+    ├── Google Maps Distance Matrix API
+    └── OpenWeather API
+```
+
+## Key Concepts Demonstrated
+
+- **Traveling Salesman Problem (TSP)**: 2-opt local search heuristic for route optimization
+- **Dynamic Programming**: 0/1 Knapsack algorithm for capacity-constrained bike selection
+- **Greedy Algorithms**: Multi-driver load balancing and redistribution planning
+- **Real-time API Integration**: Asynchronous data fetching with caching strategies
+- **State Management**: React Context API for global state, hooks for local state
+- **Algorithm Optimization**: Time complexity considerations (O(n²) for 2-opt, O(n×capacity) for Knapsack)
+- **Fallback Patterns**: Graceful degradation when external services unavailable
+- **Caching Strategies**: Time-based cache invalidation (5-min traffic, 30-min weather)
+- **Coordinate Geometry**: Haversine formula for distance calculations
+- **User Experience Design**: Undo/redo patterns, loading states, error handling
+
+## What I Learned
+
+This project demonstrated the importance of balancing algorithmic sophistication with real-world constraints:
+
+1. **Algorithm Selection**: 2-opt TSP provides good solutions quickly, but genetic algorithms might improve results for larger station sets
+2. **API Cost Management**: Intelligent caching reduces API costs while maintaining data freshness
+3. **Fallback Design**: Building systems that work offline ensures reliability when external services fail
+4. **Multi-Constraint Problems**: Combining multiple algorithms (TSP + Knapsack) requires careful integration and tradeoff management
+5. **Performance vs. Accuracy**: Pre-computing distance matrices trades memory for speed, enabling faster optimization
+
+## Next Steps
+
+- Add backend API to persist routes and user preferences, reducing client-side computation
+- Implement genetic algorithm or simulated annealing for better TSP solutions on large station sets (more than 15 stations)
+- Add real-time station data integration instead of static CSV files
+- Build mobile-responsive design for driver use in vehicles
+- Implement route sharing and collaboration features for multi-driver coordination
+- Add historical route performance analytics to learn from past optimizations

@@ -1,0 +1,131 @@
+---
+title: "Tender Heart Vintage Website"
+slug: "tender-heart-vintage"
+date: "2024-12-01"
+featured: false
+tags: ["Full-stack", "Serverless", "CMS", "Accessibility", "Responsive Design", "JAMstack", "Cloudflare", "REST API"]
+stack: ["HTML5", "CSS3", "Vanilla JavaScript", "Cloudflare Pages", "Cloudflare Workers", "Cloudflare R2", "Resend API"]
+repoUrl: ""
+liveUrl: "https://tenderheartvintage.com"
+summary: "Full-stack serverless website with client-side CMS for a local vintage shop"
+highlights:
+  - "Built serverless architecture on Cloudflare Pages with Workers for API endpoints"
+  - "Implemented client-side CMS with localStorage persistence and R2 synchronization"
+  - "Created RESTful API with automatic fallback to localStorage when API calls fail"
+  - "Developed comprehensive timezone handling to prevent date display bugs"
+  - "Achieved WCAG 2.1 AA accessibility compliance with keyboard navigation and screen reader support"
+  - "Implemented real-time cross-tab content synchronization using localStorage events"
+  - "Integrated Resend API for email notifications on form submissions"
+  - "Designed progressive enhancement approach ensuring site functions without JavaScript"
+---
+
+## Overview
+
+A full-stack website for a local vintage shop built with a serverless JAMstack architecture. Features a client-side content management system, event management, form submissions with email notifications, and comprehensive accessibility features. The site emphasizes community connection and face-to-face relationships, serving as both an online presence and community hub.
+
+## Problem & Context
+
+Tender Heart Vintage needed a modern, accessible website that could be managed by non-technical staff without requiring a traditional database or server infrastructure. The solution needed to support community events, consignment services, and content updates while maintaining fast performance and WCAG 2.1 AA accessibility compliance. The architecture had to be cost-effective, scalable, and easy to deploy.
+
+## Constraints
+
+- Must be manageable by non-technical staff without database knowledge
+- No traditional server infrastructure (serverless architecture required)
+- Must achieve WCAG 2.1 AA accessibility compliance
+- Cost-effective hosting solution
+- Fast performance and good SEO
+- Support for events, consignment, and content management
+- Progressive enhancement (works without JavaScript)
+
+## Approach & Design Decisions
+
+I chose a JAMstack architecture with serverless functions:
+
+1. **Static Site Generation**: HTML/CSS/JS served from Cloudflare Pages CDN for fast performance
+2. **Serverless API**: Cloudflare Workers for API endpoints (events, listings, form submissions)
+3. **Object Storage**: Cloudflare R2 for persistent data storage (events, featured items, form submissions)
+4. **Client-Side CMS**: localStorage for immediate access with R2 synchronization for persistence
+5. **Progressive Enhancement**: Core functionality works without JavaScript, enhanced features load progressively
+
+The dual storage strategy (localStorage + R2) provides immediate access while maintaining persistence, and the serverless architecture eliminates server management overhead while keeping costs low.
+
+## Technical Implementation
+
+### Serverless Architecture
+
+Deployed on Cloudflare Pages with Workers for API endpoints, eliminating server management overhead. The architecture scales automatically and provides global CDN distribution for fast load times.
+
+### Progressive Enhancement
+
+Site functions without JavaScript: core navigation, content display, and form submissions work with HTML/CSS only. Enhanced features (CMS, real-time updates, animations) load progressively for better accessibility.
+
+### Dual Storage Strategy
+
+Content stored in both localStorage (immediate access) and Cloudflare R2 (persistence), with automatic sync. The API client automatically falls back to localStorage when API calls fail, ensuring the site always functions.
+
+### Timezone Handling
+
+Created custom `parseLocalDate()` function to handle date-only strings in local timezone, preventing UTC conversion bugs. This ensures event dates display correctly regardless of user timezone.
+
+### Cross-Tab Communication
+
+Real-time content updates across browser tabs using localStorage events. When content is updated in one tab, other tabs automatically refresh to show the latest data.
+
+### Accessibility-First Design
+
+WCAG 2.1 AA compliant with keyboard navigation, ARIA labels, high contrast ratios, and screen reader support. Semantic HTML5 ensures proper document structure and screen reader compatibility.
+
+```javascript
+// Code coming soon...
+// Implementation details will be added here
+```
+
+## Architecture
+
+```
+Client (HTML/CSS/JS)
+    ↓ fetch()
+Cloudflare Workers (functions/api/)
+    ↓ R2 API
+Cloudflare R2 (Object Storage)
+    ↓ Resend API
+Email Notifications
+```
+
+**Content Flow:**
+- Admin updates content → localStorage → API → R2 → Frontend fetches from R2
+- Form submissions → API → R2 storage + Email notification
+- Images → Upload API → R2 → Served via CDN
+
+## Key Concepts Demonstrated
+
+- **JAMstack Architecture**: JavaScript, APIs, and Markup without traditional server infrastructure
+- **Serverless Functions**: Stateless API endpoints that scale automatically
+- **Progressive Enhancement**: Core functionality works without JavaScript, enhanced features load progressively
+- **Client-Side State Management**: localStorage for immediate access with R2 for persistence
+- **RESTful API Design**: Standard HTTP methods (GET, POST, PUT, DELETE) with proper status codes
+- **Caching Strategies**: ETag validation, Cache-Control headers, and client-side cache busting
+- **Error Handling & Fallbacks**: Graceful degradation when API calls fail, fallback to localStorage
+- **Cross-Tab Communication**: Using localStorage events for real-time synchronization
+- **Timezone Handling**: Parsing date-only strings in local timezone to prevent UTC conversion issues
+- **Accessibility Patterns**: Semantic HTML, ARIA attributes, keyboard navigation, screen reader support
+
+## What I Learned
+
+Building a serverless JAMstack site taught valuable lessons about modern web architecture:
+
+1. **Serverless Benefits**: Eliminating server management reduces operational overhead and costs
+2. **Progressive Enhancement**: Building core functionality first ensures accessibility and reliability
+3. **Dual Storage Strategy**: Combining localStorage and cloud storage provides both speed and persistence
+4. **Timezone Complexity**: Date handling requires careful consideration of timezone conversions
+5. **Accessibility First**: Building with accessibility in mind from the start is easier than retrofitting
+
+## Next Steps
+
+- Add automated testing suite (unit tests for date parsing, integration tests for API endpoints)
+- Implement proper authentication system (currently uses localStorage, should use server-side sessions)
+- Add image optimization pipeline (WebP conversion, responsive image sets)
+- Implement rate limiting on API endpoints to prevent abuse
+- Add monitoring and error tracking (e.g., Sentry integration)
+- Create build pipeline for CSS/JS minification and bundling
+- Add TypeScript for better type safety in complex functions

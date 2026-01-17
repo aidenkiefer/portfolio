@@ -1,0 +1,113 @@
+---
+title: "Restaurant Decision Tree Classifier"
+slug: "restaurant-decision-tree"
+date: "2025-01-01"
+featured: false
+tags: ["Machine Learning", "Decision Trees", "ID3", "Classification", "Python"]
+stack: ["Python"]
+repoUrl: ""
+liveUrl: ""
+summary: "ID3 decision tree learning implementation from scratch for restaurant wait prediction"
+highlights:
+  - "Implemented information gain calculation from scratch using entropy reduction"
+  - "Built recursive tree construction following DECISION-TREE-LEARNING pseudocode"
+  - "Handled edge cases including empty sets, uniform classes, and unseen values"
+  - "Designed modular architecture separating utilities, core algorithm, and classification"
+---
+
+## Overview
+
+Implemented the ID3 decision tree learning algorithm from scratch in Python to predict whether a customer will wait at a restaurant based on multiple attributes. The implementation includes entropy calculation, information gain optimization, and recursive tree construction without external machine learning libraries.
+
+## Problem & Context
+
+Decision tree learning is a fundamental machine learning algorithm that demonstrates core concepts in information theory and supervised learning. This project required implementing the ID3 algorithm from first principles, including the mathematical foundations (entropy and information gain) used to select optimal attributes for splitting. The restaurant dataset provides a clear, interpretable classification problem with discrete attributes, making it ideal for understanding how decision trees learn hierarchical decision rules.
+
+## Constraints
+
+- Must implement ID3 algorithm from scratch without using machine learning libraries
+- Only standard Python library allowed (no external dependencies)
+- Must handle edge cases: empty example sets, uniform class distributions, unseen attribute values
+- Implementation must follow the DECISION-TREE-LEARNING pseudocode structure
+- Tree must be interpretable and visualizable
+
+## Approach & Design Decisions
+
+I structured the implementation as a single-file solution with clear modular separation:
+
+1. **DecisionTreeNode Class**: Represents both internal nodes (with attribute splits) and leaf nodes (with class predictions)
+2. **Utility Functions**: Entropy calculation, information gain computation, and best attribute selection
+3. **Core Algorithm**: Recursive `decision_tree_learning` function following the standard pseudocode
+4. **Classification**: Tree traversal and prediction logic for new examples
+5. **Data Loading**: CSV parsing and preprocessing for the restaurant dataset
+
+The modular design allows each component to be understood and tested independently while maintaining the simplicity of a single-file implementation.
+
+## Technical Implementation
+
+### Information Gain Calculation
+
+Implemented information gain from scratch, computing entropy reduction for each candidate attribute. The entropy calculation uses Shannon's formula: H(S) = -Σ p_i log₂(p_i), where p_i is the proportion of examples in class i.
+
+### Recursive Tree Construction
+
+Used recursive tree construction following the DECISION-TREE-LEARNING pseudocode structure. The algorithm selects the attribute with highest information gain at each node, then recursively builds subtrees for each attribute value.
+
+### Edge Case Handling
+
+Implemented robust handling for:
+- Empty example sets: Returns leaf node with plurality value from parent
+- Uniform class distributions: Returns leaf node with the uniform class
+- Unseen attribute values: Uses plurality value fallback during classification
+
+### Tree Representation
+
+Designed DecisionTreeNode class to represent both internal nodes (with attribute, children dictionary) and leaf nodes (with class label). This allows clean tree visualization and classification.
+
+```python
+# Code coming soon...
+# Implementation details will be added here
+```
+
+## Architecture
+
+Single-file implementation with modular function design:
+
+```
+main.py
+├── DecisionTreeNode (class)
+├── Utility Functions (entropy, information_gain, best_attribute)
+├── Core Algorithm (decision_tree_learning)
+├── Classification (classify, print_tree)
+└── Data Loading (load_restaurant_dataset)
+```
+
+Data flow: CSV → Examples (dicts) → Decision Tree → Classification
+
+## Key Concepts Demonstrated
+
+- **Information gain and entropy**: Information theory foundations for attribute selection
+- **Recursive algorithm design**: Tree construction using recursive decomposition
+- **Greedy attribute selection**: ID3 heuristic for optimal splitting
+- **Decision tree induction**: Learning hierarchical decision rules from examples
+- **Supervised classification learning**: Learning from labeled training data
+- **Data preprocessing**: Feature representation and example formatting
+
+## What I Learned
+
+Implementing ID3 from scratch provided deep understanding of decision tree fundamentals:
+
+1. **Information Theory**: Entropy and information gain provide principled ways to select attributes that maximize information
+2. **Recursive Thinking**: Tree construction naturally maps to recursive problem decomposition
+3. **Greedy Algorithms**: ID3's greedy approach works well but can lead to suboptimal trees
+4. **Edge Case Handling**: Real implementations require careful handling of empty sets, uniform classes, and missing values
+5. **Algorithm Clarity**: Understanding algorithms from first principles enables better application and modification
+
+## Next Steps
+
+- Add pruning mechanisms (e.g., reduced-error pruning) to prevent overfitting
+- Implement cross-validation for model evaluation and accuracy metrics
+- Add support for continuous/numeric attributes (currently handles discrete only)
+- Implement alternative splitting criteria (e.g., Gini impurity) for comparison
+- Add visualization output (e.g., graphviz export) for better tree representation
+- Include unit tests for entropy, information gain, and tree construction functions

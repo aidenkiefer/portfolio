@@ -1,0 +1,125 @@
+---
+title: "DataDuel"
+slug: "data-duel"
+date: "2025-01-01"
+featured: true
+tags: ["Full-stack", "Fitness", "API Integration", "OAuth", "Algorithm", "Real-time", "PostgreSQL", "Flask", "JavaScript"]
+stack: ["Flask", "Python", "Supabase", "PostgreSQL", "JavaScript", "Strava API", "Cloudflare Pages", "Render.com"]
+repoUrl: ""
+liveUrl: ""
+summary: "Fair fitness competition platform that scores runners based on personal improvement, not raw performance"
+highlights:
+  - "Designed and implemented improvement-based scoring algorithm that normalizes performance across fitness levels"
+  - "Built complete OAuth 2.0 flow with Strava API including automatic token refresh and secure session management"
+  - "Migrated from JSON file storage to Supabase PostgreSQL while maintaining backward compatibility"
+  - "Created gamification system with automatic badge detection and weekly challenge tracking"
+  - "Implemented friends system with bidirectional relationships and request workflow using Supabase"
+  - "Built custom leagues feature allowing users to create private groups with separate leaderboards"
+---
+
+## Overview
+
+DataDuel is a web application that creates fair fitness competition by scoring runners based on personal improvement rather than raw performance. The platform integrates with Strava to sync running activities and uses a custom algorithm that rewards progress relative to individual baselines, ensuring beginners and elite runners can compete on equal footing.
+
+## Problem & Context
+
+Traditional fitness leaderboards reward raw athletic ability, which demotivates casual runners and creates an unfair competitive environment. A beginner improving their 5K time by 30 seconds deserves the same recognition as an elite runner improving by 10 seconds, but existing platforms don't account for this. DataDuel solves this by implementing an improvement-based scoring system that normalizes performance across fitness levels, gamifies consistency through badges and challenges, and creates social engagement through friends and custom leagues.
+
+## Constraints
+
+- Must integrate with Strava API for activity data synchronization
+- Scoring algorithm must be fair across different fitness levels
+- System needs to handle OAuth token refresh automatically
+- Database migration from JSON to PostgreSQL must maintain backward compatibility
+- Real-time leaderboard updates as users sync activities
+- Support for multiple leagues with separate leaderboards
+- Gamification features must be automatic and consistent
+
+## Approach & Design Decisions
+
+I structured the project as a full-stack application with clear separation between frontend and backend:
+
+1. **Backend Architecture**: Flask REST API with 20+ endpoints handling OAuth, activity sync, scoring, and social features
+2. **Database Strategy**: Hybrid approach supporting both JSON file storage (MVP) and Supabase PostgreSQL (production), with migration path
+3. **Scoring Algorithm**: Improvement-based system comparing current metrics to personal baselines across speed, distance, and time
+4. **Authentication**: Complete OAuth 2.0 flow with automatic token refresh and secure session management
+5. **Frontend**: Vanilla JavaScript SPA with environment-aware configuration for development vs production
+
+The dual storage architecture allowed for gradual migration while maintaining system functionality, and the improvement-based scoring ensures fair competition regardless of fitness level.
+
+## Technical Implementation
+
+### Improvement-Based Scoring Algorithm
+
+The core innovation is the scoring algorithm that compares current period metrics (average speed, max speed, distance, moving time) against personal baselines calculated from all historical activities. The algorithm applies different scoring logic for improving, declining, or maintaining performance, ensuring that progress is rewarded proportionally.
+
+### OAuth 2.0 with Automatic Token Refresh
+
+Implemented complete OAuth flow with Strava, handling token expiration, refresh tokens, and secure storage in Supabase database. The system automatically refreshes tokens before expiration, ensuring seamless user experience.
+
+### Database Architecture
+
+Migrated from JSON file storage to Supabase PostgreSQL while maintaining backward compatibility. The system supports both storage methods during transition, with automatic fallback when needed.
+
+### Gamification System
+
+Automatic badge detection (moving time ≥1000s, distance ≥5000m, max speed ≥4 m/s) and weekly challenge tracking with automatic reset. The streak calculation algorithm validates consecutive days with activities and handles multiple activities per day.
+
+### Friends & Leagues System
+
+Bidirectional friendship tracking with friend request workflow using Supabase. Custom leagues feature allows users to create private groups with separate leaderboards, enabling both global and group competition.
+
+```python
+# Code coming soon...
+# Implementation details will be added here
+```
+
+## Architecture
+
+```
+Frontend (Cloudflare Pages)
+  ↓ HTTPS/REST API
+Backend (Flask on Render.com)
+  ↓ Database Queries + External API
+Supabase PostgreSQL + Strava API
+```
+
+**Component Breakdown:**
+- **Frontend**: Static HTML/CSS/JS served from Cloudflare Pages CDN, uses Fetch API for backend communication
+- **Backend**: Flask REST API with CORS enabled, handles OAuth callbacks, activity parsing, score calculation, and data persistence
+- **Database**: Supabase PostgreSQL for user profiles, friends, leagues, and authentication; JSON files for MVP data storage
+- **External APIs**: Strava API v3 for activity data and OAuth authentication
+
+## Key Concepts Demonstrated
+
+- **OAuth 2.0 authentication flow**: Authorization code grant with token refresh
+- **RESTful API design**: Consistent endpoint patterns, proper HTTP methods, JSON responses
+- **Database schema design**: Normalized tables for users, friends, leagues, challenges with foreign key relationships
+- **Algorithm design**: Improvement-based scoring with baseline calculation and scaling logic
+- **Data normalization**: Converting raw Strava API responses to structured Person objects with calculated metrics
+- **Session management**: Supabase JWT token handling with automatic refresh before expiration
+- **CORS configuration**: Cross-origin resource sharing for frontend-backend separation
+- **Environment configuration**: Dynamic API URL selection based on hostname detection
+- **Gamification mechanics**: Badge system, challenge tracking, streak calculation
+- **Real-time data synchronization**: Activity sync from external API with local state updates
+
+## What I Learned
+
+Building DataDuel reinforced several important lessons about full-stack development and algorithm design:
+
+1. **Fairness in Algorithm Design**: Creating scoring systems that normalize across different baselines requires careful consideration of edge cases and user psychology
+2. **OAuth Complexity**: Implementing OAuth flows requires understanding token lifecycle, refresh strategies, and security best practices
+3. **Database Migration Strategy**: Gradual migration from file-based to database storage requires maintaining backward compatibility and clear migration paths
+4. **Gamification Balance**: Badge and challenge systems need to be motivating without feeling arbitrary or too easy
+5. **API Integration Patterns**: Working with external APIs requires robust error handling, rate limiting awareness, and caching strategies
+
+## Next Steps
+
+- Migrate fully from JSON storage to Supabase for all data (currently hybrid approach)
+- Implement proper session management with Flask-Login or JWT tokens instead of file-based tokens
+- Add rate limiting to protect against Strava API limits and prevent abuse
+- Implement caching layer for frequently accessed data (leaderboards, user profiles)
+- Add comprehensive error handling and user-friendly error messages throughout the frontend
+- Implement WebSocket connections for real-time leaderboard updates without polling
+- Add unit tests for the scoring algorithm edge cases and integration tests for the OAuth flow
+- Optimize database queries with proper indexing and query optimization for large user bases

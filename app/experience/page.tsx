@@ -14,10 +14,10 @@ export const metadata = generateMetadata({
 
 export default function ExperiencePage() {
   return (
-    <Container className="py-16">
-      <div className="mb-20">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Experience</h1>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+    <Container className="py-10 sm:py-14 lg:py-20">
+      <div className="mb-12 sm:mb-16 lg:mb-20">
+        <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Experience</h1>
+        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
           <p>
             My professional experience reflects engineering work across web development, systems optimization, and data-driven decision making. Each role has involved building and maintaining systems—not just pages—with attention to performance, structure, and measurable impact.
           </p>
@@ -31,7 +31,7 @@ export default function ExperiencePage() {
       </div>
       <div className="mb-8 h-1 bg-accent-secondary" />
 
-      <div className="space-y-12">
+      <div className="space-y-8 sm:space-y-12">
         {experiences.map((exp, idx) => (
           <div
             key={idx}

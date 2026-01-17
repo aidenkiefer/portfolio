@@ -12,10 +12,10 @@ export const metadata = generateMetadata({
 
 export default function ContactPage() {
   return (
-    <Container className="py-16">
-      <div className="mb-12">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Contact</h1>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+    <Container className="py-10 sm:py-14 lg:py-20">
+      <div className="mb-8 sm:mb-12">
+        <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Contact</h1>
+        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
           <p>
             If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect. I'm particularly drawn to roles that involve systems thinking, thoughtful design, and collaboration with other engineers.
           </p>
@@ -27,9 +27,9 @@ export default function ContactPage() {
           </p>
         </div>
       </div>
-      <div className="mb-8 h-1 bg-accent-secondary" />
+      <div className="mb-6 sm:mb-8 h-1 bg-accent-secondary" />
 
-      <div className="space-y-4 max-w-md">
+      <div className="space-y-4 max-w-2xl sm:max-w-3xl">
         {siteConfig.links.email && (
           <a
             href={siteConfig.links.email}

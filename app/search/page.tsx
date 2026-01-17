@@ -75,15 +75,17 @@ export default function SearchPage() {
   };
 
   return (
-    <Container className="py-16">
-      <div className="mb-20">
-        <div className="mb-8 flex items-center gap-3">
+    <Container className="py-10 sm:py-14 lg:py-20">
+      <div className="mb-12 sm:mb-16 lg:mb-20">
+        <div className="mb-6 sm:mb-8 flex items-center gap-3">
           <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
-          <h1 className="text-4xl font-semibold text-text-primary tracking-tight">Search</h1>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Search</h1>
         </div>
-        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl mb-8">
-          Search through projects and experience by keyword or technology. Click on any tag to filter by that technology.
-        </p>
+        <div className="max-w-prose mb-6 sm:mb-8">
+          <p className="text-sm text-text-secondary leading-relaxed">
+            Search through projects and experience by keyword or technology. Click on any tag to filter by that technology.
+          </p>
+        </div>
 
         {/* Search Form */}
         <form onSubmit={handleSearch} className="mb-8">
@@ -212,13 +214,13 @@ export default function SearchPage() {
           {/* Experience Results */}
           {experienceResults.length > 0 && (
             <section>
-              <div className="mb-8 flex items-center gap-3">
+              <div className="mb-6 sm:mb-8 flex items-center gap-3">
                 <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
-                <h2 className="text-2xl font-semibold text-text-primary tracking-tight">
+                <h2 className="text-xl sm:text-2xl font-semibold text-text-primary tracking-tight">
                   Experience ({experienceResults.length})
                 </h2>
               </div>
-              <div className="space-y-12">
+              <div className="space-y-8 sm:space-y-12">
                 {experienceResults.map((result, idx) => {
                   const exp = result.item as any;
                   return (

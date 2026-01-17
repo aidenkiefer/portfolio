@@ -12,10 +12,10 @@ export default function Home() {
   const featuredProjects = getFeaturedProjects();
 
   return (
-    <Container className="py-16">
+    <Container className="py-10 sm:py-14 lg:py-20">
       {/* Hero Section */}
-      <section className="mb-20">
-        <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start mb-10">
+      <section className="mb-12 sm:mb-16 lg:mb-20">
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-10 mb-8 sm:mb-10">
           <div>
             <h1 className="mb-3 text-5xl font-semibold text-text-primary tracking-tight">
               Aiden Kiefer
@@ -41,9 +41,11 @@ export default function Home() {
           — systems • clarity • long-term thinking
         </p>
         
-        <p className="text-lg text-text-primary leading-relaxed mb-4 max-w-2xl">
-          I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
-        </p>
+        <div className="max-w-prose">
+          <p className="text-base sm:text-lg text-text-primary leading-relaxed mb-4">
+            I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
+          </p>
+        </div>
         
         <p className="text-sm text-text-secondary mb-8">
           Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
@@ -73,12 +75,12 @@ export default function Home() {
       </section>
 
       {/* About Me Section */}
-      <section className="mb-20">
-        <div className="mb-8 flex items-center gap-3">
+      <section className="mb-12 sm:mb-16 lg:mb-20">
+        <div className="mb-6 sm:mb-8 flex items-center gap-3">
           <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
-          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">About Me</h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">About Me</h2>
         </div>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
           <p>
             I'm a computer science graduate from the University of Illinois Chicago with a strong interest in systems, software design, and the intersection between theory and real-world engineering. I enjoy working on problems that are ambiguous, design-heavy, and require careful tradeoffs rather than purely mechanical execution.
           </p>
@@ -93,16 +95,18 @@ export default function Home() {
 
       {/* Selected Work Section */}
       {featuredProjects.length > 0 && (
-        <section className="mb-20">
-          <div className="mb-8 h-px bg-border" />
-          <div className="mb-8 flex items-center gap-3">
+        <section className="mb-12 sm:mb-16 lg:mb-20">
+          <div className="mb-6 sm:mb-8 h-px bg-border" />
+          <div className="mb-6 sm:mb-8 flex items-center gap-3">
             <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
-            <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Selected Work</h2>
+            <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">Selected Work</h2>
           </div>
-          <p className="mb-10 text-sm text-text-secondary max-w-2xl">
-            A small selection of projects that represent how I think and work as an engineer.
-          </p>
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="max-w-prose mb-8 sm:mb-10">
+            <p className="text-sm text-text-secondary">
+              A small selection of projects that represent how I think and work as an engineer.
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
             {featuredProjects.slice(0, 3).map((project) => (
               <ProjectCard key={project.slug} project={project} />
             ))}
@@ -143,13 +147,13 @@ export default function Home() {
       </section>
 
       {/* Experience Snapshot Section */}
-      <section className="mb-20">
-        <div className="mb-8 h-px bg-border" />
-        <div className="mb-8 flex items-center gap-3">
+      <section className="mb-12 sm:mb-16 lg:mb-20">
+        <div className="mb-6 sm:mb-8 h-px bg-border" />
+        <div className="mb-6 sm:mb-8 flex items-center gap-3">
           <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
-          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Experience</h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">Experience</h2>
         </div>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-6">
+        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose mb-6">
           <p>
             I've worked on real-world software projects in both academic and professional contexts, including freelance and internship-style roles. My experience includes building and maintaining production websites, working with databases and analytics, and collaborating with non-technical stakeholders while maintaining engineering standards.
           </p>
@@ -197,13 +201,13 @@ export default function Home() {
 
       {/* Get in Touch Section */}
       <section>
-        <div className="mb-8 h-px bg-border" />
-        <div className="mb-8 flex items-center gap-3">
+        <div className="mb-6 sm:mb-8 h-px bg-border" />
+        <div className="mb-6 sm:mb-8 flex items-center gap-3">
           <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
-          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Get in Touch</h2>
+          <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">Get in Touch</h2>
         </div>
         <div className="mb-6 h-1 bg-accent-secondary" />
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-8">
+        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose mb-8">
           <p>
             If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect. I'm particularly drawn to roles that involve systems thinking, thoughtful design, and collaboration with other engineers. Whether you're building new products, maintaining existing systems, or solving complex technical challenges, I'd love to hear about what you're working on.
           </p>

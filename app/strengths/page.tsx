@@ -10,21 +10,23 @@ export const metadata = generateMetadata({
 
 export default function StrengthsPage() {
   return (
-    <Container className="py-16">
-      <div className="mb-20">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">About</h1>
-        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
-          This isn't a personality test page — it's an explanation of my engineering mindset. These patterns shape how I approach problems, learn new systems, work on teams, and communicate technical ideas.
-        </p>
+    <Container className="py-10 sm:py-14 lg:py-20">
+      <div className="mb-12 sm:mb-16 lg:mb-20">
+        <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">About</h1>
+        <div className="max-w-prose">
+          <p className="text-sm text-text-secondary leading-relaxed">
+            This isn't a personality test page — it's an explanation of my engineering mindset. These patterns shape how I approach problems, learn new systems, work on teams, and communicate technical ideas.
+          </p>
+        </div>
       </div>
 
-      <div className="space-y-20">
+      <div className="space-y-12 sm:space-y-16 lg:space-y-20">
         <section>
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+          <h2 className="mb-6 text-xl sm:text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
             <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             Strategic Thinking
           </h2>
-          <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
             <p>
               I approach problems systemically and proactively. I see patterns and failure modes early, consider multiple paths before committing, and reduce complexity through structure rather than adding layers. This isn't about overthinking—it's about recognizing that most engineering problems have multiple valid solutions, and the best one depends on the specific context and constraints.
             </p>
@@ -57,12 +59,12 @@ export default function StrengthsPage() {
         </section>
 
         <section>
-          <div className="mb-8 h-px bg-border" />
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+          <div className="mb-6 sm:mb-8 h-px bg-border" />
+          <h2 className="mb-6 text-xl sm:text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
             <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             Continuous Learning
           </h2>
-          <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
             <p>
               I enjoy learning difficult material and go beyond surface-level familiarity. When I pick up a new technology or system, I read documentation and source code, learn how it works under the hood, and build real projects that require understanding internals, not just using the API.
             </p>
@@ -92,12 +94,12 @@ export default function StrengthsPage() {
         </section>
 
         <section>
-          <div className="mb-8 h-px bg-border" />
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+          <div className="mb-6 sm:mb-8 h-px bg-border" />
+          <h2 className="mb-6 text-xl sm:text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
             <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
             Approach to Design Decisions
           </h2>
-          <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
             <p>
               I evaluate tradeoffs, consider constraints, and balance short-term needs with long-term maintainability. When making architectural decisions or choosing technologies, I think through multiple possibilities and choose solutions that are simple, explainable, and maintainable rather than clever for their own sake.
             </p>
@@ -125,7 +127,7 @@ export default function StrengthsPage() {
 
         <section className="rounded-md border border-border bg-background p-8 mt-16" style={{ boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)' }}>
           <div className="mb-6 h-1 bg-accent-secondary" />
-          <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight">What This Means for Engineering Work</h2>
+          <h2 className="mb-6 text-xl sm:text-2xl font-semibold text-text-primary tracking-tight">What This Means for Engineering Work</h2>
           <p className="text-text-primary mb-6 leading-relaxed">
             These patterns translate to concrete behaviors:
           </p>

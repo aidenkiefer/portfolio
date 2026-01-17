@@ -32,7 +32,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <p className="text-[10px] text-text-secondary uppercase tracking-wide mb-1.5">Stack</p>
           <BadgeRow>
             {project.stack.map((tech) => (
-              <Badge key={tech}>{tech}</Badge>
+              <SearchableBadge key={tech} tag={tech}>
+                {tech}
+              </SearchableBadge>
             ))}
           </BadgeRow>
         </div>

@@ -46,10 +46,10 @@ export default async function ProjectPage({
   }
 
   return (
-    <Container className="py-16">
+    <Container className="py-10 sm:py-14 lg:py-20">
       <ProjectNavigation />
       <ProjectMeta project={project} />
-      <article className="prose prose-lg max-w-none">
+      <article className="prose prose-lg max-w-prose">
         <div className="text-text-primary leading-relaxed">
           <MDXRemote 
             source={project.content || ''} 

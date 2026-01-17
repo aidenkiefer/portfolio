@@ -14,10 +14,10 @@ export default function ProjectsPage() {
   const projects = getAllProjects();
 
   return (
-    <Container className="py-16">
-      <div className="mb-20">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Projects</h1>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+    <Container className="py-10 sm:py-14 lg:py-20">
+      <div className="mb-12 sm:mb-16 lg:mb-20">
+        <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Projects</h1>
+        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
           <p>
             Each project is a case study in problem-solving. I focus on design decisions, technical tradeoffs, and what I learned—not just what I built. These projects reflect how I approach systems, ambiguity, and real engineering constraints.
           </p>
@@ -33,7 +33,7 @@ export default function ProjectsPage() {
       {projects.length === 0 ? (
         <p className="text-text-secondary">No projects yet. Check back soon!</p>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((project) => (
             <ProjectCard key={project.slug} project={project} />
           ))}

@@ -12,13 +12,15 @@ export const metadata = generateMetadata({
 
 export default function ResumePage() {
   return (
-    <Container className="py-16">
-      <div className="mb-12">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Resume</h1>
-        <p className="text-sm text-text-secondary leading-relaxed max-w-2xl mb-8">
-          For a concise overview of my background, experience, and skills, you can view or download my resume below.
-        </p>
-        <div className="mb-8 h-1 bg-accent-secondary" />
+    <Container className="py-10 sm:py-14 lg:py-20">
+      <div className="mb-8 sm:mb-12">
+        <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Resume</h1>
+        <div className="max-w-prose mb-6 sm:mb-8">
+          <p className="text-sm text-text-secondary leading-relaxed">
+            For a concise overview of my background, experience, and skills, you can view or download my resume below.
+          </p>
+        </div>
+        <div className="mb-6 sm:mb-8 h-1 bg-accent-secondary" />
         <div className="flex flex-wrap gap-4">
           <a
             href="/resume/Resume.pdf"

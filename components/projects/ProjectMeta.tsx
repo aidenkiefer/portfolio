@@ -1,5 +1,6 @@
 import { Project } from '@/types/content';
-import { BadgeRow, Badge } from '../common/BadgeRow';
+import { BadgeRow } from '../common/BadgeRow';
+import { SearchableBadge } from '../common/SearchableBadge';
 import { ExternalLink, Github } from 'lucide-react';
 import Link from 'next/link';
 
@@ -57,7 +58,9 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
         <h3 className="mb-3 font-medium text-text-primary">Tech Stack</h3>
         <BadgeRow>
           {project.stack.map((tech) => (
-            <Badge key={tech}>{tech}</Badge>
+            <SearchableBadge key={tech} tag={tech}>
+              {tech}
+            </SearchableBadge>
           ))}
         </BadgeRow>
       </div>
@@ -66,7 +69,9 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
         <h3 className="mb-3 font-medium text-text-primary">Tags</h3>
         <BadgeRow>
           {project.tags.map((tag) => (
-            <Badge key={tag}>{tag}</Badge>
+            <SearchableBadge key={tag} tag={tag}>
+              {tag}
+            </SearchableBadge>
           ))}
         </BadgeRow>
       </div>

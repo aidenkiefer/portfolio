@@ -22,12 +22,12 @@ export default function CourseworkPage() {
   }));
 
   return (
-    <Container className="py-16">
-      <div className="mb-20">
-        <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Coursework & Skills</h1>
+    <Container className="py-10 sm:py-14 lg:py-20">
+      <div className="mb-12 sm:mb-16 lg:mb-20">
+        <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Coursework & Skills</h1>
         <div className="flex flex-col md:flex-row gap-8 items-start">
           <div className="flex-1">
-            <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+            <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
               <p>
                 My coursework is curated to show strong computer science fundamentals and exposure across systems, algorithms, machine learning, databases, and UI. These courses have shaped how I think about engineering problems and informed my approach to system design.
               </p>
@@ -117,13 +117,15 @@ export default function CourseworkPage() {
       <section>
         <div className="mb-8 h-px bg-border" />
         <div className="mb-6 h-1 bg-accent-secondary" />
-        <h2 className="mb-10 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
+        <h2 className="mb-8 sm:mb-10 text-xl sm:text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
           <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
           Technical Skills
         </h2>
-        <p className="mb-10 text-sm text-text-secondary leading-relaxed max-w-2xl">
-          A quick, scannable overview of technical tools and domains. Skills listed here are supported by coursework, projects, or experience and represent real working knowledge.
-        </p>
+        <div className="max-w-prose mb-8 sm:mb-10">
+          <p className="text-sm text-text-secondary leading-relaxed">
+            A quick, scannable overview of technical tools and domains. Skills listed here are supported by coursework, projects, or experience and represent real working knowledge.
+          </p>
+        </div>
         <div className="space-y-10">
           {skillsByCategory.map(({ category, skills: categorySkills }) => (
             <div key={category}>

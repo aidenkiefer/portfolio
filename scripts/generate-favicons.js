@@ -32,6 +32,8 @@ const svgBuffer = fs.readFileSync(logoPath);
 const sizes = [
   { name: 'favicon-16x16.png', size: 16 },
   { name: 'favicon-32x32.png', size: 32 },
+  { name: 'favicon-48x48.png', size: 48 },
+  { name: 'favicon-64x64.png', size: 64 }, // Added for optimal Chrome visibility
   { name: 'apple-touch-icon.png', size: 180 },
   { name: 'android-chrome-192x192.png', size: 192 },
   { name: 'android-chrome-512x512.png', size: 512 },
@@ -57,28 +59,22 @@ async function generateFavicons() {
     }
   }
 
-  // Generate favicon.ico (16x16 and 32x32 combined)
+  // Generate favicon.ico with larger size for better Chrome visibility
+  // Chrome displays larger favicons (64x64) more prominently in tabs
   try {
-    const favicon16 = await sharp(svgBuffer)
-      .resize(16, 16, {
-        fit: 'contain',
-        background: { r: 249, g: 246, b: 241, alpha: 1 }
-      })
-      .png()
-      .toBuffer();
-    
-    const favicon32 = await sharp(svgBuffer)
-      .resize(32, 32, {
+    // Generate 64x64 as the primary favicon (optimal size for Chrome tab visibility)
+    const favicon64 = await sharp(svgBuffer)
+      .resize(64, 64, {
         fit: 'contain',
         background: { r: 249, g: 246, b: 241, alpha: 1 }
       })
       .png()
       .toBuffer();
 
-    // For ICO, we'll just copy the 32x32 PNG as favicon.ico
-    // (True ICO format requires a special library, but browsers accept PNG renamed to .ico)
-    fs.writeFileSync(path.join(publicPath, 'favicon.ico'), favicon32);
-    console.log('✓ Generated favicon.ico');
+    // Use 64x64 as favicon.ico for better visibility in Chrome
+    // (Browsers accept PNG renamed to .ico, and Chrome will use the larger size)
+    fs.writeFileSync(path.join(publicPath, 'favicon.ico'), favicon64);
+    console.log('✓ Generated favicon.ico (64x64 for optimal Chrome visibility)');
   } catch (error) {
     console.error('✗ Error generating favicon.ico:', error.message);
   }

@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate-favicons": "node scripts/generate-favicons.js"
+    "generate-favicons": "node scripts/generate-favicons.js",
+    "optimize-logos": "node scripts/optimize-logos.js"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

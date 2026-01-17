@@ -22,7 +22,7 @@ export function Navbar() {
             href="/" 
             className="flex items-center transition-opacity duration-200 ease-out hover:opacity-80"
           >
-            <Logo className="h-12 w-12 text-text-primary" />
+            <Logo className="h-20 w-20 text-text-primary" />
           </Link>
           <div className="hidden gap-4 sm:flex sm:gap-6">
             {navItems.map((item) => (

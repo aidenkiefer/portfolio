@@ -24,8 +24,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </div>
       <p className="mb-4 text-text-secondary leading-relaxed">{project.summary}</p>
       {project.stack && project.stack.length > 0 && (
-        <div className="mb-3">
-          <p className="text-xs text-text-secondary uppercase tracking-wide mb-2">Stack</p>
+        <div className="mb-2">
+          <p className="text-[10px] text-text-secondary uppercase tracking-wide mb-1.5">Stack</p>
           <BadgeRow>
             {project.stack.map((tech) => (
               <Badge key={tech}>{tech}</Badge>
@@ -35,7 +35,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       )}
       {project.tags && project.tags.length > 0 && (
         <div>
-          <p className="text-xs text-text-secondary uppercase tracking-wide mb-2">Topics</p>
+          <p className="text-[10px] text-text-secondary uppercase tracking-wide mb-1.5">Topics</p>
           <BadgeRow>
             {project.tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>

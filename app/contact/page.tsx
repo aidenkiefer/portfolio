@@ -2,6 +2,7 @@ import { Container } from '@/components/layout/Container';
 import { siteConfig } from '@/data/site';
 import { generateMetadata } from '@/lib/seo';
 import { Mail, Github, Linkedin } from 'lucide-react';
+import { ChipMark } from '@/components/common/ChipMark';
 
 export const metadata = generateMetadata({
   title: 'Contact',
@@ -18,6 +19,7 @@ export default function ContactPage() {
           If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect.
         </p>
       </div>
+      <div className="mb-8 h-1 bg-accent-primary" />
 
       <div className="space-y-4 max-w-md">
         {siteConfig.links.email && (

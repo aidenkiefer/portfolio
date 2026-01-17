@@ -3,6 +3,7 @@ import { BadgeRow, Badge } from '@/components/common/BadgeRow';
 import { experiences } from '@/data/experience';
 import { generateMetadata } from '@/lib/seo';
 import { ArrowRight } from 'lucide-react';
+import { ChipMark } from '@/components/common/ChipMark';
 
 export const metadata = generateMetadata({
   title: 'Experience',
@@ -19,6 +20,7 @@ export default function ExperiencePage() {
           My professional experience reflects engineering work across web development, systems optimization, and data-driven decision making. Each role has involved building and maintaining systems—not just pages—with attention to performance, structure, and measurable impact.
         </p>
       </div>
+      <div className="mb-8 h-1 bg-accent-primary" />
 
       <div className="space-y-12">
         {experiences.map((exp, idx) => (

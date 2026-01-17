@@ -6,6 +6,7 @@ import { ProjectCard } from '@/components/projects/ProjectCard';
 import { getFeaturedProjects } from '@/lib/content/projects';
 import { ArrowRight, Mail, Github, Linkedin } from 'lucide-react';
 import { siteConfig } from '@/data/site';
+import { ChipMark } from '@/components/common/ChipMark';
 
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
@@ -13,8 +14,14 @@ export default function Home() {
   return (
     <Container className="py-16">
       {/* Hero Section */}
-      <section className="mb-20">
-        <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start mb-10">
+      <section className="mb-20 relative">
+        {/* Very faint chip watermark */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.06]">
+          <div className="relative w-full h-full">
+            <ChipMark className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 text-text-primary" />
+          </div>
+        </div>
+        <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start mb-10 relative z-10">
           <div>
             <h1 className="mb-3 text-5xl font-semibold text-text-primary tracking-tight">
               Aiden Kiefer
@@ -36,18 +43,20 @@ export default function Home() {
           </div>
         </div>
         
-        <p className="text-lg text-text-primary leading-relaxed mb-4 max-w-2xl">
-          I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
-        </p>
-        
-        <p className="text-sm text-text-secondary mb-2">
-          Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
-        </p>
-        <p className="text-xs text-text-secondary mb-8 tracking-wider uppercase">
-          — systems • clarity • long-term thinking
-        </p>
+        <div className="relative z-10">
+          <p className="text-xs text-accent-primary mb-4 tracking-wider uppercase">
+            — systems • clarity • long-term thinking
+          </p>
+          
+          <p className="text-lg text-text-primary leading-relaxed mb-4 max-w-2xl">
+            I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
+          </p>
+          
+          <p className="text-sm text-text-secondary mb-8">
+            Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
+          </p>
 
-        <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4">
           <Link
             href="/projects"
             className="inline-flex items-center gap-2 rounded-md border border-accent-primary bg-accent-primary px-6 py-3 text-white font-medium transition-all duration-200 ease-out hover:bg-accent-primary/90 group"
@@ -68,11 +77,15 @@ export default function Home() {
             Contact Me
           </Link>
         </div>
+        </div>
       </section>
 
       {/* About Me Section */}
       <section className="mb-20">
-        <SectionHeading showSeparator={false} showChip={false}>About Me</SectionHeading>
+        <div className="mb-8 flex items-center gap-3">
+          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">About Me</h2>
+        </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
           <p>
             I'm a computer science graduate from the University of Illinois Chicago with a strong interest in systems, software design, and the intersection between theory and real-world engineering. I enjoy working on problems that are ambiguous, design-heavy, and require careful tradeoffs rather than purely mechanical execution.
@@ -90,7 +103,11 @@ export default function Home() {
       {featuredProjects.length > 0 && (
         <section className="mb-20">
           <div className="mb-8 h-px bg-border" />
-          <SectionHeading showSeparator={true}>Selected Work</SectionHeading>
+          <div className="mb-8 h-px bg-border" />
+          <div className="mb-8 flex items-center gap-3">
+            <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+            <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Selected Work</h2>
+          </div>
           <p className="mb-10 text-sm text-text-secondary max-w-2xl">
             A small selection of projects that represent how I think and work as an engineer.
           </p>
@@ -113,7 +130,11 @@ export default function Home() {
 
       {/* How I Approach Engineering Section */}
       <section className="mb-20">
-        <SectionHeading showSeparator={true}>How I Approach Engineering</SectionHeading>
+        <div className="mb-8 h-px bg-border" />
+        <div className="mb-8 flex items-center gap-3">
+          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">How I Approach Engineering</h2>
+        </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
           <p>
             When I work on software, I focus first on understanding the problem space and the constraints involved. I prefer to think through multiple possible approaches, weigh tradeoffs, and choose solutions that are simple, explainable, and maintainable rather than clever for their own sake.
@@ -126,7 +147,11 @@ export default function Home() {
 
       {/* Experience Snapshot Section */}
       <section className="mb-20">
-        <SectionHeading showSeparator={true}>Experience</SectionHeading>
+        <div className="mb-8 h-px bg-border" />
+        <div className="mb-8 flex items-center gap-3">
+          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Experience</h2>
+        </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-6">
           <p>
             I've worked on real-world software projects in both academic and professional contexts, including freelance and internship-style roles. My experience includes building and maintaining production websites, working with databases and analytics, and collaborating with non-technical stakeholders while maintaining engineering standards.
@@ -143,7 +168,11 @@ export default function Home() {
 
       {/* Resume Callout Section */}
       <section className="mb-20">
-        <SectionHeading showSeparator={true}>Resume</SectionHeading>
+        <div className="mb-8 h-px bg-border" />
+        <div className="mb-8 flex items-center gap-3">
+          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Resume</h2>
+        </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-6">
           <p>
             For a concise overview of my background, experience, and skills, you can view or download my resume below.
@@ -168,7 +197,11 @@ export default function Home() {
 
       {/* Get in Touch Section */}
       <section>
-        <SectionHeading showSeparator={true}>Get in Touch</SectionHeading>
+        <div className="mb-8 h-px bg-border" />
+        <div className="mb-8 flex items-center gap-3">
+          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Get in Touch</h2>
+        </div>
         <div className="mb-6 h-1 bg-accent-primary" />
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-8">
           <p>

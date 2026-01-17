@@ -27,7 +27,8 @@ export function NavLink({ href, label }: NavLinkProps) {
     <Link
       ref={linkRef}
       href={href}
-      className="relative text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors duration-200 ease-out overflow-hidden rounded-md px-2 py-1"
+      className="relative text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors duration-200 ease-out overflow-hidden rounded-md"
+      style={{ padding: '10px' }}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onMouseMove={handleMouseMove}

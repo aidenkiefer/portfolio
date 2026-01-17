@@ -2,6 +2,7 @@ import { Container } from '@/components/layout/Container';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import { getAllProjects } from '@/lib/content/projects';
 import { generateMetadata } from '@/lib/seo';
+import { ChipMark } from '@/components/common/ChipMark';
 
 export const metadata = generateMetadata({
   title: 'Projects',
@@ -20,6 +21,7 @@ export default function ProjectsPage() {
           Each project is a case study in problem-solving. I focus on design decisions, technical tradeoffs, and what I learned—not just what I built. These projects reflect how I approach systems, ambiguity, and real engineering constraints.
         </p>
       </div>
+      <div className="mb-8 h-1 bg-accent-primary" />
       {projects.length === 0 ? (
         <p className="text-text-secondary">No projects yet. Check back soon!</p>
       ) : (

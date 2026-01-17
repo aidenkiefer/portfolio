@@ -34,7 +34,7 @@ export default function RootLayout({
     <html lang="en" className={`${ibmPlexSans.variable} ${ibmPlexMono.variable}`}>
       <body>
         <Navbar />
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen relative z-10">{children}</main>
         <Footer />
       </body>
     </html>

@@ -1,5 +1,6 @@
 import { Container } from '@/components/layout/Container';
 import { generateMetadata } from '@/lib/seo';
+import { ChipMark } from '@/components/common/ChipMark';
 
 export const metadata = generateMetadata({
   title: 'About',
@@ -20,24 +21,7 @@ export default function StrengthsPage() {
       <div className="space-y-20">
         <section>
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 64 64"
-              fill="none"
-              className="h-5 w-5 text-text-secondary flex-shrink-0"
-            >
-              <rect
-                x="18"
-                y="18"
-                width="28"
-                height="28"
-                rx="4"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
             Strategic Thinking
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -53,24 +37,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 64 64"
-              fill="none"
-              className="h-5 w-5 text-text-secondary flex-shrink-0"
-            >
-              <rect
-                x="18"
-                y="18"
-                width="28"
-                height="28"
-                rx="4"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
             Ideation & Creative Problem-Solving
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -86,24 +53,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 64 64"
-              fill="none"
-              className="h-5 w-5 text-text-secondary flex-shrink-0"
-            >
-              <rect
-                x="18"
-                y="18"
-                width="28"
-                height="28"
-                rx="4"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
             Continuous Learning
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -119,24 +69,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 64 64"
-              fill="none"
-              className="h-5 w-5 text-text-secondary flex-shrink-0"
-            >
-              <rect
-                x="18"
-                y="18"
-                width="28"
-                height="28"
-                rx="4"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
             Communication & Collaboration
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -152,24 +85,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 64 64"
-              fill="none"
-              className="h-5 w-5 text-text-secondary flex-shrink-0"
-            >
-              <rect
-                x="18"
-                y="18"
-                width="28"
-                height="28"
-                rx="4"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
             Approach to Design Decisions
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -185,24 +101,7 @@ export default function StrengthsPage() {
         <section>
           <div className="mb-8 h-px bg-border" />
           <h2 className="mb-6 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 64 64"
-              fill="none"
-              className="h-5 w-5 text-text-secondary flex-shrink-0"
-            >
-              <rect
-                x="18"
-                y="18"
-                width="28"
-                height="28"
-                rx="4"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
             Working on Teams
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">

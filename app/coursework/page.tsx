@@ -5,6 +5,7 @@ import { BadgeRow, Badge } from '@/components/common/BadgeRow';
 import { coursework } from '@/data/coursework';
 import { skills } from '@/data/skills';
 import { generateMetadata } from '@/lib/seo';
+import { ChipMark } from '@/components/common/ChipMark';
 
 export const metadata = generateMetadata({
   title: 'Coursework & Skills',
@@ -45,24 +46,7 @@ export default function CourseworkPage() {
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
         <h2 className="mb-10 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 64 64"
-            fill="none"
-            className="h-5 w-5 text-text-secondary flex-shrink-0"
-          >
-            <rect
-              x="18"
-              y="18"
-              width="28"
-              height="28"
-              rx="4"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
           Coursework
         </h2>
         <div className="space-y-16">
@@ -126,24 +110,7 @@ export default function CourseworkPage() {
         <div className="mb-8 h-px bg-border" />
         <div className="mb-6 h-1 bg-accent-primary" />
         <h2 className="mb-10 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 64 64"
-            fill="none"
-            className="h-5 w-5 text-text-secondary flex-shrink-0"
-          >
-            <rect
-              x="18"
-              y="18"
-              width="28"
-              height="28"
-              rx="4"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
           Technical Skills
         </h2>
         <p className="mb-10 text-sm text-text-secondary leading-relaxed max-w-2xl">

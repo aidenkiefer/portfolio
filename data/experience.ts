@@ -10,7 +10,7 @@ export const experiences: Experience[] = [
     bullets: [
       'Optimized search/shopping campaigns through keyword research, audience targeting, and ad A/B tests',
       'Monitored conversion performance and produced recommendations on spend efficiency, achieving ~189% higher ROAS and ~76% increase in traffic',
-      'Building a new website from scratch to modernize the company's online presence and improve SEO outcomes',
+      'Building a new website from scratch to modernize the online presence of the company, and improve SEO outcomes',
     ],
     techStack: ['JavaScript', 'HTML/CSS', 'SEO', 'Google Ads'],
   },

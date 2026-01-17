@@ -1,0 +1,86 @@
+---
+title: "Systems Programming Labs: Memory, Concurrency, and ELF Internals"
+slug: "systems-programming-labs"
+date: "2024-09-15"
+featured: false
+tags: ["Systems Programming", "C", "Memory Management", "Concurrency"]
+stack: ["C", "Linux", "GCC / GDB", "Make", "POSIX APIs"]
+repoUrl: ""
+liveUrl: ""
+summary: "A collection of systems programming labs exploring low-level concepts such as memory management, ELF binaries, and multithreading."
+highlights:
+  - "Explored memory management and pointer manipulation"
+  - "Worked with ELF symbol tables and binary internals"
+  - "Implemented multithreading with pthreads"
+  - "Developed low-level debugging skills"
+---
+
+## Overview
+
+A consolidated case study covering multiple systems programming labs focused on memory management, ELF binaries, and multithreading. These labs explored how programs are represented, executed, and debugged at a low level.
+
+## Problem & Context
+
+Understanding systems requires working close to the hardware and OS interfaces. These labs explored how programs are represented, executed, and debugged at a low level. The work covered fundamental systems programming concepts that are essential for understanding computer systems.
+
+Each lab focused on a specific systems programming concept, requiring careful debugging, reasoning about data layout, and understanding how programs interact with the operating system.
+
+## Constraints
+
+- Low-level languages with manual memory management (C)
+- Limited tooling beyond standard UNIX utilities (GCC, GDB, Make)
+- Debugging complex runtime behavior without high-level abstractions
+- Working with POSIX APIs and system-level interfaces
+- Focused on learning rather than production-ready code
+
+## Approach & Design Decisions
+
+I approached each lab by reading specifications carefully, testing incrementally, and using debugging tools to reason about program state. The methodology emphasized:
+
+1. **Careful Specification Reading**: Understanding requirements before implementation
+2. **Incremental Development**: Building and testing components incrementally
+3. **Systematic Debugging**: Using GDB and other tools to understand program behavior
+4. **Mental Model Building**: Developing understanding of how software interacts with hardware
+
+**Low-Level Approach**: Working in C rather than higher-level languages provided direct access to memory and system calls, revealing how abstractions are built and exposing real systems programming challenges.
+
+## Implementation Highlights
+
+- **Memory Management**: Explored pointer manipulation, memory allocation, and data layout
+- **ELF Internals**: Analyzed ELF binary structure, symbol tables, and linking mechanisms
+- **Multithreading**: Implemented concurrent programs using POSIX threads (pthreads)
+- **Debugging**: Used GDB and other tools to debug low-level issues systematically
+
+```c
+// Code coming soon...
+// Implementation details will be added here
+```
+
+## Results & Evaluation
+
+The labs deepened my understanding of program execution and reinforced disciplined debugging practices. The work successfully:
+
+- Demonstrated understanding of memory management and pointers
+- Analyzed ELF binary structures and symbol tables
+- Implemented working multithreaded programs with proper synchronization
+- Developed debugging skills for low-level code
+
+The labs reinforced how programs interact with the operating system and the importance of careful memory management and systematic debugging approaches.
+
+## Tradeoffs & Limitations
+
+- **Learning Focus**: Focused on learning rather than production-ready code
+- **Isolated Labs**: Isolated labs rather than a single cohesive system
+- **Manual Memory Management**: Requires careful attention to avoid memory leaks and bugs
+- **Limited Tooling**: Working with basic tools rather than modern development environments
+
+## What I Learned
+
+Systems work rewards patience, precision, and a strong mental model of how software interacts with hardware. Key insights:
+
+1. **Memory Safety**: Manual memory management requires careful attention to avoid bugs—understanding ownership is critical
+2. **System Abstractions**: Understanding low-level details makes higher-level abstractions clearer and more meaningful
+3. **Concurrency Challenges**: Multithreading introduces complex synchronization problems that require careful design
+4. **Debugging Skills**: Low-level debugging requires systematic approaches, good tools, and patience
+
+The experience reinforced that systems programming requires understanding both the theoretical concepts and the practical realities of how computers actually work.

@@ -1,8 +1,8 @@
 import { Container } from '@/components/layout/Container';
-import { SectionHeading } from '@/components/common/SectionHeading';
 import { BadgeRow, Badge } from '@/components/common/BadgeRow';
 import { experiences } from '@/data/experience';
 import { generateMetadata } from '@/lib/seo';
+import { ArrowRight } from 'lucide-react';
 
 export const metadata = generateMetadata({
   title: 'Experience',
@@ -12,32 +12,38 @@ export const metadata = generateMetadata({
 
 export default function ExperiencePage() {
   return (
-    <Container className="py-12">
-      <SectionHeading>Experience</SectionHeading>
-      <div className="space-y-8">
+    <Container className="py-16">
+      <div className="mb-20">
+        <h1 className="mb-6 text-4xl font-semibold text-text-primary">Experience</h1>
+        <p className="text-text-primary leading-relaxed max-w-2xl text-lg">
+          My professional experience reflects engineering work across web development, systems optimization, and data-driven decision making. Each role has involved building and maintaining systems—not just pages—with attention to performance, structure, and measurable impact.
+        </p>
+      </div>
+
+      <div className="space-y-12">
         {experiences.map((exp, idx) => (
           <div
             key={idx}
-            className="rounded-lg border border-gray-200 p-6"
+            className="rounded-md border border-border bg-background p-8"
           >
-            <div className="mb-4">
-              <h3 className="text-2xl font-semibold text-gray-900">
+            <div className="mb-6">
+              <h2 className="text-2xl font-semibold text-text-primary mb-2">
                 {exp.role}
-              </h3>
-              <p className="text-lg text-gray-700">{exp.company}</p>
-              <p className="text-sm text-gray-600">
+              </h2>
+              <p className="text-lg text-text-primary font-medium mb-1">{exp.company}</p>
+              <p className="text-sm text-text-secondary">
                 {exp.location} • {exp.startDate} - {exp.endDate || 'Present'}
               </p>
             </div>
-            <ul className="mb-4 list-disc space-y-2 pl-5 text-gray-700">
+            <ul className="mb-8 list-disc space-y-3 pl-5 text-text-primary leading-relaxed">
               {exp.bullets.map((bullet, bulletIdx) => (
                 <li key={bulletIdx}>{bullet}</li>
               ))}
             </ul>
-            <div>
-              <h4 className="mb-2 text-sm font-semibold text-gray-900">
-                Tech Stack
-              </h4>
+            <div className="pt-6 border-t border-border">
+              <h3 className="mb-4 text-sm font-medium text-text-primary uppercase tracking-wide">
+                Technologies
+              </h3>
               <BadgeRow>
                 {exp.techStack.map((tech) => (
                   <Badge key={tech}>{tech}</Badge>
@@ -45,16 +51,17 @@ export default function ExperiencePage() {
               </BadgeRow>
             </div>
             {exp.links && exp.links.length > 0 && (
-              <div className="mt-4">
+              <div className="mt-6 flex gap-4">
                 {exp.links.map((link, linkIdx) => (
                   <a
                     key={linkIdx}
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-blue-600 hover:text-blue-800"
+                    className="text-sm text-accent-primary font-medium hover:text-accent-primary/80 transition-colors duration-200 ease-out inline-flex items-center gap-1"
                   >
-                    {link.label} →
+                    {link.label}
+                    <ArrowRight className="h-3 w-3" />
                   </a>
                 ))}
               </div>

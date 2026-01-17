@@ -1,81 +1,123 @@
 import { Container } from '@/components/layout/Container';
-import { SectionHeading } from '@/components/common/SectionHeading';
 import { generateMetadata } from '@/lib/seo';
 
 export const metadata = generateMetadata({
-  title: 'How I Think',
+  title: 'About',
   description: 'My approach to problem-solving and software engineering',
   path: '/strengths',
 });
 
 export default function StrengthsPage() {
   return (
-    <Container className="py-12">
-      <SectionHeading>How I Think</SectionHeading>
-      <div className="prose prose-lg max-w-none">
-        <p className="text-gray-700 mb-6">
-          This page explains my engineering mindset—how I approach problems, learn new systems, work on teams, and communicate technical ideas. These patterns come from my natural strengths and have shaped how I work as an engineer.
+    <Container className="py-16">
+      <div className="mb-20">
+        <h1 className="mb-6 text-4xl font-semibold text-text-primary">About</h1>
+        <p className="text-text-primary leading-relaxed max-w-2xl text-lg">
+          This isn't a personality test page — it's an explanation of my engineering mindset. These patterns shape how I approach problems, learn new systems, work on teams, and communicate technical ideas.
         </p>
+      </div>
 
-        <h2 className="mt-8 text-2xl font-semibold text-gray-900">Strategic Thinking</h2>
-        <p className="text-gray-700">
-          I quickly spot patterns and issues that others miss. When facing a problem, I generate alternative paths forward and choose the most effective one. This means I see patterns where others see complexity—whether that's in system architecture, algorithm design, or debugging a tricky bug.
-        </p>
-        <p className="text-gray-700 mt-4">
-          In practice, this shows up as: evaluating multiple approaches before committing, considering edge cases and failure modes early, and making complex ideas accessible through clear explanations.
-        </p>
+      <div className="space-y-20">
+        <section>
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Strategic Thinking</h2>
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+            <p>
+              I approach problems systemically and proactively. I see patterns and failure modes early, consider multiple paths before committing, and reduce complexity through structure rather than adding layers.
+            </p>
+            <p>
+              In engineering contexts, this shows up in system architecture, algorithm design, debugging and root-cause analysis, and anticipating edge cases. I think before I code — understanding the problem space and constraints helps me choose solutions that are simple, explainable, and maintainable.
+            </p>
+          </div>
+        </section>
 
-        <h2 className="mt-8 text-2xl font-semibold text-gray-900">Ideation & Creative Problem-Solving</h2>
-        <p className="text-gray-700">
-          I'm fascinated by ideas and see connections that others don't. This helps me view problems from different perspectives and find unique ways to link concepts. When a standard solution doesn't fit, I create a new one.
-        </p>
-        <p className="text-gray-700 mt-4">
-          This translates to engineering as: brainstorming multiple solutions before narrowing down, connecting ideas from different domains (e.g., applying database normalization principles to API design), and enjoying the ambiguity that comes with design-heavy problems.
-        </p>
+        <section>
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Ideation & Creative Problem-Solving</h2>
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+            <p>
+              I'm comfortable with ambiguity and non-obvious solutions. I generate multiple approaches, connect ideas across domains, and enjoy design-heavy, underspecified problems that require exploring alternatives rather than applying a single pattern.
+            </p>
+            <p>
+              This translates to engineering as exploring alternative designs, applying concepts across domains (like using database normalization principles in API design), and avoiding one-size-fits-all solutions. I don't just apply patterns — I understand them and adapt them to the context.
+            </p>
+          </div>
+        </section>
 
-        <h2 className="mt-8 text-2xl font-semibold text-gray-900">Continuous Learning</h2>
-        <p className="text-gray-700">
-          The process of learning excites me as much as the outcome. I'm attracted to difficult and challenging endeavors—I'd rather tackle a hard problem that stretches my understanding than take the easy path. This drives me to learn new technologies deeply, not just superficially.
-        </p>
-        <p className="text-gray-700 mt-4">
-          In my work, this means: diving deep into documentation and source code when learning a new framework, seeking out challenging projects that require new skills, and continuously improving through reflection on what worked and what didn't.
-        </p>
+        <section>
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Continuous Learning</h2>
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+            <p>
+              I enjoy learning difficult material and go beyond surface-level familiarity. When I pick up a new technology or system, I read documentation and source code, learn how it works under the hood, and build real projects that require understanding internals, not just using the API.
+            </p>
+            <p>
+              I reflect on what worked and what didn't, which helps me improve designs over time. This long-term growth mindset means I compound knowledge rather than collecting surface-level familiarity with many tools.
+            </p>
+          </div>
+        </section>
 
-        <h2 className="mt-8 text-2xl font-semibold text-gray-900">Communication & Collaboration</h2>
-        <p className="text-gray-700">
-          I find it natural to put technical thoughts into words. I enjoy explaining complex systems, breaking down design decisions, and helping others understand the "why" behind technical choices. Good conversations about technical problems energize me.
-        </p>
-        <p className="text-gray-700 mt-4">
-          This shows up as: writing clear documentation and code comments, explaining tradeoffs in design reviews, and helping teammates understand systems by telling the story of how they work.
-        </p>
+        <section>
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Communication & Collaboration</h2>
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+            <p>
+              I explain technical ideas clearly and enjoy design discussions. I value shared understanding — making sure others can understand and build on my work is as important as the work itself.
+            </p>
+            <p>
+              This shows up in writing design docs, conducting code reviews, explaining tradeoffs in technical decisions, and onboarding others to systems I've built. I place a high value on communication because it makes collaboration more effective and helps the team make better decisions together.
+            </p>
+          </div>
+        </section>
 
-        <h2 className="mt-8 text-2xl font-semibold text-gray-900">Approach to Design Decisions</h2>
-        <p className="text-gray-700">
-          I make informed decisions based on tradeoffs, constraints, and long-term maintainability. I consider multiple possibilities, evaluate them against the problem context, and choose the path that balances immediate needs with future flexibility.
-        </p>
-        <p className="text-gray-700 mt-4">
-          This means I'm comfortable with ambiguity during the design phase—exploring options, asking "what if?" questions, and refining the approach as I learn more about the problem space.
-        </p>
+        <section>
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Approach to Design Decisions</h2>
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+            <p>
+              I evaluate tradeoffs, consider constraints, and balance short-term needs with long-term maintainability. When making architectural decisions or choosing technologies, I think through multiple possibilities and choose solutions that are simple, explainable, and maintainable rather than clever for their own sake.
+            </p>
+            <p>
+              This disciplined decision-making shows up in refactoring strategy, technology choices, and how I approach system design. I'm comfortable with ambiguity during the design phase — exploring options, asking "what if?" questions, and refining the approach as I learn more about the problem space.
+            </p>
+          </div>
+        </section>
 
-        <h2 className="mt-8 text-2xl font-semibold text-gray-900">Working on Teams</h2>
-        <p className="text-gray-700">
-          I bring energy and enthusiasm to collaborative work. I value clear communication, enjoy discussing technical ideas with teammates, and find that my best work happens when I can have conversations about problems rather than working in isolation.
-        </p>
-        <p className="text-gray-700 mt-4">
-          I'm naturally optimistic about what's possible, which helps when facing challenging problems or tight deadlines. I also recognize and acknowledge the contributions of teammates, which builds trust and makes collaboration more effective.
-        </p>
+        <section>
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary">Working on Teams</h2>
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+            <p>
+              I bring energy and optimism to collaborative work. I value collaboration and recognize others' contributions, which builds trust and makes team dynamics healthier.
+            </p>
+            <p>
+              In engineering contexts, this means constructive discussions during design reviews, resilience under pressure, and contributing beyond individual output. I find that my best work happens when I can have conversations about problems rather than working in isolation.
+            </p>
+          </div>
+        </section>
 
-        <h2 className="mt-8 text-2xl font-semibold text-gray-900">What This Means for Engineering Work</h2>
-        <p className="text-gray-700">
-          These patterns translate to how I work:
-        </p>
-        <ul className="list-disc space-y-2 pl-6 text-gray-700 mt-4">
-          <li><strong>Systems thinking:</strong> I see the big picture and how components interact, not just individual pieces</li>
-          <li><strong>Design-first approach:</strong> I spend time understanding the problem and exploring solutions before jumping to implementation</li>
-          <li><strong>Deep learning:</strong> When I pick up a new technology, I learn it thoroughly—reading docs, understanding internals, and building real projects</li>
-          <li><strong>Clear communication:</strong> I explain technical decisions and tradeoffs in ways that help others understand and contribute</li>
-          <li><strong>Iterative improvement:</strong> I reflect on what worked, what didn't, and how to do better next time</li>
-        </ul>
+        <section className="rounded-md border border-border bg-background p-8 mt-16">
+          <h2 className="mb-6 text-2xl font-semibold text-text-primary">What This Means for Engineering Work</h2>
+          <p className="text-text-primary mb-6 leading-relaxed">
+            These patterns translate to concrete behaviors:
+          </p>
+          <ul className="space-y-3 text-text-primary">
+            <li className="flex items-start gap-3">
+              <span className="text-accent-primary font-medium mt-1">→</span>
+              <span><strong>Systems thinking:</strong> I see the big picture and how components interact, not just individual pieces</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-accent-primary font-medium mt-1">→</span>
+              <span><strong>Design-first approach:</strong> I spend time understanding the problem and exploring solutions before jumping to implementation</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-accent-primary font-medium mt-1">→</span>
+              <span><strong>Deep learning:</strong> When I pick up a new technology, I learn it thoroughly—reading docs, understanding internals, and building real projects</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-accent-primary font-medium mt-1">→</span>
+              <span><strong>Clear communication:</strong> I explain technical decisions and tradeoffs in ways that help others understand and contribute</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-accent-primary font-medium mt-1">→</span>
+              <span><strong>Iterative improvement:</strong> I reflect on what worked, what didn't, and how to do better next time</span>
+            </li>
+          </ul>
+        </section>
       </div>
     </Container>
   );

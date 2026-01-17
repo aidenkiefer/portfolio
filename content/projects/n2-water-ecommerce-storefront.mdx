@@ -1,0 +1,91 @@
+---
+title: "Custom E-Commerce Storefront & Marketing Platform (N-2 Water)"
+slug: "n2-water-ecommerce-storefront"
+date: "2025-05-01"
+featured: true
+tags: ["Web Development", "E-Commerce", "React", "Next.js"]
+stack: ["React", "Next.js", "TypeScript", "Shopify Storefront API", "Tailwind CSS", "Vercel / Cloudflare"]
+repoUrl: ""
+liveUrl: ""
+summary: "A production e-commerce platform built with React and Next.js, integrating Shopify APIs and supporting real-world marketing and SEO constraints."
+highlights:
+  - "Built production e-commerce platform with React and Next.js"
+  - "Integrated Shopify Storefront API for product data"
+  - "Optimized for performance and SEO"
+  - "Collaborated with non-technical stakeholders"
+---
+
+## Overview
+
+A production e-commerce platform built with React and Next.js, integrating Shopify APIs and operating under real business constraints. The goal was to build a performant, maintainable storefront that supported marketing, SEO, and customer workflows while integrating with existing e-commerce infrastructure.
+
+## Problem & Context
+
+The goal was to build a performant, maintainable storefront that supported marketing, SEO, and customer workflows while integrating with existing e-commerce infrastructure. This project involved building a custom storefront to replace an outdated platform, requiring careful balance between technical excellence and business requirements.
+
+Building a production e-commerce storefront requires balancing technical excellence with business requirements, marketing needs, and SEO constraints. The challenge was maintaining engineering standards while collaborating with non-technical stakeholders.
+
+## Constraints
+
+- Real users and live traffic requiring high reliability
+- SEO requirements for search engine visibility
+- Third-party API limitations (Shopify Storefront API)
+- Non-technical stakeholders needing to manage content
+- Performance requirements for fast page loads
+- Budget and timeline constraints
+
+## Approach & Design Decisions
+
+I made architectural decisions around rendering strategies, API usage, and performance optimization, balancing development speed with long-term maintainability:
+
+1. **Next.js Architecture**: Leveraged server-side rendering and static generation for performance and SEO
+2. **Shopify Integration**: Used Shopify Storefront API for product data and inventory management
+3. **TypeScript**: Ensured type safety across the application
+4. **Performance Optimization**: Implemented code splitting, image optimization, and caching strategies
+5. **SEO Considerations**: Structured data, meta tags, and semantic HTML
+
+**Rendering Strategy**: I chose Next.js with SSR/SSG because it provides better SEO than client-side only rendering, improved initial load performance, and flexibility to mix rendering strategies per page.
+
+**Shopify Integration**: Using Shopify Storefront API rather than building a custom backend leveraged existing product management infrastructure, reduced maintenance burden, and enabled non-technical team members to manage products.
+
+## Implementation Highlights
+
+- **Shopify Storefront API Integration**: Seamless integration with Shopify for product data and inventory
+- **SSR vs CSR Tradeoffs**: Strategic use of server-side and client-side rendering based on page needs
+- **Performance Optimization**: Code splitting, image optimization, and caching strategies
+- **SEO Implementation**: Structured data, meta tags, and semantic HTML for search visibility
+- **Stakeholder Collaboration**: Effective communication with non-technical team members
+
+```typescript
+// Code coming soon...
+// Implementation details will be added here
+```
+
+## Results & Evaluation
+
+The site supports live users, marketing campaigns, and ongoing iteration, demonstrating production-level engineering. The platform successfully:
+
+- Replaced the outdated storefront with a modern, performant solution
+- Integrated seamlessly with Shopify for product management
+- Achieved strong SEO performance and search visibility
+- Maintained engineering quality while meeting business requirements
+
+The project demonstrated ability to work with real-world constraints, balance technical and business needs, maintain production systems, and collaborate effectively with non-technical stakeholders.
+
+## Tradeoffs & Limitations
+
+- **Platform Constraints**: Platform constraints imposed by Shopify API limitations
+- **Rapid Iteration vs. Technical Debt**: Balancing rapid iteration with long-term maintainability
+- **Third-Party Dependencies**: Reliance on Shopify API for core functionality
+- **Performance vs. Features**: Tradeoffs between feature development and performance optimization
+
+## What I Learned
+
+Production systems require technical judgment, communication, and the ability to work within constraints. Key insights:
+
+1. **Production Systems**: Maintaining live systems requires careful planning, monitoring, and iteration
+2. **Stakeholder Communication**: Translating technical decisions for non-technical audiences is essential
+3. **Performance Optimization**: Real-world performance requires ongoing measurement and optimization
+4. **API Integration**: Working with third-party APIs requires robust error handling, caching, and fallback strategies
+
+The experience reinforced that production engineering is as much about communication and judgment as it is about technical skills.

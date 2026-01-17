@@ -1,0 +1,95 @@
+---
+title: "Tracking Shifts: Climate Change & Bird Migration Forecasting"
+slug: "tracking-shifts-climate-change-bird-migration"
+date: "2024-12-01"
+featured: true
+tags: ["Data Science", "Machine Learning", "Time Series", "Forecasting"]
+stack: ["Python", "pandas", "NumPy", "scikit-learn", "Jupyter Notebook", "Matplotlib"]
+repoUrl: ""
+liveUrl: ""
+summary: "An end-to-end data science and machine learning project analyzing long-term climate trends and forecasting their impact on bird migration patterns through 2050."
+highlights:
+  - "Built full modeling pipeline using historical climate data (1961–2005)"
+  - "Evaluated model performance on recent data (2005–2024)"
+  - "Generated forward-looking projections through 2050"
+  - "Emphasized data integrity, model validation, and uncertainty reasoning"
+---
+
+## Overview
+
+This project explores long-term climate trends and their relationship to bird migration patterns using historical climate data and machine learning models. The goal was to build a reliable forecasting pipeline that could evaluate model performance on recent data and generate forward-looking projections while acknowledging uncertainty and real-world data limitations.
+
+## Problem & Context
+
+Climate change has measurable effects on ecosystems, but connecting long-term climate signals to biological outcomes is complex. This project asked: *Can historical climate data be used to model trends that meaningfully inform future migration behavior, and how reliable are those projections?*
+
+Understanding these changes is crucial for conservation efforts and predicting future impacts on ecosystems. The challenge lies in building models that can generalize across time, not just fit historical data, while acknowledging the inherent uncertainty in long-horizon forecasting.
+
+## Constraints
+
+- Climate data spans decades with varying quality and completeness
+- Migration data is noisy and incomplete, relying on citizen science observations
+- Models must generalize across time, not just fit historical data
+- Forecasting beyond observed data introduces compounding uncertainty
+- Biological systems introduce confounding factors beyond climate alone
+
+## Approach & Design Decisions
+
+I structured the project as an end-to-end ML pipeline:
+
+1. **Training Period**: Used historical climate data (1961–2005) to train models
+2. **Validation Period**: Evaluated on more recent data (2005–2024) to test generalization
+3. **Forecasting**: Generated future trend projections through 2050
+
+I prioritized interpretability and validation over model complexity to ensure results could be reasoned about. This meant choosing regression-based models over deep learning approaches, which allowed for:
+- Faster iteration and experimentation
+- Clear understanding of what the model learned
+- Easier communication of results to stakeholders
+
+**Temporal Validation Strategy**: I used a temporal split rather than random splitting to better simulate real-world forecasting scenarios and respect temporal dependencies in the data.
+
+## Implementation Highlights
+
+- **Data Cleaning**: Normalized and validated climate data across long time spans with varying quality
+- **Feature Engineering**: Created time-series features capturing seasonal patterns, long-term trends, and climate anomalies
+- **Model Development**: Built regression-based forecasting models using scikit-learn
+- **Validation Framework**: Implemented clear separation of training and evaluation periods
+- **Uncertainty Quantification**: Incorporated reasoning about uncertainty in long-horizon forecasts
+
+```python
+# Code coming soon...
+# Implementation details will be added here
+```
+
+## Results & Evaluation
+
+The models captured broad climate trends and demonstrated reasonable performance on unseen data. Key findings:
+
+- Temperature increases correlate with earlier spring migrations
+- Precipitation patterns influence stopover locations and timing
+- Forecasts highlight plausible long-term shifts in migration routes by 2050
+
+Validation on 2005–2024 data showed strong predictive performance, with models successfully identifying key climate factors affecting migration timing. The pipeline's effectiveness was demonstrated through its ability to generate meaningful insights while acknowledging the limits of prediction at extended horizons.
+
+## Tradeoffs & Limitations
+
+- **Simplicity vs. Accuracy**: Simpler models sacrifice potential accuracy for interpretability and faster iteration
+- **Uncertainty Accumulation**: Long-range forecasts compound uncertainty as the prediction horizon extends
+- **Biological Complexity**: Biological systems introduce confounding factors beyond climate alone that models cannot fully capture
+- **Data Quality**: Historical data quality varies, and migration observations are inherently noisy
+
+## What I Learned
+
+This project reinforced the importance of validation strategy, honest evaluation, and communicating uncertainty when working with real-world data and predictive models. Key takeaways:
+
+1. **Temporal Dependencies Matter**: Time-series forecasting requires respecting temporal dependencies, not treating data as independent samples
+2. **Uncertainty Communication**: Long-horizon forecasts require clear communication of limitations and confidence intervals
+3. **Reproducible Pipelines**: Building reproducible ML pipelines enables iterative improvement and validation
+4. **Interpretability Value**: Choosing interpretable models often provides more value than complex black-box approaches
+
+## Next Steps
+
+- Incorporate additional ecological variables beyond climate data
+- Explore ensemble methods to improve forecast robustness
+- Improve uncertainty quantification with probabilistic models
+- Build visualization tools for communicating forecasts to stakeholders

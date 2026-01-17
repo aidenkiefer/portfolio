@@ -10,22 +10,39 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="block rounded-lg border border-gray-200 p-6 transition-shadow hover:shadow-md"
+      className="group block rounded-md border border-border bg-background p-6 transition-colors duration-200 ease-out hover:border-accent-primary"
     >
-      <div className="mb-2 flex items-start justify-between">
-        <h3 className="text-xl font-semibold text-gray-900">{project.title}</h3>
+      <div className="mb-3 flex items-start justify-between">
+        <h3 className="text-xl font-semibold text-text-primary group-hover:text-accent-primary transition-colors duration-200 ease-out">
+          {project.title}
+        </h3>
         {project.featured && (
-          <span className="rounded bg-blue-100 px-2 py-1 text-xs text-blue-800">
+          <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-text-secondary">
             Featured
           </span>
         )}
       </div>
-      <p className="mb-4 text-gray-600">{project.summary}</p>
-      <BadgeRow>
-        {project.tags.map((tag) => (
-          <Badge key={tag}>{tag}</Badge>
-        ))}
-      </BadgeRow>
+      <p className="mb-4 text-text-secondary leading-relaxed">{project.summary}</p>
+      {project.stack && project.stack.length > 0 && (
+        <div className="mb-3">
+          <p className="text-xs text-text-secondary uppercase tracking-wide mb-2">Stack</p>
+          <BadgeRow>
+            {project.stack.map((tech) => (
+              <Badge key={tech}>{tech}</Badge>
+            ))}
+          </BadgeRow>
+        </div>
+      )}
+      {project.tags && project.tags.length > 0 && (
+        <div>
+          <p className="text-xs text-text-secondary uppercase tracking-wide mb-2">Topics</p>
+          <BadgeRow>
+            {project.tags.map((tag) => (
+              <Badge key={tag}>{tag}</Badge>
+            ))}
+          </BadgeRow>
+        </div>
+      )}
     </Link>
   );
 }

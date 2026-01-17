@@ -3,13 +3,13 @@ import { Container } from '@/components/layout/Container';
 
 export default function NotFound() {
   return (
-    <Container className="py-12">
+    <Container className="py-16">
       <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold text-gray-900">404</h1>
-        <p className="mb-8 text-gray-600">Page not found</p>
+        <h1 className="mb-4 text-4xl font-semibold text-text-primary">404</h1>
+        <p className="mb-8 text-text-secondary">Page not found</p>
         <Link
           href="/"
-          className="rounded bg-gray-900 px-6 py-3 text-white hover:bg-gray-800"
+          className="rounded-md border border-accent-primary bg-accent-primary px-6 py-3 text-white font-medium transition-colors duration-200 ease-out hover:bg-accent-primary/90"
         >
           Go Home
         </Link>

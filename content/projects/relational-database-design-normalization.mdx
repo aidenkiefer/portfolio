@@ -1,0 +1,87 @@
+---
+title: "Relational Database Design & Normalization Case Study"
+slug: "relational-database-design-normalization"
+date: "2024-10-20"
+featured: true
+tags: ["Database Design", "SQL", "Data Modeling"]
+stack: ["MySQL", "SQL", "ER diagramming tools"]
+repoUrl: ""
+liveUrl: ""
+summary: "An end-to-end relational database design project focused on modeling real-world requirements using ER diagrams, normalization, and SQL."
+highlights:
+  - "Designed complete ER model from requirements"
+  - "Applied normalization (3NF / BCNF) to eliminate redundancy"
+  - "Implemented schema with proper constraints and relationships"
+  - "Wrote expressive SQL queries reflecting business rules"
+---
+
+## Overview
+
+This project focused on designing a relational database schema from real-world requirements, emphasizing normalization, data integrity, and expressive querying. The goal was to create a schema that accurately modeled constraints while remaining flexible and maintainable.
+
+## Problem & Context
+
+Poor schema design leads to redundancy and inconsistency. The goal was to design a schema that accurately modeled constraints while remaining flexible and maintainable. Real-world database design requires translating business requirements into a well-structured, normalized schema that maintains data integrity while supporting efficient queries.
+
+The challenge lies in balancing normalization (which reduces redundancy) with query complexity and performance needs.
+
+## Constraints
+
+- Must satisfy normalization requirements (3NF / BCNF)
+- Must enforce business rules through database constraints
+- Schema must support meaningful queries that express business logic
+- Must balance normalization with practical query performance
+- Design should be maintainable and extensible
+
+## Approach & Design Decisions
+
+I began with ER modeling, iteratively normalized the schema, and validated design decisions through SQL queries. The process followed:
+
+1. **Requirements Analysis**: Identified entities, attributes, and relationships from business requirements
+2. **ER Modeling**: Created entity-relationship diagrams showing the conceptual model
+3. **Normalization**: Applied normalization rules (3NF / BCNF) to eliminate redundancy and anomalies
+4. **Schema Design**: Designed the physical schema with primary keys, foreign keys, and constraints
+5. **Query Development**: Wrote SQL queries that express business logic and analytical needs
+
+**Normalization Strategy**: I chose 3NF/BCNF normalization to eliminate data redundancy and update anomalies while maintaining referential integrity. This required careful tradeoff analysis between normalization level and query complexity.
+
+## Implementation Highlights
+
+- **ER Diagrams**: Created comprehensive entity-relationship models mapping entities and relationships
+- **Normalization**: Applied normalization to 3NF / BCNF, eliminating redundancy
+- **Constraint Design**: Carefully designed primary keys, foreign keys, and check constraints
+- **SQL Queries**: Wrote expressive queries that reflect business rules and support analytical needs
+
+```sql
+-- Code coming soon...
+-- Implementation details will be added here
+```
+
+## Results & Evaluation
+
+The final schema reduced redundancy and supported clean, expressive queries aligned with business logic. The design:
+
+- Eliminated data redundancy through normalization
+- Enforced data integrity through comprehensive constraints
+- Supported complex analytical queries through well-designed relationships
+- Demonstrated clear understanding of normalization principles
+
+The schema design successfully translated requirements into a maintainable database structure that supports both transactional and analytical workloads.
+
+## Tradeoffs & Limitations
+
+- **Join Complexity**: Higher normalization increases join complexity for some queries
+- **Performance Tradeoffs**: Tradeoffs between normalization level and query performance
+- **Simplicity vs. Integrity**: Balance between simple schemas and strict integrity enforcement
+- **Future Changes**: Highly normalized schemas can be harder to modify as requirements evolve
+
+## What I Learned
+
+Good database design is about tradeoffs, not rules—and decisions should be justified by use cases. Key insights:
+
+1. **Normalization Tradeoffs**: Normalization reduces redundancy but can complicate queries—the right level depends on use cases
+2. **Constraint Design**: Well-designed constraints prevent data quality issues and make business rules explicit
+3. **Query Expressiveness**: SQL can clearly express business logic when schemas are thoughtfully designed
+4. **Schema Evolution**: Good initial design makes future changes easier, but over-normalization can hinder flexibility
+
+The project reinforced that database design requires understanding both theoretical principles and practical constraints.

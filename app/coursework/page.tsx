@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
-import { SectionHeading } from '@/components/common/SectionHeading';
 import { BadgeRow, Badge } from '@/components/common/BadgeRow';
 import { coursework } from '@/data/coursework';
 import { skills } from '@/data/skills';
@@ -21,35 +21,53 @@ export default function CourseworkPage() {
   }));
 
   return (
-    <Container className="py-12">
-      <SectionHeading>Coursework & Skills</SectionHeading>
+    <Container className="py-16">
+      <div className="mb-20">
+        <h1 className="mb-6 text-4xl font-semibold text-text-primary">Coursework & Skills</h1>
+        <div className="flex flex-col md:flex-row gap-8 items-start">
+          <div className="flex-1">
+            <p className="text-text-primary leading-relaxed max-w-2xl text-lg">
+              My coursework is curated to show strong computer science fundamentals and exposure across systems, algorithms, machine learning, databases, and UI. These courses have shaped how I think about engineering problems and informed my approach to system design.
+            </p>
+          </div>
+          <div className="relative w-full md:w-64 h-40 md:h-48 rounded-md overflow-hidden border border-border">
+            <Image
+              src="/images/UIC.avif"
+              alt="University of Illinois Chicago"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 256px"
+            />
+          </div>
+        </div>
+      </div>
 
-      <section className="mb-12">
-        <h2 className="mb-6 text-2xl font-semibold text-gray-900">
+      <section className="mb-20">
+        <h2 className="mb-10 text-2xl font-semibold text-text-primary">
           Coursework
         </h2>
-        <div className="space-y-8">
+        <div className="space-y-16">
           {coursework.map((group, groupIdx) => (
             <div key={groupIdx}>
-              <h3 className="mb-4 text-xl font-semibold text-gray-800">
+              <h3 className="mb-8 text-xl font-semibold text-text-primary border-b border-border pb-3">
                 {group.title}
               </h3>
-              <div className="space-y-4">
+              <div className="grid gap-6 md:grid-cols-2">
                 {group.courses.map((course, courseIdx) => (
                   <div
                     key={courseIdx}
-                    className="rounded-lg border border-gray-200 p-4"
+                    className="rounded-md border border-border bg-background p-6 transition-colors duration-200 ease-out hover:border-accent-primary"
                   >
-                    <div className="mb-2">
-                      <span className="font-mono text-sm text-gray-600">
+                    <div className="mb-4">
+                      <span className="font-mono text-xs text-accent-primary font-medium">
                         {course.code}
                       </span>
-                      <h4 className="text-lg font-semibold text-gray-900">
+                      <h4 className="text-lg font-semibold text-text-primary mt-2">
                         {course.name}
                       </h4>
                     </div>
-                    <div className="mb-2">
-                      <p className="text-sm text-gray-600">Skills Learned:</p>
+                    <div className="mb-4">
+                      <p className="text-xs text-text-secondary uppercase tracking-wide mb-3">Skills Learned</p>
                       <BadgeRow>
                         {course.skillsLearned.map((skill, skillIdx) => (
                           <Badge key={skillIdx}>{skill}</Badge>
@@ -57,16 +75,16 @@ export default function CourseworkPage() {
                       </BadgeRow>
                     </div>
                     {course.projectLinks && course.projectLinks.length > 0 && (
-                      <div>
-                        <p className="text-sm text-gray-600">
-                          Related Projects:
+                      <div className="pt-4 border-t border-border">
+                        <p className="text-xs text-text-secondary uppercase tracking-wide mb-3">
+                          Related Projects
                         </p>
-                        <div className="mt-1 flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {course.projectLinks.map((slug) => (
                             <Link
                               key={slug}
                               href={`/projects/${slug}`}
-                              className="text-sm text-blue-600 hover:text-blue-800"
+                              className="text-sm text-accent-primary font-medium hover:text-accent-primary/80 transition-colors duration-200 ease-out"
                             >
                               {slug.replace(/-/g, ' ')} →
                             </Link>
@@ -83,11 +101,14 @@ export default function CourseworkPage() {
       </section>
 
       <section>
-        <h2 className="mb-6 text-2xl font-semibold text-gray-900">Skills</h2>
-        <div className="space-y-6">
+        <h2 className="mb-10 text-2xl font-semibold text-text-primary">Technical Skills</h2>
+        <p className="mb-10 text-text-primary leading-relaxed max-w-2xl">
+          A quick, scannable overview of technical tools and domains. Skills listed here are supported by coursework, projects, or experience and represent real working knowledge.
+        </p>
+        <div className="space-y-10">
           {skillsByCategory.map(({ category, skills: categorySkills }) => (
             <div key={category}>
-              <h3 className="mb-3 text-lg font-semibold text-gray-800">
+              <h3 className="mb-4 text-lg font-semibold text-text-primary">
                 {category}
               </h3>
               <BadgeRow>

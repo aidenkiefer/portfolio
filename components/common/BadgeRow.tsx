@@ -14,7 +14,7 @@ export function BadgeRow({ children, className }: BadgeRowProps) {
 
 export function Badge({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700">
+    <span className="rounded-full bg-background border border-border px-3 py-1 text-sm font-medium text-text-secondary">
       {children}
     </span>
   );

@@ -1,12 +1,11 @@
 import { Container } from '@/components/layout/Container';
-import { SectionHeading } from '@/components/common/SectionHeading';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import { getAllProjects } from '@/lib/content/projects';
 import { generateMetadata } from '@/lib/seo';
 
 export const metadata = generateMetadata({
   title: 'Projects',
-  description: 'A collection of my software engineering projects',
+  description: 'Case studies in problem-solving, design decisions, and technical tradeoffs',
   path: '/projects',
 });
 
@@ -14,10 +13,15 @@ export default function ProjectsPage() {
   const projects = getAllProjects();
 
   return (
-    <Container className="py-12">
-      <SectionHeading>Projects</SectionHeading>
+    <Container className="py-16">
+      <div className="mb-20">
+        <h1 className="mb-6 text-4xl font-semibold text-text-primary">Projects</h1>
+        <p className="text-text-primary leading-relaxed max-w-2xl text-lg">
+          Each project is a case study in problem-solving. I focus on design decisions, technical tradeoffs, and what I learned—not just what I built. These projects reflect how I approach systems, ambiguity, and real engineering constraints.
+        </p>
+      </div>
       {projects.length === 0 ? (
-        <p className="text-gray-600">No projects yet. Check back soon!</p>
+        <p className="text-text-secondary">No projects yet. Check back soon!</p>
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
           {projects.map((project) => (

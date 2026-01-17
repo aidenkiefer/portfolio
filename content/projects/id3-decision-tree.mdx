@@ -1,49 +1,86 @@
 ---
-title: "ID3 Decision Tree Implementation"
+title: "Decision Tree Learning with ID3 (From Scratch)"
 slug: "id3-decision-tree"
-date: "2025-07-15"
-featured: false
-tags: ["Algorithms", "Machine Learning", "Python"]
-stack: ["Python", "numpy"]
-repoUrl: "https://github.com/example/id3-tree"
+date: "2024-11-15"
+featured: true
+tags: ["Machine Learning", "Algorithms", "Supervised Learning"]
+stack: ["Python", "NumPy"]
+repoUrl: ""
 liveUrl: ""
-summary: "Implemented the ID3 decision tree algorithm from scratch to understand classification algorithms."
+summary: "A from-scratch implementation of the ID3 decision tree algorithm to deeply understand entropy, information gain, and recursive model construction."
 highlights:
-  - "Built from scratch without ML libraries"
-  - "Achieved 85% accuracy on test dataset"
+  - "Implemented ID3 algorithm from scratch without ML libraries"
+  - "Focused on translating theoretical concepts into clean, explainable code"
+  - "Validated behavior on controlled datasets"
+  - "Emphasized algorithm correctness and interpretability"
 ---
 
-## Problem / Context
+## Overview
 
-Understanding how decision trees work at a fundamental level by implementing the ID3 algorithm from scratch, without relying on existing machine learning libraries.
+This project involved implementing the ID3 decision tree algorithm from scratch to develop a deeper understanding of entropy, information gain, and recursive model construction. Rather than relying on libraries, I focused on translating theoretical concepts into correct, explainable code.
 
-## Approach / Design
+## Problem & Context
 
-I implemented the core ID3 algorithm components:
-- **Entropy calculation**: Measuring information gain
-- **Tree construction**: Recursive splitting based on information gain
-- **Prediction**: Traversing the tree for classification
+While libraries abstract away algorithmic details, implementing a decision tree manually exposes important design choices and pitfalls. The goal was to translate theory into correct, explainable code that demonstrates understanding of how decision trees actually work.
 
-The implementation handles:
-- Categorical features
-- Missing values
-- Tree pruning to prevent overfitting
+Understanding machine learning algorithms requires more than using libraries—it requires understanding how they work under the hood. This project aimed to bridge the gap between theoretical understanding and practical implementation.
 
-## Key Decisions / Tradeoffs
+## Constraints
 
-**Information Gain vs. Gini Impurity**: I chose information gain (entropy-based) as it's the standard for ID3, though Gini impurity can be faster to compute.
+- No ML libraries for tree construction (NumPy only for basic operations)
+- Must correctly handle base cases and stopping criteria
+- Code should remain readable and explainable
+- Must handle edge cases like pure nodes and attribute exhaustion
+- Not designed for large datasets or production use
 
-**Pruning Strategy**: Implemented both pre-pruning (max depth) and post-pruning to balance model complexity and accuracy.
+## Approach & Design Decisions
 
-## Results
+I built the tree recursively using entropy and information gain calculations, focusing on correctness and clarity rather than optimization. The design followed the theoretical ID3 algorithm structure:
 
-The implementation successfully:
-- Classified test data with 85% accuracy
-- Demonstrated clear understanding of decision tree mechanics
-- Provided interpretable decision rules
+1. **Entropy Calculation**: Implemented entropy as a measure of impurity in datasets
+2. **Information Gain**: Calculated information gain for each attribute to determine optimal splits
+3. **Recursive Construction**: Built the tree recursively, selecting optimal attributes at each node
+4. **Base Cases**: Handled stopping conditions (pure nodes, no attributes remaining)
 
-## What I'd Improve
+The recursive approach matched the theoretical description of ID3 and made the code structure align with the algorithm's natural structure.
 
-1. **Continuous Features**: Extend to handle continuous/numeric features
-2. **Visualization**: Add tree visualization for better interpretability
-3. **Performance**: Optimize for larger datasets
+## Implementation Highlights
+
+- **Explicit Entropy Function**: Implemented entropy calculation from first principles
+- **Information Gain Logic**: Built information gain calculation to guide attribute selection
+- **Recursive Tree Construction**: Implemented recursive tree building with proper base case handling
+- **Edge Case Handling**: Addressed pure nodes, attribute exhaustion, and empty datasets
+
+```python
+# Code coming soon...
+# Implementation details will be added here
+```
+
+## Results & Evaluation
+
+The implementation produced correct trees on test datasets and aligned with expected theoretical behavior. The trees:
+
+- Correctly classified test data according to decision rules
+- Demonstrated clear information gain calculations at each split
+- Produced interpretable models where decision paths were transparent
+- Validated against known correct implementations and theoretical expectations
+
+The project successfully demonstrated understanding of entropy, information gain, and recursive algorithm design.
+
+## Tradeoffs & Limitations
+
+- **No Pruning**: The implementation doesn't include post-pruning, which can lead to overfitting
+- **Not Production-Ready**: Not designed for large datasets or production use cases
+- **Discrete Attributes Only**: Handles only discrete-valued attributes, not continuous
+- **No Optimization**: Focused on correctness and clarity rather than performance optimization
+
+## What I Learned
+
+Writing algorithms from scratch clarified how small design decisions impact correctness and interpretability. Key insights:
+
+1. **Algorithm Correctness**: Implementing from scratch revealed subtle details about edge cases and base conditions
+2. **Theoretical Translation**: Converting mathematical concepts (entropy, information gain) into code requires careful thought
+3. **Debugging Recursion**: Debugging recursive algorithms requires systematic testing of base cases and recursive steps
+4. **Model Interpretability**: Building models yourself makes their behavior transparent and understandable
+
+The experience reinforced that understanding algorithms deeply requires implementing them, not just using them.

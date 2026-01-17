@@ -1,7 +1,10 @@
 import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
+import rehypePrettyCode from 'rehype-pretty-code';
 import { Container } from '@/components/layout/Container';
 import { ProjectMeta } from '@/components/projects/ProjectMeta';
+import { ProjectNavigation } from '@/components/projects/ProjectNavigation';
 import { getProjectBySlug, getAllProjects } from '@/lib/content/projects';
 import { generateMetadata } from '@/lib/seo';
 import { mdxComponents } from '@/components/mdx/MDXComponents';
@@ -43,11 +46,33 @@ export default async function ProjectPage({
   }
 
   return (
-    <Container className="py-12">
+    <Container className="py-16">
+      <ProjectNavigation />
       <ProjectMeta project={project} />
       <article className="prose prose-lg max-w-none">
-        <MDXRemote source={project.content || ''} components={mdxComponents} />
+        <div className="text-text-primary leading-relaxed">
+          <MDXRemote 
+            source={project.content || ''} 
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+                rehypePlugins: [
+                  [
+                    rehypePrettyCode,
+                    {
+                      theme: 'github-dark',
+                    },
+                  ],
+                ],
+              },
+            }}
+          />
+        </div>
       </article>
+      <div className="mt-12 pt-8 border-t border-border">
+        <ProjectNavigation />
+      </div>
     </Container>
   );
 }

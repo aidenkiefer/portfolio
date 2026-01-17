@@ -3,6 +3,7 @@ import { BadgeRow } from '../common/BadgeRow';
 import { SearchableBadge } from '../common/SearchableBadge';
 import { ExternalLink, Github } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface ProjectMetaProps {
   project: Project;
@@ -12,9 +13,23 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
   return (
     <div className="mb-12 space-y-6 border-b border-border pb-8">
       <div>
-        <h1 className="mb-3 text-4xl font-semibold text-text-primary">
-          {project.title}
-        </h1>
+        <div className="flex items-start gap-4 mb-3">
+          {project.logo && (
+            <div className="flex-shrink-0 mt-1">
+              <Image
+                src={project.logo}
+                alt=""
+                width={48}
+                height={48}
+                className="object-contain opacity-90"
+                style={{ maxWidth: '48px', height: 'auto' }}
+              />
+            </div>
+          )}
+          <h1 className="text-4xl font-semibold text-text-primary">
+            {project.title}
+          </h1>
+        </div>
         <p className="text-lg text-text-secondary">{project.summary}</p>
       </div>
 

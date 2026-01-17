@@ -10,6 +10,7 @@ export interface Project {
   summary: string;
   highlights: string[];
   content?: string;
+  logo?: string;
 }
 
 export interface Experience {

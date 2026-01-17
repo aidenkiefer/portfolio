@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Project } from '@/types/content';
 import { BadgeRow } from '../common/BadgeRow';
 import { SearchableBadge } from '../common/SearchableBadge';
@@ -16,12 +17,26 @@ export function ProjectCard({ project }: ProjectCardProps) {
         boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
       }}
     >
-      <div className="mb-3 flex items-start justify-between">
-        <h3 className="text-xl font-semibold text-text-primary group-hover:text-accent-primary transition-all duration-200 ease-out group-hover:opacity-90">
-          {project.title}
-        </h3>
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <div className="flex items-start gap-3 flex-1 min-w-0">
+          {project.logo && (
+            <div className="flex-shrink-0 mt-0.5">
+              <Image
+                src={project.logo}
+                alt=""
+                width={32}
+                height={32}
+                className="object-contain opacity-90"
+                style={{ maxWidth: '32px', height: 'auto' }}
+              />
+            </div>
+          )}
+          <h3 className="text-xl font-semibold text-text-primary group-hover:text-accent-primary transition-all duration-200 ease-out group-hover:opacity-90 flex-1">
+            {project.title}
+          </h3>
+        </div>
         {project.featured && (
-          <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-text-secondary">
+          <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-text-secondary flex-shrink-0">
             Featured
           </span>
         )}

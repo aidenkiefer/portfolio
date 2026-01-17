@@ -14,14 +14,8 @@ export default function Home() {
   return (
     <Container className="py-16">
       {/* Hero Section */}
-      <section className="mb-20 relative">
-        {/* Very faint chip watermark */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.06]">
-          <div className="relative w-full h-full">
-            <ChipMark className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 text-text-primary" />
-          </div>
-        </div>
-        <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start mb-10 relative z-10">
+      <section className="mb-20">
+        <div className="grid md:grid-cols-[1fr_auto] gap-8 items-start mb-10">
           <div>
             <h1 className="mb-3 text-5xl font-semibold text-text-primary tracking-tight">
               Aiden Kiefer
@@ -30,7 +24,7 @@ export default function Home() {
               Software Engineer
             </p>
           </div>
-          <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border border-border">
+          <div className="relative w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden border border-border">
             <picture className="block w-full h-full">
               <source srcSet="/images/portrait.avif" type="image/avif" />
               <img
@@ -43,20 +37,19 @@ export default function Home() {
           </div>
         </div>
         
-        <div className="relative z-10">
-          <p className="text-xs text-accent-primary mb-4 tracking-wider uppercase">
-            — systems • clarity • long-term thinking
-          </p>
-          
-          <p className="text-lg text-text-primary leading-relaxed mb-4 max-w-2xl">
-            I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
-          </p>
-          
-          <p className="text-sm text-text-secondary mb-8">
-            Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
-          </p>
+        <p className="text-xs text-accent-primary mb-4 tracking-wider uppercase">
+          — systems • clarity • long-term thinking
+        </p>
+        
+        <p className="text-lg text-text-primary leading-relaxed mb-4 max-w-2xl">
+          I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
+        </p>
+        
+        <p className="text-sm text-text-secondary mb-8">
+          Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
+        </p>
 
-          <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4">
           <Link
             href="/projects"
             className="inline-flex items-center gap-2 rounded-md border border-accent-primary bg-accent-primary px-6 py-3 text-white font-medium transition-all duration-200 ease-out hover:bg-accent-primary/90 group"
@@ -77,13 +70,12 @@ export default function Home() {
             Contact Me
           </Link>
         </div>
-        </div>
       </section>
 
       {/* About Me Section */}
       <section className="mb-20">
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">About Me</h2>
         </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -105,7 +97,7 @@ export default function Home() {
           <div className="mb-8 h-px bg-border" />
           <div className="mb-8 h-px bg-border" />
           <div className="mb-8 flex items-center gap-3">
-            <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+            <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
             <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Selected Work</h2>
           </div>
           <p className="mb-10 text-sm text-text-secondary max-w-2xl">
@@ -132,7 +124,7 @@ export default function Home() {
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">How I Approach Engineering</h2>
         </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
@@ -149,7 +141,7 @@ export default function Home() {
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Experience</h2>
         </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-6">
@@ -170,7 +162,7 @@ export default function Home() {
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Resume</h2>
         </div>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-6">
@@ -199,10 +191,10 @@ export default function Home() {
       <section>
         <div className="mb-8 h-px bg-border" />
         <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-5 w-5 text-text-secondary flex-shrink-0" />
+          <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
           <h2 className="text-3xl font-semibold text-text-primary tracking-tight">Get in Touch</h2>
         </div>
-        <div className="mb-6 h-1 bg-accent-primary" />
+        <div className="mb-6 h-1 bg-accent-secondary" />
         <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl mb-8">
           <p>
             If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect.

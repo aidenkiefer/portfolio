@@ -19,7 +19,7 @@ export default function ContactPage() {
           If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect.
         </p>
       </div>
-      <div className="mb-8 h-1 bg-accent-primary" />
+      <div className="mb-8 h-1 bg-accent-secondary" />
 
       <div className="space-y-4 max-w-md">
         {siteConfig.links.email && (

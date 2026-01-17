@@ -18,7 +18,7 @@ export default function ResumePage() {
         <p className="text-sm text-text-secondary leading-relaxed max-w-2xl mb-8">
           For a concise overview of my background, experience, and skills, you can view or download my resume below.
         </p>
-        <div className="mb-8 h-1 bg-accent-primary" />
+        <div className="mb-8 h-1 bg-accent-secondary" />
         <div className="flex flex-wrap gap-4">
           <a
             href="/resume/Resume.pdf"

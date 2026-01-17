@@ -20,7 +20,7 @@ export default function ExperiencePage() {
           My professional experience reflects engineering work across web development, systems optimization, and data-driven decision making. Each role has involved building and maintaining systems—not just pages—with attention to performance, structure, and measurable impact.
         </p>
       </div>
-      <div className="mb-8 h-1 bg-accent-primary" />
+      <div className="mb-8 h-1 bg-accent-secondary" />
 
       <div className="space-y-12">
         {experiences.map((exp, idx) => (

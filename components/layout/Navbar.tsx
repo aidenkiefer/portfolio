@@ -4,7 +4,6 @@ import { Logo } from '@/components/Logo';
 import { NavLink } from './NavLink';
 
 const navItems = [
-  { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
   { href: '/experience', label: 'Experience' },
   { href: '/coursework', label: 'Coursework' },

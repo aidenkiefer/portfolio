@@ -1,13 +1,13 @@
 import Link from 'next/link';
-import { siteConfig } from '@/data/site';
 import { Container } from './Container';
 import { Logo } from '@/components/Logo';
+import { NavLink } from './NavLink';
 
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
   { href: '/experience', label: 'Experience' },
-  { href: '/coursework', label: 'Coursework & Skills' },
+  { href: '/coursework', label: 'Coursework' },
   { href: '/strengths', label: 'About' },
   { href: '/resume', label: 'Resume' },
   { href: '/contact', label: 'Contact' },
@@ -27,13 +27,11 @@ export function Navbar() {
           </Link>
           <div className="hidden gap-4 sm:flex sm:gap-6">
             {navItems.map((item) => (
-              <Link
+              <NavLink
                 key={item.href}
                 href={item.href}
-                className="text-sm font-medium text-text-secondary hover:text-accent-primary transition-colors duration-200 ease-out"
-              >
-                {item.label}
-              </Link>
+                label={item.label}
+              />
             ))}
           </div>
         </div>

@@ -6,7 +6,7 @@ import { Container } from '@/components/layout/Container';
 import { ProjectMeta } from '@/components/projects/ProjectMeta';
 import { ProjectNavigation } from '@/components/projects/ProjectNavigation';
 import { getProjectBySlug, getAllProjects } from '@/lib/content/projects';
-import { generateMetadata } from '@/lib/seo';
+import { generateMetadata as generateSEOMetadata } from '@/lib/seo';
 import { mdxComponents } from '@/components/mdx/MDXComponents';
 
 export async function generateStaticParams() {
@@ -24,9 +24,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) {
-    return generateMetadata({ title: 'Project Not Found' });
+    return generateSEOMetadata({ title: 'Project Not Found' });
   }
-  return generateMetadata({
+  return generateSEOMetadata({
     title: project.title,
     description: project.summary,
     path: `/projects/${slug}`,

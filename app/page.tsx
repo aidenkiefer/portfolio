@@ -3,13 +3,13 @@ import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
 import { SectionHeading } from '@/components/common/SectionHeading';
 import { ProjectCard } from '@/components/projects/ProjectCard';
-import { getFeaturedProjects } from '@/lib/content/projects';
+import { getProjectsWithLogos } from '@/lib/content/projects';
 import { ArrowRight, Mail, Github, Linkedin } from 'lucide-react';
 import { siteConfig } from '@/data/site';
 import { ChipMark } from '@/components/common/ChipMark';
 
 export default function Home() {
-  const featuredProjects = getFeaturedProjects();
+  const selectedProjects = getProjectsWithLogos();
 
   return (
     <Container className="py-10 sm:py-14 lg:py-20">
@@ -94,7 +94,7 @@ export default function Home() {
       </section>
 
       {/* Selected Work Section */}
-      {featuredProjects.length > 0 && (
+      {selectedProjects.length > 0 && (
         <section className="mb-12 sm:mb-16 lg:mb-20">
           <div className="mb-6 sm:mb-8 h-px bg-border" />
           <div className="mb-6 sm:mb-8 flex items-center gap-3">
@@ -107,7 +107,7 @@ export default function Home() {
             </p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {featuredProjects.slice(0, 3).map((project) => (
+            {selectedProjects.map((project) => (
               <ProjectCard key={project.slug} project={project} />
             ))}
           </div>

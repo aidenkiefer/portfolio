@@ -48,3 +48,17 @@ export function getProjectBySlug(slug: string): Project | null {
 export function getFeaturedProjects(): Project[] {
   return getAllProjects().filter((project) => project.featured);
 }
+
+export function getProjectsWithLogos(): Project[] {
+  const projectsWithLogos = getAllProjects().filter((project) => project.logo);
+  // Return the three specific projects with logos in a specific order
+  const logoProjectSlugs = [
+    'n2-water-ecommerce-storefront',
+    'thrive-vineyard-website',
+    'tender-heart-vintage',
+  ];
+  
+  return logoProjectSlugs
+    .map((slug) => projectsWithLogos.find((p) => p.slug === slug))
+    .filter((project): project is Project => project !== undefined);
+}

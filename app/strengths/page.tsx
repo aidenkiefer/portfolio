@@ -26,10 +26,13 @@ export default function StrengthsPage() {
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
-              I approach problems systemically and proactively. I see patterns and failure modes early, consider multiple paths before committing, and reduce complexity through structure rather than adding layers.
+              I approach problems systemically and proactively. I see patterns and failure modes early, consider multiple paths before committing, and reduce complexity through structure rather than adding layers. This isn't about overthinking—it's about recognizing that most engineering problems have multiple valid solutions, and the best one depends on the specific context and constraints.
             </p>
             <p>
-              In engineering contexts, this shows up in system architecture, algorithm design, debugging and root-cause analysis, and anticipating edge cases. I think before I code — understanding the problem space and constraints helps me choose solutions that are simple, explainable, and maintainable.
+              In engineering contexts, this shows up in system architecture, algorithm design, debugging and root-cause analysis, and anticipating edge cases. I think before I code — understanding the problem space and constraints helps me choose solutions that are simple, explainable, and maintainable. For example, when designing a database schema, I'll consider not just the immediate requirements but how the data model might need to evolve, what queries will be most common, and how to maintain data integrity as the system grows.
+            </p>
+            <p>
+              This systematic approach has saved me time in the long run. By thinking through edge cases early, I avoid debugging sessions that could have been prevented. By considering multiple approaches, I often find simpler solutions than my first instinct. And by reducing complexity through structure, I build systems that are easier for others to understand and extend.
             </p>
           </div>
         </section>
@@ -42,10 +45,13 @@ export default function StrengthsPage() {
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
-              I'm comfortable with ambiguity and non-obvious solutions. I generate multiple approaches, connect ideas across domains, and enjoy design-heavy, underspecified problems that require exploring alternatives rather than applying a single pattern.
+              I'm comfortable with ambiguity and non-obvious solutions. I generate multiple approaches, connect ideas across domains, and enjoy design-heavy, underspecified problems that require exploring alternatives rather than applying a single pattern. When a problem is underspecified or the requirements are unclear, I see that as an opportunity to ask questions, explore options, and design something that fits the actual need rather than forcing a standard solution.
             </p>
             <p>
-              This translates to engineering as exploring alternative designs, applying concepts across domains (like using database normalization principles in API design), and avoiding one-size-fits-all solutions. I don't just apply patterns — I understand them and adapt them to the context.
+              This translates to engineering as exploring alternative designs, applying concepts across domains (like using database normalization principles in API design), and avoiding one-size-fits-all solutions. I don't just apply patterns — I understand them and adapt them to the context. For instance, when building an e-commerce platform, I didn't just follow a React tutorial. I thought about how the data model should be structured, how to optimize for SEO while maintaining performance, and how to design the architecture so it could evolve as requirements changed.
+            </p>
+            <p>
+              This approach means I sometimes take longer on the design phase, but it results in solutions that are more thoughtful and better suited to the specific problem. I'd rather spend time exploring alternatives upfront than discover later that the obvious solution doesn't actually fit the constraints.
             </p>
           </div>
         </section>
@@ -74,10 +80,13 @@ export default function StrengthsPage() {
           </h2>
           <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
             <p>
-              I explain technical ideas clearly and enjoy design discussions. I value shared understanding — making sure others can understand and build on my work is as important as the work itself.
+              I explain technical ideas clearly and enjoy design discussions. I value shared understanding — making sure others can understand and build on my work is as important as the work itself. I've found that the best technical solutions are often the ones that are easiest to explain. If I can't clearly articulate why a design decision makes sense, that's usually a sign I need to reconsider the approach.
             </p>
             <p>
-              This shows up in writing design docs, conducting code reviews, explaining tradeoffs in technical decisions, and onboarding others to systems I've built. I place a high value on communication because it makes collaboration more effective and helps the team make better decisions together.
+              This shows up in writing design docs, conducting code reviews, explaining tradeoffs in technical decisions, and onboarding others to systems I've built. I place a high value on communication because it makes collaboration more effective and helps the team make better decisions together. When I'm working on a project, I document not just what I built, but why I made certain choices, what tradeoffs I considered, and what I learned along the way.
+            </p>
+            <p>
+              I also enjoy the collaborative aspects of engineering work. Some of my best solutions have come from discussing problems with others, whether that's explaining my approach and having someone point out a flaw, or hearing about a different perspective that changes how I think about the problem. I believe that good engineering is inherently collaborative, and that clear communication is what makes that collaboration effective.
             </p>
           </div>
         </section>

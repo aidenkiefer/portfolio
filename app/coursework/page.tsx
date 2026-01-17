@@ -27,9 +27,17 @@ export default function CourseworkPage() {
         <h1 className="mb-6 text-4xl font-semibold text-text-primary tracking-tight">Coursework & Skills</h1>
         <div className="flex flex-col md:flex-row gap-8 items-start">
           <div className="flex-1">
-            <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
-              My coursework is curated to show strong computer science fundamentals and exposure across systems, algorithms, machine learning, databases, and UI. These courses have shaped how I think about engineering problems and informed my approach to system design.
-            </p>
+            <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+              <p>
+                My coursework is curated to show strong computer science fundamentals and exposure across systems, algorithms, machine learning, databases, and UI. These courses have shaped how I think about engineering problems and informed my approach to system design.
+              </p>
+              <p>
+                What I value most about my education is the balance between theory and practice. Courses like Systems Programming and Computer Design taught me to think about how software interacts with hardware and the operating system. Database Systems and Software Design helped me understand how to model real-world requirements and make architectural decisions. And courses in machine learning and data science gave me the mathematical foundation to work with complex, ambiguous problems.
+              </p>
+              <p>
+                Below, I've organized the coursework by theme rather than chronologically, focusing on the skills and concepts that are most relevant to engineering work. Each course listing includes the key skills I learned and, where applicable, links to projects that demonstrate those skills in practice.
+              </p>
+            </div>
           </div>
           <div className="relative w-full md:w-64 h-40 md:h-48 rounded-md overflow-hidden border border-border">
             <Image

@@ -1,5 +1,6 @@
 import { Container } from '@/components/layout/Container';
-import { BadgeRow, Badge } from '@/components/common/BadgeRow';
+import { BadgeRow } from '@/components/common/BadgeRow';
+import { SearchableBadge } from '@/components/common/SearchableBadge';
 import { experiences } from '@/data/experience';
 import { generateMetadata } from '@/lib/seo';
 import { ArrowRight } from 'lucide-react';
@@ -51,7 +52,9 @@ export default function ExperiencePage() {
               </h3>
               <BadgeRow>
                 {exp.techStack.map((tech) => (
-                  <Badge key={tech}>{tech}</Badge>
+                  <SearchableBadge key={tech} tag={tech}>
+                    {tech}
+                  </SearchableBadge>
                 ))}
               </BadgeRow>
             </div>

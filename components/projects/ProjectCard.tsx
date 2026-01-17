@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Project } from '@/types/content';
-import { BadgeRow, Badge } from '../common/BadgeRow';
+import { BadgeRow } from '../common/BadgeRow';
+import { SearchableBadge } from '../common/SearchableBadge';
 
 interface ProjectCardProps {
   project: Project;
@@ -41,7 +42,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <p className="text-[10px] text-text-secondary uppercase tracking-wide mb-1.5">Topics</p>
           <BadgeRow>
             {project.tags.map((tag) => (
-              <Badge key={tag}>{tag}</Badge>
+              <SearchableBadge key={tag} tag={tag}>
+                {tag}
+              </SearchableBadge>
             ))}
           </BadgeRow>
         </div>

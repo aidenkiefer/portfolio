@@ -1,0 +1,49 @@
+---
+title: "ID3 Decision Tree Implementation"
+slug: "id3-decision-tree"
+date: "2025-07-15"
+featured: false
+tags: ["Algorithms", "Machine Learning", "Python"]
+stack: ["Python", "numpy"]
+repoUrl: "https://github.com/example/id3-tree"
+liveUrl: ""
+summary: "Implemented the ID3 decision tree algorithm from scratch to understand classification algorithms."
+highlights:
+  - "Built from scratch without ML libraries"
+  - "Achieved 85% accuracy on test dataset"
+---
+
+## Problem / Context
+
+Understanding how decision trees work at a fundamental level by implementing the ID3 algorithm from scratch, without relying on existing machine learning libraries.
+
+## Approach / Design
+
+I implemented the core ID3 algorithm components:
+- **Entropy calculation**: Measuring information gain
+- **Tree construction**: Recursive splitting based on information gain
+- **Prediction**: Traversing the tree for classification
+
+The implementation handles:
+- Categorical features
+- Missing values
+- Tree pruning to prevent overfitting
+
+## Key Decisions / Tradeoffs
+
+**Information Gain vs. Gini Impurity**: I chose information gain (entropy-based) as it's the standard for ID3, though Gini impurity can be faster to compute.
+
+**Pruning Strategy**: Implemented both pre-pruning (max depth) and post-pruning to balance model complexity and accuracy.
+
+## Results
+
+The implementation successfully:
+- Classified test data with 85% accuracy
+- Demonstrated clear understanding of decision tree mechanics
+- Provided interpretable decision rules
+
+## What I'd Improve
+
+1. **Continuous Features**: Extend to handle continuous/numeric features
+2. **Visualization**: Add tree visualization for better interpretability
+3. **Performance**: Optimize for larger datasets

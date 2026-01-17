@@ -1,0 +1,52 @@
+---
+title: "AllergyAssist - CodeDay Project"
+slug: "allergyassist-codeday"
+date: "2025-05-10"
+featured: true
+tags: ["Web Development", "React", "Full Stack"]
+stack: ["React", "Node.js", "TypeScript", "Express"]
+repoUrl: "https://github.com/example/allergyassist"
+liveUrl: "https://allergyassist.example.com"
+summary: "Built a web app to help users identify allergens in food products during a 24-hour hackathon."
+highlights:
+  - "Built in 24 hours at CodeDay"
+  - "Real-time ingredient scanning and allergen detection"
+---
+
+## Problem / Context
+
+People with food allergies struggle to quickly identify allergens in food products. During CodeDay, we built a solution to scan ingredient lists and highlight potential allergens.
+
+## Approach / Design
+
+**Frontend**: React app with:
+- Image upload for product labels
+- OCR integration for text extraction
+- Real-time allergen highlighting
+- User profile for saved allergens
+
+**Backend**: Node.js/Express API:
+- Ingredient parsing and matching
+- Allergen database
+- User authentication
+
+## Key Decisions / Tradeoffs
+
+**OCR Service**: Used a third-party OCR API rather than building our own to save development time during the hackathon.
+
+**Database**: Started with JSON files, migrated to PostgreSQL for production-readiness.
+
+**Time Constraints**: Focused on core functionality (scanning and detection) over advanced features (meal planning, recipe suggestions).
+
+## Results
+
+- Successfully deployed working prototype
+- Won "Best Social Impact" award at CodeDay
+- Processed 100+ ingredient scans during demo
+
+## What I'd Improve
+
+1. **Accuracy**: Improve OCR accuracy for handwritten or low-quality images
+2. **Database**: Expand allergen database with more comprehensive ingredient mappings
+3. **Mobile App**: Build native mobile app for better camera integration
+4. **Offline Mode**: Add offline capability for scanned products

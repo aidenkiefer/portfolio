@@ -30,12 +30,21 @@ function parseRgb(rgb: string) {
   return { r: Number(m[1]), g: Number(m[2]), b: Number(m[3]) };
 }
 
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+const easeOutCubic = (x: number) => 1 - Math.pow(1 - x, 3);
+
 type Node = {
   x: number;
   y: number;
   vx: number;
   vy: number;
   bornAt: number; // seconds
+};
+
+type Edge = {
+  i: number;
+  j: number;
+  startOffset: number; // stagger delay in seconds
 };
 
 export function NodeGraph({
@@ -86,8 +95,8 @@ export function NodeGraph({
       bornAt: i * 0.08, // 80ms stagger
     }));
 
-    // Precompute connections each frame: connect to nearest neighbors
-    const nearest = (idx: number) => {
+    // Nearest neighbor helper (used only at init)
+    const nearestIndices = (nodes: Node[], idx: number, maxConnections: number) => {
       const a = nodes[idx];
       const dists = nodes
         .map((b, j) => {
@@ -102,6 +111,31 @@ export function NodeGraph({
       return dists.slice(0, maxConnections).map((p) => p.j);
     };
 
+    // Build stable edge list ONCE (not recomputed every frame)
+    const edges: Edge[] = [];
+    for (let i = 0; i < nodes.length; i++) {
+      const nbrs = nearestIndices(nodes, i, maxConnections);
+      for (const j of nbrs) {
+        if (j <= i) continue; // prevent duplicates
+        edges.push({ i, j, startOffset: 0 });
+      }
+    }
+
+    // Sort edges by distance (short edges first for clean build)
+    edges.sort((e1, e2) => {
+      const a1 = nodes[e1.i], b1 = nodes[e1.j];
+      const a2 = nodes[e2.i], b2 = nodes[e2.j];
+      const d1 = (a1.x - b1.x) ** 2 + (a1.y - b1.y) ** 2;
+      const d2 = (a2.x - b2.x) ** 2 + (a2.y - b2.y) ** 2;
+      return d1 - d2;
+    });
+
+    // Apply global stagger (sequential)
+    const globalStagger = 0.018;
+    edges.forEach((e, idx) => {
+      e.startOffset = idx * globalStagger;
+    });
+
     let raf = 0;
     const start = performance.now();
 
@@ -113,6 +147,10 @@ export function NodeGraph({
       // Subtle overall opacity so it doesn't compete with content
       const baseNodeAlpha = 0.55;
       const baseEdgeAlpha = 0.22;
+
+      // Edge animation parameters
+      const edgeBaseDelay = 0.08;     // small pause after nodes appear
+      const edgeDuration = 0.55;      // draw time in seconds
 
       // Update positions (optional drift)
       if (!reducedMotion && speed > 0) {
@@ -126,31 +164,50 @@ export function NodeGraph({
         }
       }
 
-      // Draw edges first (so nodes sit on top)
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
+      // Draw edges first (so nodes sit on top) - using stable edge list
+      for (const edge of edges) {
+        const a = nodes[edge.i];
+        const b = nodes[edge.j];
 
-        // fade-in factor for node "birth"
-        const born = Math.max(0, Math.min(1, (t - a.bornAt) / 0.7));
-        if (born <= 0) continue;
+        // Both nodes must be born before edge can start
+        const bornA = reducedMotion ? 1 : clamp01((t - a.bornAt) / 0.7);
+        const bornB = reducedMotion ? 1 : clamp01((t - b.bornAt) / 0.7);
+        
+        if (bornA <= 0 || bornB <= 0) continue;
 
-        const nbrs = nearest(i);
-        for (const j of nbrs) {
-          const b = nodes[j];
-          const bornB = Math.max(0, Math.min(1, (t - b.bornAt) / 0.7));
-          const edgeAlpha = baseEdgeAlpha * born * bornB;
+        // Compute edge start time (after both nodes appear + delay + stagger)
+        const edgeStart =
+          Math.max(a.bornAt, b.bornAt) +
+          edgeBaseDelay +
+          edge.startOffset;
 
-          // animate edge "draw" effect by interpolating endpoint
-          const drawT = reducedMotion ? 1 : Math.max(0, Math.min(1, (t - a.bornAt) / 0.9));
-          const ex = a.x + (b.x - a.x) * drawT;
-          const ey = a.y + (b.y - a.y) * drawT;
+        // Compute draw progress with easing
+        const raw = (t - edgeStart) / edgeDuration;
+        const drawP = reducedMotion ? 1 : clamp01(raw);
+        const p = easeOutCubic(drawP);
 
+        // Interpolate endpoint for draw-on effect
+        const ax = a.x, ay = a.y;
+        const bx = b.x, by = b.y;
+        const ex = ax + (bx - ax) * p;
+        const ey = ay + (by - ay) * p;
+
+        // Alpha increases slightly as edge draws
+        const alpha = baseEdgeAlpha * Math.min(bornA, bornB) * (0.35 + 0.65 * drawP);
+
+        ctx.beginPath();
+        ctx.moveTo(ax, ay);
+        ctx.lineTo(ex, ey);
+        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Optional: traveling dot head (motion graphics flourish)
+        if (!reducedMotion && drawP < 1) {
           ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(ex, ey);
-          ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${edgeAlpha})`;
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
+          ctx.arc(ex, ey, 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 1.2})`;
+          ctx.fill();
         }
       }
 

@@ -92,7 +92,7 @@ export function NodeGraph({
       y: rand(20, cssH - 20),
       vx: rand(-1, 1) * speed,
       vy: rand(-1, 1) * speed,
-      bornAt: i * 0.08, // 80ms stagger
+      bornAt: i * 0.15, // 150ms stagger (slower, more noticeable)
     }));
 
     // Nearest neighbor helper (used only at init)
@@ -149,8 +149,8 @@ export function NodeGraph({
       const baseEdgeAlpha = 0.22;
 
       // Edge animation parameters
-      const edgeBaseDelay = 0.08;     // small pause after nodes appear
-      const edgeDuration = 0.55;      // draw time in seconds
+      const edgeBaseDelay = 0.25;     // longer pause after nodes appear (increased from 0.08)
+      const edgeDuration = 0.85;      // slower draw time (increased from 0.55)
 
       // Update positions (optional drift)
       if (!reducedMotion && speed > 0) {
@@ -213,7 +213,7 @@ export function NodeGraph({
 
       // Draw nodes
       for (const n of nodes) {
-        const born = reducedMotion ? 1 : Math.max(0, Math.min(1, (t - n.bornAt) / 0.7));
+        const born = reducedMotion ? 1 : clamp01((t - n.bornAt) / 1.2); // Slower fade-in (increased from 0.7)
         if (born <= 0) continue;
 
         const r = 2.2 + (1 - born) * 1.8; // start a bit bigger, settle smaller

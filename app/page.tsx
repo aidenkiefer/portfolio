@@ -15,14 +15,9 @@ export default function Home() {
   return (
     <Container className="py-10 sm:py-14 lg:py-20">
       {/* Hero Section */}
-      <section className="mb-12 sm:mb-16 lg:mb-20 relative">
-        {/* Node Graph Accent */}
-        <div className="absolute inset-0 -z-10 opacity-40 overflow-hidden pointer-events-none">
-          <NodeGraph className="text-accent-primary w-full h-full" />
-        </div>
-        
+      <section className="mb-12 sm:mb-16 lg:mb-20">
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-10 mb-8 sm:mb-10">
-          <div className="relative z-10">
+          <div>
             <h1 className="mb-3 text-5xl font-semibold text-text-primary tracking-tight">
               Aiden Kiefer
             </h1>
@@ -30,7 +25,7 @@ export default function Home() {
               Software Engineer
             </p>
           </div>
-          <div className="relative z-10 w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden border border-border">
+          <div className="relative w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden border border-border">
             <picture className="block w-full h-full">
               <source srcSet="/images/portrait.avif" type="image/avif" />
               <img
@@ -43,22 +38,21 @@ export default function Home() {
           </div>
         </div>
         
-        <div className="relative z-10">
-          <p className="text-xs text-accent-primary mb-4 tracking-wider uppercase">
-            systems • clarity • long-term thinking
+        <p className="text-xs text-accent-primary mb-4 tracking-wider uppercase">
+          systems • clarity • long-term thinking
+        </p>
+        
+        <div className="max-w-prose">
+          <p className="text-base sm:text-lg text-text-primary leading-relaxed mb-4">
+            I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
           </p>
-          
-          <div className="max-w-prose">
-            <p className="text-base sm:text-lg text-text-primary leading-relaxed mb-4">
-              I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
-            </p>
-          </div>
-          
-          <p className="text-sm text-text-secondary mb-8">
-            Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
-          </p>
+        </div>
+        
+        <p className="text-sm text-text-secondary mb-8">
+          Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
+        </p>
 
-          <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4">
           <Link
             href="/projects"
             className="inline-flex items-center gap-2 rounded-md border border-accent-primary bg-accent-primary px-6 py-3 text-white font-medium transition-all duration-200 ease-out hover:bg-accent-primary/90 group"
@@ -79,25 +73,31 @@ export default function Home() {
             Contact Me
           </Link>
         </div>
-        </div>
       </section>
 
       {/* About Me Section */}
-      <section className="mb-12 sm:mb-16 lg:mb-20">
-        <div className="mb-6 sm:mb-8 flex items-center gap-3">
-          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
-          <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">About Me</h2>
+      <section className="mb-12 sm:mb-16 lg:mb-20 relative">
+        {/* Node Graph Accent */}
+        <div className="absolute inset-0 -z-10 opacity-40 overflow-hidden pointer-events-none">
+          <NodeGraph className="text-accent-primary w-full h-full" />
         </div>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
-          <p>
-            I'm a computer science graduate from the University of Illinois Chicago with a strong interest in systems, software design, and the intersection between theory and real-world engineering. I enjoy working on problems that are ambiguous, design-heavy, and require careful tradeoffs rather than purely mechanical execution.
-          </p>
-          <p>
-            My background spans core computer science topics like data structures, algorithms, databases, and systems programming, alongside applied work in web development, data science, and machine learning. Across all of it, I tend to gravitate toward understanding how things work under the hood and how individual decisions affect the system as a whole.
-          </p>
-          <p>
-            I value clarity, communication, and steady improvement. I'm especially motivated by work that rewards thoughtful design, long-term thinking, and collaboration with other engineers.
-          </p>
+        
+        <div className="relative z-10">
+          <div className="mb-6 sm:mb-8 flex items-center gap-3">
+            <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
+            <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">About Me</h2>
+          </div>
+          <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
+            <p>
+              I'm a computer science graduate from the University of Illinois Chicago with a strong interest in systems, software design, and the intersection between theory and real-world engineering. I enjoy working on problems that are ambiguous, design-heavy, and require careful tradeoffs rather than purely mechanical execution.
+            </p>
+            <p>
+              My background spans core computer science topics like data structures, algorithms, databases, and systems programming, alongside applied work in web development, data science, and machine learning. Across all of it, I tend to gravitate toward understanding how things work under the hood and how individual decisions affect the system as a whole.
+            </p>
+            <p>
+              I value clarity, communication, and steady improvement. I'm especially motivated by work that rewards thoughtful design, long-term thinking, and collaboration with other engineers.
+            </p>
+          </div>
         </div>
       </section>
 

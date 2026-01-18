@@ -7,6 +7,7 @@ import { getProjectsWithLogos } from '@/lib/content/projects';
 import { ArrowRight, Mail, Github, Linkedin } from 'lucide-react';
 import { siteConfig } from '@/data/site';
 import { ChipMark } from '@/components/common/ChipMark';
+import { NodeGraph } from '@/components/motion/NodeGraph';
 
 export default function Home() {
   const selectedProjects = getProjectsWithLogos();
@@ -14,9 +15,14 @@ export default function Home() {
   return (
     <Container className="py-10 sm:py-14 lg:py-20">
       {/* Hero Section */}
-      <section className="mb-12 sm:mb-16 lg:mb-20">
+      <section className="mb-12 sm:mb-16 lg:mb-20 relative">
+        {/* Node Graph Accent */}
+        <div className="absolute inset-0 -z-10 opacity-40 overflow-hidden pointer-events-none">
+          <NodeGraph className="text-accent-primary w-full h-full" />
+        </div>
+        
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center lg:gap-10 mb-8 sm:mb-10">
-          <div>
+          <div className="relative z-10">
             <h1 className="mb-3 text-5xl font-semibold text-text-primary tracking-tight">
               Aiden Kiefer
             </h1>
@@ -24,7 +30,7 @@ export default function Home() {
               Software Engineer
             </p>
           </div>
-          <div className="relative w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden border border-border">
+          <div className="relative z-10 w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden border border-border">
             <picture className="block w-full h-full">
               <source srcSet="/images/portrait.avif" type="image/avif" />
               <img
@@ -37,21 +43,22 @@ export default function Home() {
           </div>
         </div>
         
-        <p className="text-xs text-accent-primary mb-4 tracking-wider uppercase">
-          systems • clarity • long-term thinking
-        </p>
-        
-        <div className="max-w-prose">
-          <p className="text-base sm:text-lg text-text-primary leading-relaxed mb-4">
-            I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
+        <div className="relative z-10">
+          <p className="text-xs text-accent-primary mb-4 tracking-wider uppercase">
+            systems • clarity • long-term thinking
           </p>
-        </div>
-        
-        <p className="text-sm text-text-secondary mb-8">
-          Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
-        </p>
+          
+          <div className="max-w-prose">
+            <p className="text-base sm:text-lg text-text-primary leading-relaxed mb-4">
+              I'm a systems-minded software engineer with a strong foundation in computer science and hands-on experience across web development, data science, and machine learning. I care deeply about clarity, thoughtful design, and building software that holds up over time.
+            </p>
+          </div>
+          
+          <p className="text-sm text-text-secondary mb-8">
+            Chicago-based · Computer Science (UIC) · SWE / SWE-adjacent roles
+          </p>
 
-        <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4">
           <Link
             href="/projects"
             className="inline-flex items-center gap-2 rounded-md border border-accent-primary bg-accent-primary px-6 py-3 text-white font-medium transition-all duration-200 ease-out hover:bg-accent-primary/90 group"
@@ -71,6 +78,7 @@ export default function Home() {
           >
             Contact Me
           </Link>
+        </div>
         </div>
       </section>
 

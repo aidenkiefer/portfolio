@@ -15,14 +15,14 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
       <div>
         <div className="flex items-start gap-4 mb-3">
           {project.logo && (
-            <div className="flex-shrink-0 mt-1">
+            <div className="flex-shrink-0 mt-1" style={{ width: '64px', height: '64px' }}>
               <Image
                 src={project.logo}
                 alt=""
-                width={48}
-                height={48}
-                className="object-contain opacity-90"
-                style={{ maxWidth: '48px', height: 'auto' }}
+                width={64}
+                height={64}
+                className="object-contain"
+                style={{ width: '64px', height: '64px' }}
               />
             </div>
           )}

@@ -29,12 +29,11 @@ if (!fs.existsSync(outputDirectory)) {
 }
 
 // Logo files to process
-// If you have SVG files, keep them as SVG (best for logos)
-// If you have PNG files, we'll optimize them to consistent size
+// All logos will be converted to PNG at consistent size for uniform display
 const logos = [
-  { input: 'n2-icon.svg', output: 'n2-logo.svg', keepSvg: true }, // Keep SVG if it's vector
-  { input: 'thrive-logo.png', output: 'thrive-logo-optimized.png', keepSvg: false },
-  { input: 'tender-heart-logo.png', output: 'tender-heart-logo-optimized.png', keepSvg: false },
+  { input: 'n2-icon.svg', output: 'n2-logo.png' },
+  { input: 'thrive-logo.png', output: 'thrive-logo.png' },
+  { input: 'tender-heart-logo.png', output: 'tender-heart-logo.png' },
 ];
 
 async function optimizeLogos() {
@@ -53,42 +52,47 @@ async function optimizeLogos() {
       const stats = fs.statSync(inputPath);
       const originalSize = (stats.size / 1024).toFixed(2);
 
-      if (logo.keepSvg && logo.input.endsWith('.svg')) {
-        // For SVG files, just copy them (they're already optimized)
-        fs.copyFileSync(inputPath, outputPath);
-        console.log(`✓ ${logo.output} (SVG - kept as vector)`);
-        console.log(`  Size: ${originalSize} KB\n`);
-      } else {
-        // For PNG files, optimize and resize
-        await sharp(inputPath)
-          .resize(TARGET_SIZE, TARGET_SIZE, {
-            fit: 'contain',
-            background: { r: 255, g: 255, b: 255, alpha: 0 } // Transparent background
-          })
-          .png({ quality: 90, compressionLevel: 9 })
-          .toFile(outputPath);
+      // Use temp file if input and output are the same
+      const tempPath = inputPath === outputPath 
+        ? path.join(outputDirectory, `temp-${Date.now()}-${logo.output}`)
+        : outputPath;
 
-        const newStats = fs.statSync(outputPath);
-        const newSize = (newStats.size / 1024).toFixed(2);
-        const reduction = ((1 - newStats.size / stats.size) * 100).toFixed(1);
+      // Convert all logos (SVG and PNG) to PNG at consistent size
+      await sharp(inputPath)
+        .resize(TARGET_SIZE, TARGET_SIZE, {
+          fit: 'contain',
+          background: { r: 255, g: 255, b: 255, alpha: 0 } // Transparent background
+        })
+        .png({ quality: 90, compressionLevel: 9 })
+        .toFile(tempPath);
 
-        console.log(`✓ ${logo.output}`);
-        console.log(`  Original: ${originalSize} KB → Optimized: ${newSize} KB (${reduction}% reduction)`);
-        console.log(`  Size: ${TARGET_SIZE}x${TARGET_SIZE}px\n`);
+      // If we used a temp file, replace the original
+      if (tempPath !== outputPath) {
+        fs.unlinkSync(inputPath);
+        fs.renameSync(tempPath, outputPath);
       }
+
+      const newStats = fs.statSync(outputPath);
+      const newSize = (newStats.size / 1024).toFixed(2);
+      const reduction = inputPath === outputPath 
+        ? 'N/A (same file)'
+        : ((1 - newStats.size / stats.size) * 100).toFixed(1) + '%';
+
+      console.log(`✓ ${logo.output}`);
+      if (inputPath !== outputPath) {
+        console.log(`  Original: ${originalSize} KB → Optimized: ${newSize} KB (${reduction} reduction)`);
+      } else {
+        console.log(`  Optimized: ${newSize} KB`);
+      }
+      console.log(`  Size: ${TARGET_SIZE}x${TARGET_SIZE}px\n`);
     } catch (error) {
       console.error(`✗ Error processing ${logo.input}:`, error.message);
     }
   }
 
   console.log('✓ Logo optimization complete!');
-  console.log('\nNext steps:');
-  console.log('1. Review the optimized files');
-  console.log('2. Replace the original files with optimized versions if satisfied');
-  console.log('3. Update project MDX files to use the new filenames if changed');
-  console.log('\nRecommendation:');
-  console.log('- Use SVG format for vector logos (best quality, smallest size)');
-  console.log('- Use PNG format at 256x256px for raster logos (consistent sizing)');
+  console.log('\nAll logos are now PNG format at 256x256px for consistent sizing.');
+  console.log('The Image component will display them at the same size (32px on cards, 48px on detail pages).');
 }
 
 optimizeLogos().catch(console.error);

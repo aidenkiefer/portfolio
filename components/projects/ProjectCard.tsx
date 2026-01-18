@@ -20,14 +20,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <div className="mb-3 flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 flex-1 min-w-0">
           {project.logo && (
-            <div className="flex-shrink-0 mt-0.5">
+            <div className="flex-shrink-0 mt-0.5" style={{ width: '48px', height: '48px' }}>
               <Image
                 src={project.logo}
                 alt=""
-                width={32}
-                height={32}
-                className="object-contain opacity-90"
-                style={{ maxWidth: '32px', height: 'auto' }}
+                width={48}
+                height={48}
+                className="object-contain"
+                style={{ width: '48px', height: '48px' }}
               />
             </div>
           )}

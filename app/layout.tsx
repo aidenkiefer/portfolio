@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
@@ -42,12 +42,15 @@ export const metadata: Metadata = {
     ],
   },
   manifest: '/site.webmanifest',
-  themeColor: '#1E3A5F',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
     title: siteConfig.name,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#1E3A5F',
 };
 
 export default function RootLayout({

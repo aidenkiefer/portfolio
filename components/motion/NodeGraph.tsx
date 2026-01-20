@@ -48,6 +48,7 @@ type Edge = {
   removeStart?: number; // when removal animation starts (undefined = not removing)
   addStart?: number; // when add animation starts (undefined = not adding)
   isActive: boolean; // whether edge is currently active/visible
+  lastUsedAt?: number; // timestamp when this edge was last active (for cooldown)
 };
 
 export function NodeGraph({
@@ -115,12 +116,32 @@ export function NodeGraph({
     };
 
     // Build initial edge list
+    // First, create edges based on nearest neighbors (initial connections)
     const allPossibleEdges: Edge[] = [];
     for (let i = 0; i < nodes.length; i++) {
       const nbrs = nearestIndices(nodes, i, maxConnections);
       for (const j of nbrs) {
         if (j <= i) continue; // prevent duplicates
         allPossibleEdges.push({ i, j, startOffset: 0, isActive: false });
+      }
+    }
+    
+    // Also add some additional potential edges between nodes that aren't nearest neighbors
+    // This gives us more variety for the cycling phase
+    const additionalEdgeCount = Math.floor(nodeCount * 0.5); // Add ~50% more potential edges
+    const existingEdgeKeys = new Set(
+      allPossibleEdges.map(e => `${Math.min(e.i, e.j)}-${Math.max(e.i, e.j)}`)
+    );
+    
+    for (let attempt = 0; attempt < additionalEdgeCount * 2 && allPossibleEdges.length < nodeCount * maxConnections * 1.5; attempt++) {
+      const i = Math.floor(Math.random() * nodes.length);
+      const j = Math.floor(Math.random() * nodes.length);
+      if (i === j) continue;
+      
+      const key = `${Math.min(i, j)}-${Math.max(i, j)}`;
+      if (!existingEdgeKeys.has(key)) {
+        allPossibleEdges.push({ i, j, startOffset: 0, isActive: false });
+        existingEdgeKeys.add(key);
       }
     }
 
@@ -148,19 +169,88 @@ export function NodeGraph({
       return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
     };
 
+    // Helper to get edge key (normalized for comparison)
+    const getEdgeKey = (i: number, j: number) => `${Math.min(i, j)}-${Math.max(i, j)}`;
+    
+    // Helper to check if a node has any active edges
+    const nodeHasActiveEdges = (nodeIdx: number): boolean => {
+      return edges.some(e => 
+        e.isActive && 
+        (e.i === nodeIdx || e.j === nodeIdx) &&
+        e.removeStart === undefined &&
+        e.addStart === undefined
+      );
+    };
+    
     // Helper to find a new edge to add (from unused edges)
-    const findNewEdgeToAdd = (): Edge | null => {
+    // Prioritizes edges between nodes that don't currently have active edges
+    const findNewEdgeToAdd = (currentTime: number): Edge | null => {
       const activeEdgeKeys = new Set(
-        edges.filter(e => e.isActive).map(e => `${Math.min(e.i, e.j)}-${Math.max(e.i, e.j)}`)
+        edges.filter(e => e.isActive).map(e => getEdgeKey(e.i, e.j))
       );
       
+      const COOLDOWN_SECONDS = 3.0; // Don't reuse an edge within 3 seconds
+      const now = currentTime;
+      
+      // Build list of candidate edges (not currently active)
+      const candidates: Array<{ edge: Edge; key: string; priority: number }> = [];
+      
       for (const edge of allPossibleEdges) {
-        const key = `${Math.min(edge.i, edge.j)}-${Math.max(edge.i, edge.j)}`;
-        if (!activeEdgeKeys.has(key)) {
-          return { ...edge, isActive: false, addStart: undefined };
+        const key = getEdgeKey(edge.i, edge.j);
+        
+        // Skip if currently active
+        if (activeEdgeKeys.has(key)) continue;
+        
+        // Check cooldown: find if this edge was recently used
+        const existingEdge = edges.find(e => getEdgeKey(e.i, e.j) === key);
+        if (existingEdge?.lastUsedAt !== undefined) {
+          const timeSinceLastUse = now - existingEdge.lastUsedAt;
+          if (timeSinceLastUse < COOLDOWN_SECONDS) {
+            continue; // Skip edges in cooldown
+          }
         }
+        
+        // Calculate priority:
+        // Higher priority for edges between nodes that have NO active edges
+        // This ensures we introduce connections to previously unconnected nodes
+        const nodeIHasEdges = nodeHasActiveEdges(edge.i);
+        const nodeJHasEdges = nodeHasActiveEdges(edge.j);
+        
+        let priority = 0;
+        if (!nodeIHasEdges && !nodeJHasEdges) {
+          priority = 3; // Both nodes unconnected - highest priority
+        } else if (!nodeIHasEdges || !nodeJHasEdges) {
+          priority = 2; // One node unconnected - medium priority
+        } else {
+          priority = 1; // Both nodes already connected - lower priority
+        }
+        
+        candidates.push({ edge, key, priority });
       }
-      return null;
+      
+      if (candidates.length === 0) return null;
+      
+      // Sort by priority (highest first), then by distance (shorter first)
+      candidates.sort((a, b) => {
+        if (b.priority !== a.priority) {
+          return b.priority - a.priority; // Higher priority first
+        }
+        // If same priority, prefer shorter edges
+        const distA = getEdgeDistance(a.edge);
+        const distB = getEdgeDistance(b.edge);
+        return distA - distB;
+      });
+      
+      // Pick from top candidates (top 30% to add some variety)
+      const topCandidates = candidates.slice(0, Math.max(1, Math.ceil(candidates.length * 0.3)));
+      const selected = topCandidates[Math.floor(Math.random() * topCandidates.length)];
+      
+      return { 
+        ...selected.edge, 
+        isActive: false, 
+        addStart: undefined,
+        lastUsedAt: undefined // Will be set when it becomes active
+      };
     };
 
     let raf = 0;
@@ -213,10 +303,12 @@ export function NodeGraph({
           const removeIdx = edges.findIndex(e => e === toRemove);
           if (removeIdx >= 0) {
             edges[removeIdx].removeStart = t;
+            // Mark when this edge was last used (for cooldown tracking)
+            edges[removeIdx].lastUsedAt = t;
           }
 
-          // Add new edge
-          const newEdge = findNewEdgeToAdd();
+          // Add new edge (with cooldown check)
+          const newEdge = findNewEdgeToAdd(t);
           if (newEdge) {
             edges.push({
               ...newEdge,
@@ -279,6 +371,7 @@ export function NodeGraph({
           if (drawP >= 1) {
             edge.isActive = true;
             edge.addStart = undefined;
+            edge.lastUsedAt = t; // Track when this edge became active
             drawP = 1;
           }
         }

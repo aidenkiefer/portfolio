@@ -54,7 +54,7 @@ export function getProjectsWithLogos(): Project[] {
   // Return the three specific projects with logos in a specific order
   const logoProjectSlugs = [
     'n2-water-ecommerce-storefront',
-    'thrive-vineyard-website',
+    'relational-database-design-normalization',
     'tender-heart-vintage',
   ];
   

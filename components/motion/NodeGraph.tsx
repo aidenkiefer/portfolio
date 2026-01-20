@@ -45,6 +45,9 @@ type Edge = {
   i: number;
   j: number;
   startOffset: number; // stagger delay in seconds
+  removeStart?: number; // when removal animation starts (undefined = not removing)
+  addStart?: number; // when add animation starts (undefined = not adding)
+  isActive: boolean; // whether edge is currently active/visible
 };
 
 export function NodeGraph({
@@ -86,13 +89,13 @@ export function NodeGraph({
 
     const rand = (a: number, b: number) => a + Math.random() * (b - a);
 
-    // Create nodes with staggered "birth" times
+    // Create nodes with staggered "birth" times (doubled timing)
     const nodes: Node[] = Array.from({ length: nodeCount }, (_, i) => ({
       x: rand(20, cssW - 20),
       y: rand(20, cssH - 20),
       vx: rand(-1, 1) * speed,
       vy: rand(-1, 1) * speed,
-      bornAt: i * 0.15, // 150ms stagger (slower, more noticeable)
+      bornAt: i * 0.30, // 300ms stagger (doubled from 150ms)
     }));
 
     // Nearest neighbor helper (used only at init)
@@ -111,18 +114,18 @@ export function NodeGraph({
       return dists.slice(0, maxConnections).map((p) => p.j);
     };
 
-    // Build stable edge list ONCE (not recomputed every frame)
-    const edges: Edge[] = [];
+    // Build initial edge list
+    const allPossibleEdges: Edge[] = [];
     for (let i = 0; i < nodes.length; i++) {
       const nbrs = nearestIndices(nodes, i, maxConnections);
       for (const j of nbrs) {
         if (j <= i) continue; // prevent duplicates
-        edges.push({ i, j, startOffset: 0 });
+        allPossibleEdges.push({ i, j, startOffset: 0, isActive: false });
       }
     }
 
     // Sort edges by distance (short edges first for clean build)
-    edges.sort((e1, e2) => {
+    allPossibleEdges.sort((e1, e2) => {
       const a1 = nodes[e1.i], b1 = nodes[e1.j];
       const a2 = nodes[e2.i], b2 = nodes[e2.j];
       const d1 = (a1.x - b1.x) ** 2 + (a1.y - b1.y) ** 2;
@@ -130,14 +133,41 @@ export function NodeGraph({
       return d1 - d2;
     });
 
-    // Apply global stagger (sequential)
-    const globalStagger = 0.018;
-    edges.forEach((e, idx) => {
-      e.startOffset = idx * globalStagger;
-    });
+    // Start with initial edges (first N edges)
+    const initialEdgeCount = Math.min(allPossibleEdges.length, nodeCount * maxConnections);
+    const edges: Edge[] = allPossibleEdges.slice(0, initialEdgeCount).map((e, idx) => ({
+      ...e,
+      isActive: true,
+      startOffset: idx * 0.036, // doubled from 0.018
+    }));
+
+    // Helper to get distance between two nodes
+    const getEdgeDistance = (e: Edge) => {
+      const a = nodes[e.i];
+      const b = nodes[e.j];
+      return (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+    };
+
+    // Helper to find a new edge to add (from unused edges)
+    const findNewEdgeToAdd = (): Edge | null => {
+      const activeEdgeKeys = new Set(
+        edges.filter(e => e.isActive).map(e => `${Math.min(e.i, e.j)}-${Math.max(e.i, e.j)}`)
+      );
+      
+      for (const edge of allPossibleEdges) {
+        const key = `${Math.min(edge.i, edge.j)}-${Math.max(edge.i, edge.j)}`;
+        if (!activeEdgeKeys.has(key)) {
+          return { ...edge, isActive: false, addStart: undefined };
+        }
+      }
+      return null;
+    };
 
     let raf = 0;
     const start = performance.now();
+    let cyclePhase: 'building' | 'cycling' = 'building';
+    let lastCycleAction = 0;
+    const cycleInterval = 0.8; // time between add/remove actions
 
     const draw = (now: number) => {
       const t = (now - start) / 1000;
@@ -148,15 +178,66 @@ export function NodeGraph({
       const baseNodeAlpha = 0.55;
       const baseEdgeAlpha = 0.22;
 
-      // Edge animation parameters
-      const edgeBaseDelay = 0.25;     // longer pause after nodes appear (increased from 0.08)
-      const edgeDuration = 0.85;      // slower draw time (increased from 0.55)
+      // Edge animation parameters (doubled timing)
+      const edgeBaseDelay = 0.50;     // doubled from 0.25
+      const edgeDuration = 1.70;      // doubled from 0.85
 
-      // Update positions (optional drift)
+      // Calculate when all initial edges should be done drawing
+      const lastNodeBorn = Math.max(...nodes.map(n => n.bornAt));
+      const lastEdgeStart = lastNodeBorn + edgeBaseDelay + edges[edges.length - 1]?.startOffset || 0;
+      const allEdgesDrawnTime = lastEdgeStart + edgeDuration;
+
+      // Transition to cycling phase
+      if (cyclePhase === 'building' && t >= allEdgesDrawnTime) {
+        cyclePhase = 'cycling';
+        lastCycleAction = t;
+      }
+
+      // Handle edge cycling (add/remove)
+      if (cyclePhase === 'cycling' && !reducedMotion && t - lastCycleAction >= cycleInterval) {
+        // Get edges that are fully active (not being added or removed)
+        const fullyActiveEdges = edges.filter(e => 
+          e.isActive && 
+          e.removeStart === undefined && 
+          e.addStart === undefined
+        );
+        
+        if (fullyActiveEdges.length > 0) {
+          // Sort active edges by current distance (longest first)
+          const sortedByDistance = [...fullyActiveEdges].sort((e1, e2) => {
+            return getEdgeDistance(e2) - getEdgeDistance(e1);
+          });
+
+          // Remove longest edge
+          const toRemove = sortedByDistance[0];
+          const removeIdx = edges.findIndex(e => e === toRemove);
+          if (removeIdx >= 0) {
+            edges[removeIdx].removeStart = t;
+          }
+
+          // Add new edge
+          const newEdge = findNewEdgeToAdd();
+          if (newEdge) {
+            edges.push({
+              ...newEdge,
+              addStart: t,
+              startOffset: 0,
+            });
+          }
+        }
+        
+        lastCycleAction = t;
+      }
+
+      // Determine if we're still in the edge drawing phase
+      const isDrawingPhase = t < allEdgesDrawnTime;
+      const nodeSpeedMultiplier = isDrawingPhase ? 0.5 : 1.0; // 50% speed during drawing
+
+      // Update positions (optional drift, slower during drawing phase)
       if (!reducedMotion && speed > 0) {
         for (const n of nodes) {
-          n.x += n.vx;
-          n.y += n.vy;
+          n.x += n.vx * nodeSpeedMultiplier;
+          n.y += n.vy * nodeSpeedMultiplier;
 
           // bounce inside bounds
           if (n.x < 16 || n.x > cssW - 16) n.vx *= -1;
@@ -164,26 +245,55 @@ export function NodeGraph({
         }
       }
 
-      // Draw edges first (so nodes sit on top) - using stable edge list
+      // Draw edges first (so nodes sit on top)
       for (const edge of edges) {
         const a = nodes[edge.i];
         const b = nodes[edge.j];
 
         // Both nodes must be born before edge can start
-        const bornA = reducedMotion ? 1 : clamp01((t - a.bornAt) / 0.7);
-        const bornB = reducedMotion ? 1 : clamp01((t - b.bornAt) / 0.7);
+        const bornA = reducedMotion ? 1 : clamp01((t - a.bornAt) / 1.4); // doubled from 0.7
+        const bornB = reducedMotion ? 1 : clamp01((t - b.bornAt) / 1.4); // doubled from 0.7
         
         if (bornA <= 0 || bornB <= 0) continue;
 
-        // Compute edge start time (after both nodes appear + delay + stagger)
-        const edgeStart =
-          Math.max(a.bornAt, b.bornAt) +
-          edgeBaseDelay +
-          edge.startOffset;
+        let drawP = 0;
+        let isRemoving = false;
+        let isAdding = false;
 
-        // Compute draw progress with easing
-        const raw = (t - edgeStart) / edgeDuration;
-        const drawP = reducedMotion ? 1 : clamp01(raw);
+        // Handle removal animation
+        if (edge.removeStart !== undefined) {
+          isRemoving = true;
+          const removeRaw = (t - edge.removeStart) / edgeDuration;
+          drawP = reducedMotion ? 0 : clamp01(1 - removeRaw); // reverse animation
+          if (drawP <= 0) {
+            edge.isActive = false;
+            edge.removeStart = undefined;
+            continue; // edge is fully removed
+          }
+        }
+        // Handle add animation
+        else if (edge.addStart !== undefined) {
+          isAdding = true;
+          const addRaw = (t - edge.addStart) / edgeDuration;
+          drawP = reducedMotion ? 1 : clamp01(addRaw);
+          if (drawP >= 1) {
+            edge.isActive = true;
+            edge.addStart = undefined;
+            drawP = 1;
+          }
+        }
+        // Handle initial build animation
+        else if (edge.isActive) {
+          const edgeStart =
+            Math.max(a.bornAt, b.bornAt) +
+            edgeBaseDelay +
+            edge.startOffset;
+          const raw = (t - edgeStart) / edgeDuration;
+          drawP = reducedMotion ? 1 : clamp01(raw);
+        } else {
+          continue; // edge not active and not animating
+        }
+
         const p = easeOutCubic(drawP);
 
         // Interpolate endpoint for draw-on effect
@@ -203,7 +313,7 @@ export function NodeGraph({
         ctx.stroke();
 
         // Optional: traveling dot head (motion graphics flourish)
-        if (!reducedMotion && drawP < 1) {
+        if (!reducedMotion && drawP < 1 && drawP > 0 && !isRemoving) {
           ctx.beginPath();
           ctx.arc(ex, ey, 1.8, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 1.2})`;
@@ -213,7 +323,7 @@ export function NodeGraph({
 
       // Draw nodes
       for (const n of nodes) {
-        const born = reducedMotion ? 1 : clamp01((t - n.bornAt) / 1.2); // Slower fade-in (increased from 0.7)
+        const born = reducedMotion ? 1 : clamp01((t - n.bornAt) / 2.4); // doubled from 1.2
         if (born <= 0) continue;
 
         const r = 2.2 + (1 - born) * 1.8; // start a bit bigger, settle smaller

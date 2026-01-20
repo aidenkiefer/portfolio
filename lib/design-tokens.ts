@@ -1,5 +1,5 @@
 // design-tokens.ts
-// Single source of truth for the site’s visual system.
+// Single source of truth for the site's visual system.
 // Keep these values stable; update intentionally and propagate via imports.
 
 export const designTokens = {
@@ -92,7 +92,7 @@ export const designTokens = {
         relaxed: 1.65,
       },
   
-      // Letter spacing (subtle; avoid “designy” tracking)
+      // Letter spacing (subtle; avoid "designy" tracking)
       letterSpacing: {
         tighter: "-0.02em",
         normal: "0em",
@@ -193,4 +193,3 @@ export const designTokens = {
       "--measure-wide": tokens.typography.measure.wide,
     } as const;
   }
-  

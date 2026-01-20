@@ -46,7 +46,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="mb-2">
           <p className="text-[10px] text-text-secondary uppercase tracking-wide mb-1.5">Stack</p>
           <BadgeRow>
-            {project.stack.map((tech) => (
+            {project.stack.slice(0, 5).map((tech) => (
               <SearchableBadge key={tech} tag={tech}>
                 {tech}
               </SearchableBadge>
@@ -58,7 +58,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div>
           <p className="text-[10px] text-text-secondary uppercase tracking-wide mb-1.5">Topics</p>
           <BadgeRow>
-            {project.tags.map((tag) => (
+            {project.tags.slice(0, 7).map((tag) => (
               <SearchableBadge key={tag} tag={tag}>
                 {tag}
               </SearchableBadge>

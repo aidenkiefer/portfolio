@@ -6,7 +6,6 @@ import { Container } from '@/components/layout/Container';
 import { getBlogBySlug, getAllBlogs } from '@/lib/content/blogs';
 import { generateMetadata as generateSEOMetadata } from '@/lib/seo';
 import { mdxComponents } from '@/components/mdx/MDXComponents';
-import { BlogEditor } from '@/components/blog/BlogEditor';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
@@ -100,24 +99,6 @@ export default async function BlogPostPage({
           />
         </div>
       </article>
-
-      <BlogEditor
-        slug={slug}
-        initialContent={blog.content || ''}
-        onSave={async (content: string) => {
-          const response = await fetch('/api/blog/edit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ slug, content }),
-          });
-          if (!response.ok) {
-            const data = await response.json();
-            throw new Error(data.error || 'Failed to save');
-          }
-          // Reload the page to show updated content
-          window.location.reload();
-        }}
-      />
     </Container>
   );
 }

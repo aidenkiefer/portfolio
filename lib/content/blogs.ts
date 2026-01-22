@@ -24,14 +24,9 @@ export function getAllBlogs(): Blog[] {
       } as Blog;
     });
 
-  // Sort: featured first, then by date (newest first)
-  return blogs.sort((a, b) => {
-    // Featured blogs come first
-    if (a.featured && !b.featured) return -1;
-    if (!a.featured && b.featured) return 1;
-    // Then sort by date (newest first)
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  // Return blogs unsorted - BlogList component will handle sorting
+  // This ensures the sorting UI works correctly
+  return blogs;
 }
 
 export function getFeaturedBlogs(): Blog[] {
@@ -39,17 +34,28 @@ export function getFeaturedBlogs(): Blog[] {
 }
 
 export function getBlogBySlug(slug: string): Blog | null {
-  const filePath = path.join(blogsDirectory, `${slug}.mdx`);
-  
-  if (!fs.existsSync(filePath)) {
+  if (!fs.existsSync(blogsDirectory)) {
     return null;
   }
 
-  const fileContents = fs.readFileSync(filePath, 'utf8');
-  const { data, content } = matter(fileContents);
+  const fileNames = fs.readdirSync(blogsDirectory);
+  
+  // Search through all blog files to find one with matching slug
+  for (const fileName of fileNames) {
+    if (!fileName.endsWith('.mdx')) continue;
+    
+    const filePath = path.join(blogsDirectory, fileName);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const { data, content } = matter(fileContents);
+    
+    // Check if this file's slug matches
+    if (data.slug === slug) {
+      return {
+        ...(data as Omit<Blog, 'content'>),
+        content,
+      } as Blog;
+    }
+  }
 
-  return {
-    ...(data as Omit<Blog, 'content'>),
-    content,
-  } as Blog;
+  return null;
 }

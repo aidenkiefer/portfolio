@@ -1,0 +1,135 @@
+---
+title: "Exploring Memvid: Video-Based Memory for AI Systems"
+slug: "exploring-memvid-video-based-memory"
+date: "2026-01-10"
+excerpt: "A first look at Memvid, an experimental open-source project that explores storing semantic memory as compressed video instead of traditional vector databases."
+tags: ["AI Systems", "Machine Learning", "Embeddings", "Experimental Tech", "Accessibility", "Vector Databases", "Semantic Search", "System Design", "Architecture", "Local Storage", "Open Source", "Research", "Innovation", "Alternative Approaches", "Data Storage", "Memory Systems", "QR Codes", "Video Encoding"]
+---
+
+# Exploring Memvid: Video-Based Memory for AI Systems
+
+Recently, I came across an open-source project called **Memvid**, which takes a very unconventional approach to long-term memory for AI systems. I wouldn’t call myself an expert on it by any means, but after skimming the docs, reading through the repository, and experimenting with a small example, I found the core idea interesting enough to keep thinking about.
+
+Memvid isn’t positioned as a polished production tool; it feels more like an exploration of a design space. That’s exactly the kind of project that tends to stick with me.
+
+---
+
+## What is Memvid?
+
+At a high level, Memvid is a **video-based memory system** for AI applications.
+
+Instead of storing embeddings in a hosted vector database, the system takes a different path:
+
+```documents → embeddings → QR codes → video file → semantic search```
+
+More concretely, Memvid:
+
+- breaks text into chunks  
+- converts each chunk into an embedding  
+- encodes those embeddings as QR codes  
+- stitches the QR codes into a compressed video file (e.g., MP4)  
+
+That video file becomes the “memory store.” When a query is run, the video is decoded and searched to retrieve relevant chunks.
+
+It’s a strange idea on first read, but also kind of compelling once you sit with it.
+
+---
+
+## Why this caught my attention
+
+Most modern AI memory systems converge on similar architectures:
+
+- embeddings
+- vector databases
+- hosted services
+- indexing pipelines
+
+Memvid deliberately avoids that stack. Everything stays **local**, stored in a single artifact that can be copied, archived, or shared like any other media file.
+
+What stood out to me immediately:
+
+- No external database dependency  
+- Memory represented as a durable file  
+- A workflow that’s easy to reason about end-to-end  
+- An intentionally constrained, physical representation of memory  
+
+Even if this approach never becomes mainstream, it forces you to think differently about what “memory” actually means in AI systems.
+
+---
+
+## A very small example
+
+Here’s a simplified example based on what I experimented with after reading the docs.
+
+```python
+from memvid import Memvid
+
+mem = Memvid()
+
+# Add some documents
+mem.add_text("I studied databases, operating systems, and machine learning.")
+mem.add_text("My senior project focused on time-series forecasting.")
+mem.add_text("I enjoy systems design and performance optimization.")
+
+# Build the video-based memory
+mem.build("memory.mp4")
+
+# Run a query
+results = mem.find("What database topics did I study?", k=5)
+print(results["hits"])```
+
+## A use case I keep thinking about: accessibility and course materials
+
+One use case that stood out to me isn’t strictly “AI agent” related, but **student accessibility**.
+
+Course materials tend to be scattered across platforms:
+
+- lecture slides  
+- PDFs  
+- recorded videos  
+- discussion posts  
+- personal notes  
+
+For students with cognitive or learning disabilities, navigating that fragmentation can be exhausting. Even for students without accessibility needs, remembering *where* something was covered is often harder than understanding the content itself.
+
+I can imagine a workflow where:
+
+- course materials are chunked and embedded  
+- stored locally as a Memvid video file  
+- paired with structured metadata (course, week, topic)  
+- queried conversationally or via assistive tools  
+
+Instead of asking *“Which PDF was that in?”*, a student could ask:
+
+> “What did we cover about database normalization before the midterm?”
+
+And receive grounded, source-linked answers, without relying on cloud-hosted services, accounts, or complex infrastructure.
+
+Even if Memvid itself isn’t the final solution, the idea of **portable, local semantic memory** feels especially relevant in accessibility-focused contexts.
+
+---
+
+## Limitations and open questions
+
+There are real tradeoffs here, and I don’t want to gloss over them:
+
+- performance at scale is unclear  
+- video encoding and decoding introduces overhead  
+- observability and debugging look very different than traditional systems  
+- it’s not obvious how this fits into production pipelines  
+
+Memvid doesn’t pretend to solve all of these problems, and that’s okay.
+
+---
+
+## Why I’m glad projects like this exist
+
+What I appreciate most about Memvid is that it feels like a **question more than an answer**.
+
+- What if memory didn’t live in a database?  
+- What if portability mattered more than raw throughput?  
+- What if constraints actually led to clearer systems?  
+
+Even if I never use Memvid directly, it’s influenced how I think about AI systems, storage, and architectural tradeoffs. And for me, that alone makes it worth paying attention to.
+
+If nothing else, it’s a reminder that interesting engineering often starts by asking slightly uncomfortable questions.

@@ -18,25 +18,33 @@ export function BlogList({ blogs }: BlogListProps) {
   const [showSortMenu, setShowSortMenu] = useState(false);
 
   const sortedBlogs = useMemo(() => {
+    // Separate featured and non-featured blogs
     const featured = blogs.filter((blog) => blog.featured);
     const nonFeatured = blogs.filter((blog) => !blog.featured);
 
+    // Sort function based on selected option
     const sortFunction = (a: Blog, b: Blog) => {
       switch (sortBy) {
         case 'newest':
+          // Sort by date (newest first)
           return new Date(b.date).getTime() - new Date(a.date).getTime();
         case 'oldest':
+          // Sort by date (oldest first)
           return new Date(a.date).getTime() - new Date(b.date).getTime();
         case 'alphabetical':
+          // Sort alphabetically by title
           return a.title.localeCompare(b.title);
         default:
-          return 0;
+          // Default to newest first
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
       }
     };
 
+    // Sort each group separately
     const sortedFeatured = [...featured].sort(sortFunction);
     const sortedNonFeatured = [...nonFeatured].sort(sortFunction);
 
+    // Featured blogs always appear first, then non-featured
     return [...sortedFeatured, ...sortedNonFeatured];
   }, [blogs, sortBy]);
 

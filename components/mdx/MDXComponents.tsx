@@ -34,4 +34,12 @@ export const mdxComponents: MDXComponents = {
       {...props}
     />
   ),
+  div: (props: any) => {
+    // Handle divs with className for custom components like PDF embeds
+    if (props.className?.includes('my-8')) {
+      return <div {...props} />;
+    }
+    return <div {...props} />;
+  },
+  iframe: (props: any) => <iframe {...props} />,
 };

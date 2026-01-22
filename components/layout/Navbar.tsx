@@ -10,7 +10,7 @@ import { NavLink } from './NavLink';
 const navItems = [
   { href: '/projects', label: 'Projects' },
   { href: '/experience', label: 'Experience' },
-  { href: '/coursework', label: 'Coursework' },
+  { href: '/blog', label: 'Blog' },
   { href: '/strengths', label: 'About' },
   { href: '/resume', label: 'Resume' },
   { href: '/contact', label: 'Contact' },

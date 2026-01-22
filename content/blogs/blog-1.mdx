@@ -1,0 +1,139 @@
+---
+title: "What I Look for First When I’m Dropped Into an Unfamiliar Codebase"
+slug: "what-i-look-for-first-in-an-unfamiliar-codebase"
+date: "2025-10-22"
+excerpt: "A practical checklist I use to understand, debug, and contribute to an unfamiliar codebase as quickly and responsibly as possible."
+featured: true
+tags: ["Software Engineering", "Systems Thinking", "Debugging", "Codebases", "Architecture", "Onboarding", "Code Exploration", "Technical Analysis", "System Design", "Best Practices", "Entry Points", "Data Flow", "State Management"]
+---
+
+# What I Look for First When I’m Dropped Into an Unfamiliar Codebase
+
+Being dropped into an unfamiliar codebase can feel overwhelming, especially when it’s large, under-documented, or has been touched by many hands over time. Over the years, through coursework, personal projects, and real-world work, I’ve developed a mental checklist that helps me orient myself quickly and responsibly.
+
+This isn’t about finding bugs right away or refactoring everything in sight. It’s about understanding the *shape* of the system before trying to change it.
+
+Here’s what I look for first.
+
+---
+
+## 1. Entry Points: Where does this thing actually start?
+
+The very first question I ask is simple:
+
+> *What code runs first?*
+
+Depending on the system, this might be:
+- a `main()` function
+- a server entry file
+- a framework bootstrap file
+- a build or deployment script
+
+When I worked on **FaithTech’s ShareBibles project**, identifying the initial execution path was critical. Once I understood how requests entered the system and which components were responsible for handling them, the rest of the codebase became far less intimidating.
+
+Entry points tell you:
+- how control flows
+- what assumptions the system makes at startup
+- which parts of the codebase are “core” vs. peripheral
+
+---
+
+## 2. Build & Run Instructions: Can I get this running locally?
+
+Before I try to understand *everything*, I want to know if I can run the system end-to-end.
+
+I look for:
+- a README
+- setup scripts
+- environment variables
+- expected versions of tools or runtimes
+
+If the build process is unclear, that’s already valuable information. On **Thrive Vineyard’s website**, much of my early work involved making sure the project could be reliably built and run across environments, not just for me, but for future contributors.
+
+If I can’t run it, I can’t safely change it.
+
+---
+
+## 3. Data Flow: What moves through the system?
+
+Once it runs, I try to trace:
+- where data comes from
+- how it’s transformed
+- where it ends up
+
+This applies whether it’s:
+- user input in a web app
+- database queries
+- API responses
+- datasets in a machine learning pipeline
+
+In several higher-level CS courses, especially those focused on systems and data-heavy applications, I learned that understanding data flow often reveals *implicit architecture decisions* that aren’t written down anywhere.
+
+If you understand the data, you understand the system.
+
+---
+
+## 4. State Management: What persists, and where?
+
+State is where complexity hides.
+
+I look for:
+- global state
+- shared mutable data
+- caches
+- database-backed state
+- client vs. server state boundaries
+
+On web projects in particular, understanding how state is managed, and *why*, is often more important than any individual function or component.
+
+Poorly understood state leads to subtle bugs. Clearly defined state boundaries make systems easier to reason about and extend.
+
+---
+
+## 5. Tests (or the lack of them)
+
+Tests tell you two important things:
+1. what the original authors cared about
+2. what they were afraid of breaking
+
+If tests exist, I read them early. They often explain intended behavior better than comments.
+
+If they don’t exist, that also shapes how cautiously I move. In some cases, I’ll write small exploratory tests or scripts just to lock down behavior before making changes.
+
+Either way, tests (or their absence) inform *how* I should work in the codebase.
+
+---
+
+## 6. Naming and Structure: What story is the code telling?
+
+Finally, I zoom out.
+
+I look at:
+- directory structure
+- naming conventions
+- module boundaries
+- consistency (or inconsistency)
+
+Good naming and structure reduce cognitive load. Inconsistent or unclear structure tells me where the system may have grown organically or under time pressure.
+
+This doesn’t mean the code is “bad”, it just means I should tread carefully and try to match existing patterns before introducing new ones.
+
+---
+
+## Why this matters
+
+This approach isn’t about speed for its own sake. It’s about being a good collaborator.
+
+Before changing a system, I want to understand:
+- why it exists
+- how it evolved
+- what tradeoffs were made
+
+This mindset has helped me move between academic projects, volunteer work, and production systems without breaking things unnecessarily, and it pairs directly with how I approach my own projects and case studies today.
+
+Understanding comes first. Code comes second.
+
+---
+
+If you’re interested in how this mindset shows up in practice, many of the projects on this site include case studies where I walk through these exact steps in real systems.
+

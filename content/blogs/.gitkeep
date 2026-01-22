@@ -1,0 +1,11 @@
+# Blog posts go here
+# Create .mdx files with frontmatter:
+# ---
+# title: "Blog Post Title"
+# slug: "blog-post-slug"
+# date: "2025-01-15"
+# excerpt: "A brief excerpt of the blog post"
+# tags: ["tag1", "tag2"]
+# ---
+# 
+# Your blog content here...

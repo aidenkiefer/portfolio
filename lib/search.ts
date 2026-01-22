@@ -1,9 +1,10 @@
 import { Project } from '@/types/content';
 import { Experience } from '@/types/content';
+import { Blog } from '@/types/content';
 
 export interface SearchResult {
-  type: 'project' | 'experience';
-  item: Project | Experience;
+  type: 'project' | 'experience' | 'blog';
+  item: Project | Experience | Blog;
   relevanceScore: number;
   matchedFields: string[];
 }
@@ -12,7 +13,7 @@ export interface SearchResult {
  * Calculate relevance score for a search result
  */
 function calculateRelevanceScore(
-  item: Project | Experience,
+  item: Project | Experience | Blog,
   query: string,
   tag?: string
 ): { score: number; matchedFields: string[] } {
@@ -22,8 +23,8 @@ function calculateRelevanceScore(
 
   if (tag) {
     // Exact tag match gets highest score
-    const itemTags = 'tags' in item ? item.tags : [];
-    const itemStack = 'stack' in item ? item.stack : 'techStack' in item ? item.techStack : [];
+    const itemTags = 'tags' in item ? (item.tags || []) : [];
+    const itemStack = 'stack' in item ? (item.stack || []) : 'techStack' in item ? (item.techStack || []) : [];
     const allTags = [...itemTags, ...itemStack];
     
     if (allTags.some(t => t.toLowerCase() === tag.toLowerCase())) {
@@ -40,6 +41,14 @@ function calculateRelevanceScore(
       matchedFields.push('title');
     }
 
+    // Excerpt match (for blogs)
+    if ('excerpt' in item && item.excerpt) {
+      if (item.excerpt.toLowerCase().includes(queryLower)) {
+        score += 35;
+        matchedFields.push('excerpt');
+      }
+    }
+
     // Company name match (for experience)
     if ('company' in item && item.company.toLowerCase().includes(queryLower)) {
       score += 40;
@@ -48,14 +57,14 @@ function calculateRelevanceScore(
 
     // Summary/description match
     const summary = 'summary' in item ? item.summary : '';
-    if (summary.toLowerCase().includes(queryLower)) {
+    if (summary && summary.toLowerCase().includes(queryLower)) {
       score += 30;
       matchedFields.push('summary');
     }
 
     // Tag/stack match
-    const tags = 'tags' in item ? item.tags : [];
-    const stack = 'stack' in item ? item.stack : 'techStack' in item ? item.techStack : [];
+    const tags = 'tags' in item ? (item.tags || []) : [];
+    const stack = 'stack' in item ? (item.stack || []) : 'techStack' in item ? (item.techStack || []) : [];
     const allTech = [...tags, ...stack];
     
     const matchingTech = allTech.filter(tech => 
@@ -91,14 +100,15 @@ function calculateRelevanceScore(
 }
 
 /**
- * Search through projects and experience
+ * Search through projects, experience, and blogs
  */
 export function searchContent(
   projects: Project[],
   experiences: Experience[],
+  blogs: Blog[],
   query: string = '',
   tag: string = '',
-  type?: 'project' | 'experience'
+  type?: 'project' | 'experience' | 'blog'
 ): SearchResult[] {
   const results: SearchResult[] = [];
 
@@ -151,14 +161,34 @@ export function searchContent(
     });
   }
 
+  // Search blogs
+  if (!type || type === 'blog') {
+    blogs.forEach((blog) => {
+      const { score, matchedFields } = calculateRelevanceScore(
+        blog,
+        normalizedQuery,
+        normalizedTag
+      );
+
+      if (score > 0) {
+        results.push({
+          type: 'blog',
+          item: blog,
+          relevanceScore: score,
+          matchedFields,
+        });
+      }
+    });
+  }
+
   // Sort by relevance score (descending)
   return results.sort((a, b) => b.relevanceScore - a.relevanceScore);
 }
 
 /**
- * Get all unique tags from projects and experience
+ * Get all unique tags from projects, experience, and blogs
  */
-export function getAllTags(projects: Project[], experiences: Experience[]): string[] {
+export function getAllTags(projects: Project[], experiences: Experience[], blogs: Blog[]): string[] {
   const tags = new Set<string>();
   
   projects.forEach((project) => {
@@ -168,6 +198,10 @@ export function getAllTags(projects: Project[], experiences: Experience[]): stri
 
   experiences.forEach((exp) => {
     exp.techStack?.forEach(tech => tags.add(tech));
+  });
+
+  blogs.forEach((blog) => {
+    blog.tags?.forEach(tag => tags.add(tag));
   });
 
   return Array.from(tags).sort();

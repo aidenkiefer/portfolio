@@ -46,6 +46,16 @@ export interface Skill {
   experienceLinks?: string[];
 }
 
+export interface Blog {
+  title: string;
+  slug: string;
+  date: string;
+  excerpt: string;
+  featured?: boolean;
+  tags?: string[];
+  content?: string;
+}
+
 export interface SiteConfig {
   name: string;
   title: string;

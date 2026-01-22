@@ -16,10 +16,10 @@ export default function SearchPage() {
   const router = useRouter();
   const queryParam = searchParams.get('q') || '';
   const tagParam = searchParams.get('tag') || '';
-  const typeParam = searchParams.get('type') as 'project' | 'experience' | null;
+  const typeParam = searchParams.get('type') as 'project' | 'experience' | 'blog' | null;
 
   const [searchQuery, setSearchQuery] = useState(queryParam);
-  const [selectedType, setSelectedType] = useState<'project' | 'experience' | 'all'>(typeParam || 'all');
+  const [selectedType, setSelectedType] = useState<'project' | 'experience' | 'blog' | 'all'>(typeParam || 'all');
 
   // Update state when URL params change
   useEffect(() => {
@@ -64,6 +64,7 @@ export default function SearchPage() {
 
   const projectResults = results.filter(r => r.type === 'project') as SearchResult[];
   const experienceResults = results.filter(r => r.type === 'experience') as SearchResult[];
+  const blogResults = results.filter(r => r.type === 'blog') as SearchResult[];
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,7 +84,7 @@ export default function SearchPage() {
         </div>
         <div className="max-w-prose mb-6 sm:mb-8">
           <p className="text-sm text-text-secondary leading-relaxed">
-            Search through projects and experience by keyword or technology. Click on any tag to filter by that technology.
+            Search through projects, experience, and blog posts by keyword or technology. Click on any tag to filter by that technology.
           </p>
         </div>
 
@@ -142,6 +143,17 @@ export default function SearchPage() {
               }`}
             >
               Experience
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedType('blog')}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                selectedType === 'blog'
+                  ? 'bg-accent-primary text-white'
+                  : 'bg-background border border-border text-text-secondary hover:border-accent-primary'
+              }`}
+            >
+              Blog
             </button>
           </div>
         </form>
@@ -258,6 +270,66 @@ export default function SearchPage() {
                         </BadgeRow>
                       </div>
                     </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
+          {/* Blog Results */}
+          {blogResults.length > 0 && (
+            <section>
+              <div className="mb-6 sm:mb-8 flex items-center gap-3">
+                <ChipMark className="h-10 w-10 text-text-secondary flex-shrink-0" />
+                <h2 className="text-xl sm:text-2xl font-semibold text-text-primary tracking-tight">
+                  Blog Posts ({blogResults.length})
+                </h2>
+              </div>
+              <div className="space-y-8 sm:space-y-12">
+                {blogResults.map((result) => {
+                  const blog = result.item as any;
+                  return (
+                    <article
+                      key={blog.slug}
+                      className="group block rounded-md border border-border bg-background p-8 transition-all duration-200 ease-out hover:border-accent-primary"
+                      style={{
+                        boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
+                      }}
+                    >
+                      <Link href={`/blog/${blog.slug}`}>
+                        <div className="mb-4 flex items-start justify-between gap-4">
+                          <time className="text-sm text-text-secondary font-mono">
+                            {new Date(blog.date).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            })}
+                          </time>
+                          {blog.featured && (
+                            <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-text-secondary flex-shrink-0">
+                              Featured
+                            </span>
+                          )}
+                        </div>
+                        <h3 className="text-2xl font-semibold text-text-primary mb-4 group-hover:text-accent-primary transition-colors duration-200 ease-out">
+                          {blog.title}
+                        </h3>
+                        <p className="text-text-secondary leading-relaxed mb-6">
+                          {blog.excerpt}
+                        </p>
+                        {blog.tags && blog.tags.length > 0 && (
+                          <div className="pt-4 border-t border-border">
+                            <BadgeRow>
+                              {blog.tags.map((tag: string) => (
+                                <SearchableBadge key={tag} tag={tag}>
+                                  {tag}
+                                </SearchableBadge>
+                              ))}
+                            </BadgeRow>
+                          </div>
+                        )}
+                      </Link>
+                    </article>
                   );
                 })}
               </div>

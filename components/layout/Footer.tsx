@@ -21,7 +21,14 @@ export function Footer() {
             <p className="text-sm text-text-secondary">
               © {new Date().getFullYear()} {siteConfig.name}
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="text-text-secondary hover:text-accent-primary transition-colors duration-200 ease-out"
+                aria-label="Admin login"
+              >
+                <ChipMark className="h-5 w-5" />
+              </button>
               {siteConfig.links.github && (
                 <Link
                   href={siteConfig.links.github}
@@ -53,17 +60,6 @@ export function Footer() {
             </div>
           </div>
         </Container>
-        
-        {/* Admin Login Button - Bottom Right */}
-        <button
-          onClick={() => setShowLoginModal(true)}
-          className="absolute bottom-6 right-6 z-40 p-3 rounded-full bg-background border border-border transition-colors duration-200 ease-out hover:border-accent-primary/30 group"
-          aria-label="Admin login"
-        >
-          <ChipMark 
-            className="h-8 w-8 text-text-secondary transition-colors duration-200 ease-out group-hover:text-accent-primary"
-          />
-        </button>
       </footer>
       
       <AdminLoginModal 

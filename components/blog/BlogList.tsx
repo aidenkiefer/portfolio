@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { BadgeRow } from '@/components/common/BadgeRow';
 import { SearchableBadge } from '@/components/common/SearchableBadge';
 import { Blog } from '@/types/content';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 type SortOption = 'newest' | 'oldest' | 'alphabetical';
 
@@ -16,12 +16,9 @@ interface BlogListProps {
 export function BlogList({ blogs }: BlogListProps) {
   const [sortBy, setSortBy] = useState<SortOption>('newest');
   const [showSortMenu, setShowSortMenu] = useState(false);
+  const [expandedTags, setExpandedTags] = useState<Set<string>>(new Set());
 
   const sortedBlogs = useMemo(() => {
-    // Separate featured and non-featured blogs
-    const featured = blogs.filter((blog) => blog.featured);
-    const nonFeatured = blogs.filter((blog) => !blog.featured);
-
     // Sort function based on selected option
     const sortFunction = (a: Blog, b: Blog) => {
       switch (sortBy) {
@@ -40,12 +37,17 @@ export function BlogList({ blogs }: BlogListProps) {
       }
     };
 
-    // Sort each group separately
-    const sortedFeatured = [...featured].sort(sortFunction);
-    const sortedNonFeatured = [...nonFeatured].sort(sortFunction);
+    // If sorting by 'newest' (default), show featured first, then sort everything
+    if (sortBy === 'newest') {
+      const featured = blogs.filter((blog) => blog.featured);
+      const nonFeatured = blogs.filter((blog) => !blog.featured);
+      const sortedFeatured = [...featured].sort(sortFunction);
+      const sortedNonFeatured = [...nonFeatured].sort(sortFunction);
+      return [...sortedFeatured, ...sortedNonFeatured];
+    }
 
-    // Featured blogs always appear first, then non-featured
-    return [...sortedFeatured, ...sortedNonFeatured];
+    // For other sort options, sort all blogs together (featured doesn't get special treatment)
+    return [...blogs].sort(sortFunction);
   }, [blogs, sortBy]);
 
   const sortLabels: Record<SortOption, string> = {
@@ -105,50 +107,89 @@ export function BlogList({ blogs }: BlogListProps) {
           </div>
         </div>
       )}
-      <div className="space-y-8 sm:space-y-12">
-        {sortedBlogs.map((blog) => (
-          <article
-            key={blog.slug}
-            className="group block rounded-md border border-border bg-background p-8 transition-all duration-200 ease-out hover:border-accent-primary"
-            style={{
-              boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
-            }}
-          >
-            <Link href={`/blog/${blog.slug}`}>
-              <div className="mb-4 flex items-start justify-between gap-4">
-                <time className="text-sm text-text-secondary font-mono">
-                  {new Date(blog.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </time>
-                {blog.featured && (
-                  <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-text-secondary flex-shrink-0">
-                    Featured
-                  </span>
-                )}
-              </div>
-              <h2 className="text-2xl font-semibold text-text-primary mb-4 group-hover:text-accent-primary transition-colors duration-200 ease-out">
-                {blog.title}
-              </h2>
-              <p className="text-text-secondary leading-relaxed mb-6">
-                {blog.excerpt}
-              </p>
-              {blog.tags && blog.tags.length > 0 && (
-                <div className="pt-4 border-t border-border">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
+        {sortedBlogs.map((blog) => {
+          // Sort tags alphabetically (as a proxy for relevance/importance)
+          const sortedTags = blog.tags ? [...blog.tags].sort((a, b) => a.localeCompare(b)) : [];
+          const isExpanded = expandedTags.has(blog.slug);
+          const MAX_TAGS = 10;
+          const visibleTags = isExpanded ? sortedTags : sortedTags.slice(0, MAX_TAGS);
+          const hasMoreTags = sortedTags.length > MAX_TAGS;
+
+          return (
+            <article
+              key={blog.slug}
+              className="group block rounded-md border border-border bg-background p-8 transition-all duration-200 ease-out hover:border-accent-primary flex flex-col"
+              style={{
+                boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
+              }}
+            >
+              <Link href={`/blog/${blog.slug}`} className="flex-grow">
+                <div className="mb-4 flex items-start justify-between gap-4">
+                  <time className="text-sm text-text-secondary font-mono">
+                    {new Date(blog.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                  {blog.featured && (
+                    <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-text-secondary flex-shrink-0">
+                      Featured
+                    </span>
+                  )}
+                </div>
+                <h2 className="text-2xl font-semibold text-text-primary mb-4 group-hover:text-accent-primary transition-colors duration-200 ease-out">
+                  {blog.title}
+                </h2>
+                <p className="text-text-secondary leading-relaxed mb-6">
+                  {blog.excerpt}
+                </p>
+              </Link>
+              {sortedTags.length > 0 && (
+                <div className="pt-4 border-t border-border mt-auto">
                   <BadgeRow>
-                    {blog.tags.map((tag) => (
+                    {visibleTags.map((tag) => (
                       <SearchableBadge key={tag} tag={tag}>
                         {tag}
                       </SearchableBadge>
                     ))}
                   </BadgeRow>
+                  {hasMoreTags && (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setExpandedTags((prev) => {
+                          const next = new Set(prev);
+                          if (isExpanded) {
+                            next.delete(blog.slug);
+                          } else {
+                            next.add(blog.slug);
+                          }
+                          return next;
+                        });
+                      }}
+                      className="mt-3 flex items-center gap-1 text-xs text-text-secondary hover:text-accent-primary transition-colors duration-200 ease-out"
+                    >
+                      {isExpanded ? (
+                        <>
+                          Show less
+                          <ChevronRight className="h-3 w-3 -rotate-90" />
+                        </>
+                      ) : (
+                        <>
+                          See {sortedTags.length - MAX_TAGS} more
+                          <ChevronRight className="h-3 w-3 rotate-90" />
+                        </>
+                      )}
+                    </button>
+                  )}
                 </div>
               )}
-            </Link>
-          </article>
-        ))}
+            </article>
+          );
+        })}
       </div>
     </>
   );

@@ -6,6 +6,8 @@ import { Container } from '@/components/layout/Container';
 import { getBlogBySlug, getAllBlogs } from '@/lib/content/blogs';
 import { generateMetadata as generateSEOMetadata } from '@/lib/seo';
 import { mdxComponents } from '@/components/mdx/MDXComponents';
+import { RelatedLinks } from '@/components/blog/RelatedLinks';
+import { ContactCTA } from '@/components/blog/ContactCTA';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 
@@ -98,6 +100,12 @@ export default async function BlogPostPage({
             }}
           />
         </div>
+
+        {blog.relatedLinks && blog.relatedLinks.length > 0 && (
+          <RelatedLinks links={blog.relatedLinks} />
+        )}
+
+        <ContactCTA />
       </article>
     </Container>
   );

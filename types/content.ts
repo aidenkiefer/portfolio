@@ -46,6 +46,12 @@ export interface Skill {
   experienceLinks?: string[];
 }
 
+export interface RelatedLink {
+  label: string;
+  url: string;
+  type?: 'blog' | 'project' | 'external';
+}
+
 export interface Blog {
   title: string;
   slug: string;
@@ -54,6 +60,7 @@ export interface Blog {
   featured?: boolean;
   tags?: string[];
   content?: string;
+  relatedLinks?: RelatedLink[];
 }
 
 export interface SiteConfig {

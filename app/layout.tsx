@@ -3,6 +3,7 @@ import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { AdminProvider } from '@/components/admin/AdminProvider';
 import { siteConfig } from '@/data/site';
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -61,9 +62,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${ibmPlexSans.variable} ${ibmPlexMono.variable}`}>
       <body>
-        <Navbar />
-        <main className="min-h-screen relative z-10">{children}</main>
-        <Footer />
+        <AdminProvider>
+          <Navbar />
+          <main className="min-h-screen relative z-10">{children}</main>
+          <Footer />
+        </AdminProvider>
       </body>
     </html>
   );

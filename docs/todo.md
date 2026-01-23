@@ -1,18 +1,30 @@
 # TODO
 
+## Completed Features ✅
+
+- [x] Homepage with hero, about, featured projects, and CTAs
+- [x] Projects listing page with filters and search
+- [x] Project detail pages with MDX case studies
+- [x] Blog listing and detail pages
+- [x] Experience & Education page (combined coursework and experience)
+- [x] Strengths / "How I Think" page
+- [x] Resume page with PDF viewer
+- [x] Contact page
+- [x] Global search functionality with tag filtering
+- [x] Admin login components (AdminLoginModal, AdminProvider)
+- [x] Design system with design tokens
+- [x] MDX content system for projects and blogs
+
 ## Authentication & Access Control
 
 - [ ] Implement + Test admin login to reach the other side of the site
+- [ ] Add protected routes for admin functionality
 
 ## Content & Pages
 
-- [ ] Combine/optimize existing pages (the goal is to have a homepage, resume page, projects, blog, and experience/about me)
-- [ ] Write copy
-
-## Experience & Education
-
-- [ ] Optimize layout of experience/education sections
-- [ ] Functionality for tags in experience page
+- [ ] Write additional blog posts
+- [ ] Add more project case studies
+- [ ] Refine copy across all pages
 
 ## Phase 2: Private Knowledge Base + Personal Tools
 

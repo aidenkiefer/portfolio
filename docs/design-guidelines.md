@@ -1,9 +1,7 @@
 # Design Guidelines — Aiden Kiefer Personal Portfolio
 
-Purpose:
-Define a clear, intentional, and consistent visual system for a personal software engineering portfolio site.
-This document exists to eliminate ambiguity and ensure all design and UI decisions support clarity,
-credibility, and long-term professionalism.
+**Purpose:**  
+Define a clear, intentional, and consistent visual system for a personal software engineering portfolio site. This document exists to eliminate ambiguity and ensure all design and UI decisions support clarity, credibility, and long-term professionalism.
 
 This site is **content-first**, **engineer-oriented**, and **calm by design**.
 
@@ -23,7 +21,7 @@ Its job is to:
 4. Get out of the way of the work and writing
 
 Every design decision should answer:
-> “Does this make the content easier to read, trust, and understand?”
+> "Does this make the content easier to read, trust, and understand?"
 
 If a choice looks interesting but does not improve clarity, it should be avoided.
 
@@ -50,7 +48,7 @@ Avoid:
 - Heavy gradients
 - Neon colors
 - Excessive motion
-- “Startup” visual language
+- "Startup" visual language
 
 ---
 
@@ -69,8 +67,14 @@ These colors do the majority of the work.
 - **Secondary text / metadata:** `#5E5A54`  
   Used for dates, captions, labels, and de-emphasized content.
 
+- **Muted text:** `#7A746D`  
+  Optional: even quieter text for tertiary information.
+
 - **Borders / dividers:** `#E2DED6`  
   Subtle separators. Borders should be light and quiet.
+
+- **Strong borders:** `#D1CBBF`  
+  For more prominent separations when needed.
 
 ---
 
@@ -96,6 +100,31 @@ Rules:
 
 ---
 
+### 3.3 Semantic Colors (Restrained)
+
+Semantic colors map to the palette:
+
+- **Info:** `#1E3A5F` (reuse primary accent)
+- **Danger:** `#9F2D20` (reuse secondary accent)
+
+Optional future additions (only if truly needed):
+- Success: `#166534`
+- Warning: `#B45309`
+
+---
+
+### 3.4 Surfaces (Subtle Layering)
+
+For cards, callouts, code blocks:
+
+- **Raised:** `#FBF8F4` - Slightly lighter than background
+- **Sunken:** `#F3EFE8` - Slightly darker than background
+- **Code:** `#F3EFE8` - Background for code blocks
+
+These create subtle depth without shadows.
+
+---
+
 ## 4. Typography (Locked)
 
 ### 4.1 Primary Typeface (UI + Body)
@@ -114,9 +143,10 @@ Usage:
 - All headings
 
 Font weights:
-- Regular: body text
-- Medium: subheadings
-- Semibold: primary headings
+- Regular (400): body text
+- Medium (500): subheadings
+- Semibold (600): primary headings
+- Bold (700): strong emphasis (use sparingly)
 
 Avoid:
 - Mixing multiple UI fonts
@@ -146,7 +176,7 @@ Never use monospace for:
 
 ---
 
-## 5. Typography Hierarchy
+### 4.3 Typography Hierarchy
 
 Typography hierarchy should be created using:
 - Font size
@@ -157,6 +187,27 @@ Not by:
 - Changing fonts
 - Changing colors excessively
 
+Type scale:
+- `xs`: 0.75rem (12px)
+- `sm`: 0.875rem (14px)
+- `base`: 1rem (16px)
+- `lg`: 1.125rem (18px)
+- `xl`: 1.25rem (20px)
+- `2xl`: 1.5rem (24px)
+- `3xl`: 1.875rem (30px)
+- `4xl`: 2.25rem (36px)
+
+Line heights (tuned for long-form reading):
+- `tight`: 1.2
+- `snug`: 1.35
+- `normal`: 1.5
+- `relaxed`: 1.65
+
+Letter spacing (subtle):
+- `tighter`: -0.02em
+- `normal`: 0em
+- `wide`: 0.01em
+
 General guidance:
 - Headings should feel calm and structured
 - Body text should prioritize long-form readability
@@ -164,9 +215,9 @@ General guidance:
 
 ---
 
-## 6. Layout & Spacing
+## 5. Layout & Spacing
 
-### 6.1 Content Width
+### 5.1 Content Width
 
 - Prose max width: ~65–72 characters per line
 - Use containers like `max-w-3xl` or `max-w-4xl`
@@ -174,19 +225,154 @@ General guidance:
 
 Code blocks may extend slightly wider than prose.
 
+Measure targets:
+- Prose: `72ch`
+- Wide: `88ch`
+
 ---
 
-### 6.2 Spacing & Rhythm
+### 5.2 Spacing & Rhythm
 
 - Prefer whitespace over dividers
 - Vertical spacing should be consistent and generous
 - Use spacing utilities (`space-y-*`) instead of arbitrary margins
 
-Sections should feel like “pages” in a notebook, not stacked cards.
+Sections should feel like "pages" in a notebook, not stacked cards.
+
+Spacing scale (4px base rhythm):
+- `1`: 0.25rem (4px)
+- `2`: 0.5rem (8px)
+- `3`: 0.75rem (12px)
+- `4`: 1rem (16px)
+- `6`: 1.5rem (24px)
+- `8`: 2rem (32px)
+- `12`: 3rem (48px)
+- `16`: 4rem (64px)
+- `20`: 5rem (80px)
+- `24`: 6rem (96px)
 
 ---
 
-## 7. Components & UI Elements
+### 5.3 Border Radius
+
+- `sm`: 0.25rem (4px)
+- `md`: 0.375rem (6px) - default
+- `lg`: 0.5rem (8px) - use sparingly
+
+Soft corners create a constructed, not stylized, feel.
+
+---
+
+### 5.4 Shadows
+
+Keep shadows minimal; prefer borders.
+
+- `none`: none
+- `soft`: `0 1px 2px rgba(0,0,0,0.06)`
+
+Only use shadows when borders are insufficient.
+
+---
+
+## 6. Visual Refinements & Rhythm
+
+### 6.1 Section Separators
+
+To create visual rhythm and prevent monotony:
+
+**Option A: Hairline Rule**
+- Height: 1px
+- Color: `#E2DED6` (muted divider)
+- Apply above major sections (Selected Work, Experience, etc.)
+
+**Option B: Micro-Section Labels**
+- Small label above section headers
+- Styling: small caps or uppercase, letter-spaced
+- Color: muted secondary text (`#5E5A54`)
+
+Only one separator style should be used globally.
+
+---
+
+### 6.2 Typographic Contrast Between Sections
+
+Increase contrast between section types:
+
+- Section intro text: slightly lighter or smaller than body paragraphs
+- Body paragraphs: darkest and most readable text
+- Section headers: slightly tighter letter spacing for emphasis
+
+This adds depth without adding color or ornamentation.
+
+---
+
+### 6.3 Card Physical Presence
+
+Cards should feel like objects, not flat containers.
+
+Choose only one of the following treatments:
+
+**Option A: Soft Static Shadow**
+- `box-shadow: 0 1px 0 rgba(0,0,0,0.04);`
+
+**Option B: Hover Lift**
+- On hover, cards translate upward by 1–2px
+
+**Option C: Accent Border**
+- Thin left border using muted accent color
+
+Do not combine these effects.
+
+---
+
+## 7. Character and Identity (Subtle, Recurring Motifs)
+
+### 7.1 Logo Motif Reuse
+
+The chip logo should not only live in the navbar.
+
+Use simplified or partial forms of the logo as recurring system elements:
+- Small chip outline next to section headers
+- Chip icon as a custom bullet in select lists
+- Very faint chip watermark in the hero section (5–8% opacity)
+
+This builds brand cohesion and recognizability.
+
+---
+
+### 7.2 Accent Stripe Per Page
+
+Each page may include one thin horizontal accent line.
+
+Specifications:
+- Height: 2–4px
+- Color: muted navy (primary) or brick red (secondary)
+- Placement examples:
+  - under the hero section
+  - above the footer
+  - beneath a major section header
+
+Only one accent stripe per page.
+
+---
+
+### 7.3 Hero Section Refinement
+
+Add a secondary line beneath the title and role:
+
+Example:
+— systems • clarity • long-term thinking
+
+Styling:
+- small
+- letter-spaced
+- muted text color
+
+This breaks the vertical block and reinforces identity immediately.
+
+---
+
+## 8. Components & UI Elements
 
 The following components must be visually consistent across the site:
 
@@ -203,16 +389,14 @@ Guidelines:
 - Soft corners (4–6px radius)
 - Minimal or no shadows
 - Prefer borders over shadows
-- Components should feel “constructed,” not stylized
-
-shadcn/ui components are encouraged, but styling should be overridden to match this system.
+- Components should feel "constructed," not stylized
 
 ---
 
-## 8. Links & Interaction
+## 9. Links & Interaction
 
 - Links should be clearly identifiable
-- Default link color: muted navy
+- Default link color: muted navy (`#1E3A5F`)
 - Hover state: subtle color shift or underline
 - Avoid animated underlines or flashy effects
 
@@ -220,30 +404,68 @@ Interactive elements should feel deliberate and predictable.
 
 ---
 
-## 9. Motion & Animation
+## 10. Motion & Animation
 
 Motion should be minimal.
 
-Allowed:
+**Allowed:**
 - Hover state transitions
 - Focus states
 - Very subtle entrance animations (optional)
+- CTA arrows translate 2–4px on hover
+- Card titles darken slightly on hover
 
-Avoid:
+**Avoid:**
 - Page-load animations
 - Parallax effects
 - Scroll-triggered animations
 - Excessive easing or bounce
+- Auto-playing animations
+- Decorative motion
 
 If animation is used:
 - Duration: 150–250ms
-- Easing: `ease-out`
+- Easing: `cubic-bezier(0.16, 1, 0.3, 1)` (ease-out-ish)
 
 Motion must never interfere with reading.
 
 ---
 
-## 10. Light / Dark Mode Stance
+## 11. Optional Visual Texture (Choose At Most One)
+
+If additional richness is desired, select only one of the following.
+
+### 11.1 Paper Grain Texture
+A barely visible noise texture applied to the background.
+
+Guidelines:
+- Opacity: ~2–3%
+- Very fine grain
+- No visible pattern
+
+This reinforces a "notebook / engineered artifact" feel.
+
+### 11.2 Blueprint Grid
+A faint grid applied only to the hero section background.
+
+Guidelines:
+- 1px lines
+- Extremely low contrast
+- Hidden on mobile
+
+This subtly communicates systems thinking.
+
+### 11.3 Marginalia Notes
+Occasional short, italic or monospace notes used sparingly.
+
+Example:
+"Designed for long-term maintainability."
+
+Use as commentary, not decoration.
+
+---
+
+## 12. Light / Dark Mode Stance
 
 Primary mode: **Light mode only**
 
@@ -259,10 +481,10 @@ If dark mode is added later, it must:
 
 ---
 
-## 11. Accessibility & Readability
+## 13. Accessibility & Readability
 
 - All text must meet WCAG contrast guidelines
-- Font sizes should never be “aesthetic-first”
+- Font sizes should never be "aesthetic-first"
 - Color should never be the sole indicator of meaning
 - Focus states must be visible
 
@@ -270,14 +492,80 @@ Readability always beats style.
 
 ---
 
-## 12. Overall Vibe Check
+## 14. Breakpoints
+
+Align with Tailwind defaults:
+
+- `sm`: 640px
+- `md`: 768px
+- `lg`: 1024px
+- `xl`: 1280px
+- `2xl`: 1536px
+
+---
+
+## 15. What Not To Add
+
+To preserve credibility and restraint, avoid:
+- Gradients
+- Bright or saturated colors
+- Icon-heavy layouts
+- Decorative imagery without meaning
+- Animations on page load
+- Trend-driven visual effects
+
+The site should feel engineered, not decorated.
+
+---
+
+## 16. Guiding Principle
+
+Every visual element must justify itself by improving:
+- Clarity
+- Rhythm
+- Comprehension
+- or Identity
+
+If an element exists only to "fill space," it should be removed.
+
+The goal is controlled richness, not visual density.
+
+---
+
+## 17. Success Criteria
+
+The design has succeeded if:
+- The site feels more alive without feeling busy
+- Sections feel distinct and intentional
+- The design reinforces trust and thoughtfulness
+- Nothing feels trendy or short-lived
+- A recruiter or technical lead thinks: "This person values clarity, structure, and craft."
+
+This site should feel like a well-designed tool, not a marketing page.
+
+---
+
+## 18. Overall Vibe Check
 
 This site should feel like:
-- An engineer’s notebook
+- An engineer's notebook
 - A place for clear thinking
 - A calm, deliberate presentation of work
 
 If a recruiter or technical lead thinks:
-> “This person values clarity, structure, and craft.”
+> "This person values clarity, structure, and craft."
 
 Then the design has succeeded.
+
+---
+
+## 19. Design Token Reference
+
+All design tokens are defined in `lib/design-tokens.ts` and can be imported for programmatic use. The tokens include:
+
+- Colors (base neutrals, accents, semantic, surfaces)
+- Typography (fonts, weights, sizes, line heights, letter spacing, measure)
+- Layout (radii, shadows, spacing, breakpoints)
+- Motion (duration, easing)
+
+Use these tokens consistently across the codebase to maintain visual consistency.

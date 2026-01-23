@@ -18,16 +18,25 @@ app/
 │   ├── page.tsx                  # Projects listing page (/projects)
 │   └── [slug]/
 │       └── page.tsx              # Project detail page (/projects/[slug])
+├── blog/
+│   ├── page.tsx                  # Blog listing page (/blog)
+│   └── [slug]/
+│       └── page.tsx              # Blog detail page (/blog/[slug])
 ├── experience/
-│   └── page.tsx                  # Experience page (/experience)
-├── coursework/
-│   └── page.tsx                  # Coursework & Skills page (/coursework)
+│   └── page.tsx                  # Experience & Education page (/experience)
 ├── strengths/
 │   └── page.tsx                  # About / How I Think page (/strengths)
 ├── resume/
 │   └── page.tsx                  # Resume page (/resume)
-└── contact/
-    └── page.tsx                  # Contact page (/contact)
+├── contact/
+│   └── page.tsx                  # Contact page (/contact)
+├── search/
+│   ├── page.tsx                  # Global search page (/search)
+│   ├── layout.tsx                # Search layout
+│   └── loading.tsx               # Search loading state
+└── api/
+    └── search/
+        └── route.ts              # Search API endpoint
 ```
 
 **Key Files:**
@@ -45,16 +54,30 @@ components/
 ├── layout/
 │   ├── Navbar.tsx                # Site navigation with logo
 │   ├── Footer.tsx                # Site footer with links
-│   └── Container.tsx             # Content container wrapper
+│   ├── Container.tsx             # Content container wrapper
+│   └── NavLink.tsx                # Navigation link component
 ├── common/
 │   ├── BadgeRow.tsx              # Badge/tag display component
-│   └── SectionHeading.tsx       # Consistent section headings
+│   ├── SectionHeading.tsx        # Consistent section headings
+│   ├── SearchableBadge.tsx       # Clickable badge with search link
+│   ├── ChipIcon.tsx              # Chip icon component
+│   └── ChipMark.tsx              # Chip mark/logo component
 ├── projects/
-│   ├── ProjectCard.tsx           # Project card for listings
+│   ├── ProjectCard.tsx            # Project card for listings
 │   ├── ProjectMeta.tsx           # Project metadata display
-│   └── ProjectNavigation.tsx    # Navigation between projects
+│   └── ProjectNavigation.tsx      # Navigation between projects
+├── blog/
+│   ├── BlogList.tsx               # Blog listing component
+│   ├── ContactCTA.tsx            # Contact call-to-action component
+│   ├── EditButton.tsx            # Edit button for admin
+│   └── RelatedLinks.tsx           # Related links component
+├── admin/
+│   ├── AdminLoginModal.tsx       # Admin login modal
+│   └── AdminProvider.tsx         # Admin context provider
+├── motion/
+│   └── NodeGraph.tsx              # Node graph animation component
 └── mdx/
-    └── MDXComponents.tsx         # Custom MDX component mappings
+    └── MDXComponents.tsx          # Custom MDX component mappings
 ```
 
 **Component Details:**
@@ -70,19 +93,27 @@ MDX project case studies and static assets.
 ```
 content/
 ├── projects/
-│   ├── tracking-shifts-climate-change-bird-migration.mdx
+│   ├── data-duel.mdx
+│   ├── divvy-van.mdx
 │   ├── id3-decision-tree.mdx
-│   ├── relational-database-design-normalization.mdx
-│   ├── systems-programming-labs.mdx
 │   ├── n2-water-ecommerce-storefront.mdx
+│   ├── personal-portfolio-website.mdx
+│   ├── relational-database-design-normalization.mdx
+│   ├── restaurant-decision-tree.mdx
+│   ├── systems-programming-labs.mdx
+│   ├── tender-heart-vintage.mdx
 │   ├── thrive-vineyard-website.mdx
+│   ├── tracking-shifts-climate-change-bird-migration.mdx
 │   └── data-wrangling-analysis-toolkit.mdx
-├── portrait.avif                 # Portrait image (AVIF)
-├── portrait.jpg                  # Portrait image (fallback)
-└── UIC.avif                      # UIC campus image
+└── blogs/
+    ├── blog-1.mdx
+    ├── blog-2.mdx
+    ├── blog-3.mdx
+    ├── blog-4.mdx
+    └── blog-5.mdx
 ```
 
-**Note:** Images in `/content` should be moved to `/public/images` for static serving.
+**Note:** Images are stored in `/public/images` for static serving.
 
 ### `/data` - Structured Data
 
@@ -110,14 +141,20 @@ Helper functions and utilities.
 lib/
 ├── content/
 │   ├── mdx.ts                    # MDX content loading helper
-│   └── projects.ts               # Project file reading and parsing
+│   ├── projects.ts               # Project file reading and parsing
+│   └── blogs.ts                  # Blog file reading and parsing
+├── search.ts                     # Search functionality and indexing
 ├── seo.ts                        # SEO metadata generation
+├── design-tokens.ts              # Design system tokens
 └── utils.ts                      # General utilities (cn helper)
 ```
 
 **Key Functions:**
 - `lib/content/projects.ts`: `getAllProjects()`, `getProjectBySlug()`, `getFeaturedProjects()`
+- `lib/content/blogs.ts`: `getAllBlogs()`, `getBlogBySlug()`, `getFeaturedBlogs()`
+- `lib/search.ts`: `searchContent()`, `getAllTags()` - search across projects, blogs, experience
 - `lib/seo.ts`: `generateMetadata()` helper for consistent page metadata
+- `lib/design-tokens.ts`: Design token definitions and CSS variable helpers
 - `lib/utils.ts`: `cn()` utility for conditional class names
 
 ### `/types` - TypeScript Definitions
@@ -276,13 +313,15 @@ Structured in `data/skills.ts`:
 All routes use Next.js App Router:
 
 - `/` - Homepage
-- `/projects` - Projects listing
+- `/projects` - Projects listing with filters
 - `/projects/[slug]` - Project case study
-- `/experience` - Work experience
-- `/coursework` - Coursework & Skills
+- `/blog` - Blog listing
+- `/blog/[slug]` - Blog post
+- `/experience` - Experience & Education (includes coursework and skills)
 - `/strengths` - About / How I Think
-- `/resume` - Resume PDF
+- `/resume` - Resume PDF viewer
 - `/contact` - Contact information
+- `/search` - Global search page with filters
 
 ## Build Process
 
@@ -306,12 +345,13 @@ All routes use Next.js App Router:
 - `typescript`: ^5.9.3
 
 ### Styling
-- `tailwindcss`: ^4.1.18
+- `tailwindcss`: ^4.1.18 (v4 with CSS-first configuration)
 - `autoprefixer`: ^10.4.23
 - `postcss`: ^8.5.6
 
 ### Content
 - `@next/mdx`: ^16.1.3
+- `@mdx-js/loader`: ^3.1.1
 - `@mdx-js/react`: ^3.1.1
 - `next-mdx-remote`: ^5.0.0
 - `gray-matter`: ^4.0.3
@@ -335,7 +375,11 @@ All routes use Next.js App Router:
 ## Notes
 
 - Logo component is located at `components/Logo.tsx`
-- Images should be in `/public/images` for static serving
+- Images are stored in `/public/images` for static serving
 - MDX files support custom React components via `MDXComponents.tsx`
 - All pages use consistent metadata via `lib/seo.ts`
-- Design system is documented in `docs/design-guidelines.md`
+- Design system tokens are defined in `lib/design-tokens.ts`
+- Design principles are documented in `docs/design-guidelines.md`
+- Search functionality uses client-side filtering via API route
+- Coursework and skills are displayed on `/experience` page (not separate route)
+- Blog system supports tags, featured posts, and related links

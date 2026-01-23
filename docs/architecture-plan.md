@@ -9,7 +9,7 @@ Primary content pillars: Projects, Experience, Coursework/Skills, Strengths (“
 ## 1) Tech Stack (recommended)
 - Framework: Next.js (App Router) + TypeScript
 - Styling: TailwindCSS
-- UI: shadcn/ui (Radix primitives) + lucide-react icons
+- UI: Custom components + lucide-react icons
 - Content:
   - MDX for long-form pages (project case studies, “How I Think”)
   - JSON/TS data modules for structured content (experience, coursework, skills)
@@ -20,7 +20,7 @@ Primary content pillars: Projects, Experience, Coursework/Skills, Strengths (“
 **Why this stack**
 - App Router: best SEO + routing + easy metadata
 - MDX: lets us write project pages as “case studies” and embed custom React components
-- shadcn/ui: clean + professional, faster than building from scratch
+- Custom components: Built without shadcn/ui, using design tokens for consistency
 
 ---
 
@@ -29,15 +29,19 @@ Top nav:
 - Home: /
 - Projects: /projects
 - Project detail: /projects/[slug]
-- Experience: /experience
-- Coursework & Skills: /coursework
+- Blog: /blog
+- Blog detail: /blog/[slug]
+- Experience: /experience (includes coursework and skills)
 - How I Think: /strengths
 - Resume: /resume
 - Contact: /contact
+- Search: /search
+
+**Note:** Coursework and skills are integrated into the `/experience` page rather than having a separate route.
 
 ---
 
-## 3) App Router File Tree (target)
+## 3) App Router File Tree (Implemented)
 app/
   layout.tsx
   globals.css
@@ -47,45 +51,74 @@ app/
     [slug]/
       page.tsx                 # Project detail (MDX)
   experience/
-    page.tsx                   # Experience timeline/cards
-  coursework/
-    page.tsx                   # Curated coursework + skills mapping
+    page.tsx                   # Experience + Coursework + Skills (combined)
+  blog/
+    page.tsx                   # Blog listing
+    [slug]/
+      page.tsx                 # Blog detail (MDX)
   strengths/
     page.tsx                   # “How I Think” page (MDX or TS content)
   resume/
     page.tsx                   # Embedded PDF + download
   contact/
     page.tsx                   # Contact links + CTA
+  search/
+    page.tsx                   # Global search page
+    layout.tsx                 # Search layout
+    loading.tsx                # Search loading state
   api/
-    og/
-      route.ts                 # Optional: dynamic OpenGraph images per page
+    search/
+      route.ts                 # Search API endpoint
 
 components/
   layout/
     Navbar.tsx
     Footer.tsx
     Container.tsx
-  ui/                          # shadcn components live here
+    NavLink.tsx
   projects/
     ProjectCard.tsx
-    ProjectFilters.tsx
     ProjectMeta.tsx
-  mdx/
-    MDXComponents.tsx          # custom components allowed inside MDX
-    CodeBlock.tsx              # if needed beyond rehype-pretty-code
+    ProjectNavigation.tsx
+  blog/
+    BlogList.tsx
+    ContactCTA.tsx
+    EditButton.tsx
+    RelatedLinks.tsx
+  admin/
+    AdminLoginModal.tsx
+    AdminProvider.tsx
   common/
     BadgeRow.tsx
-    Callout.tsx
     SectionHeading.tsx
+    SearchableBadge.tsx
+    ChipIcon.tsx
+    ChipMark.tsx
+  motion/
+    NodeGraph.tsx
+  mdx/
+    MDXComponents.tsx          # custom components allowed inside MDX
 
 content/
   projects/
-    climate-change-bird-migration.mdx
+    data-duel.mdx
+    divvy-van.mdx
     id3-decision-tree.mdx
-    hospital-database-model.mdx
-    allergyassist-codeday.mdx
-  pages/
-    strengths.mdx              # optional if you want this MDX-authored
+    n2-water-ecommerce-storefront.mdx
+    personal-portfolio-website.mdx
+    relational-database-design-normalization.mdx
+    restaurant-decision-tree.mdx
+    systems-programming-labs.mdx
+    tender-heart-vintage.mdx
+    thrive-vineyard-website.mdx
+    tracking-shifts-climate-change-bird-migration.mdx
+    data-wrangling-analysis-toolkit.mdx
+  blogs/
+    blog-1.mdx
+    blog-2.mdx
+    blog-3.mdx
+    blog-4.mdx
+    blog-5.mdx
 
 data/
   experience.ts                # structured experience entries
@@ -97,8 +130,11 @@ lib/
   content/
     mdx.ts                     # MDX loader/serializer helper
     projects.ts                # read projects, parse frontmatter, build index
+    blogs.ts                   # read blogs, parse frontmatter, build index
+  search.ts                    # search functionality and indexing
   utils.ts                     # helper utilities
   seo.ts                       # metadata helpers
+  design-tokens.ts             # design system tokens
 
 public/
   resume/
@@ -203,20 +239,20 @@ Each skill optionally links to:
 ---
 
 ## 7) “Phase 1” Implementation Checklist (build the bones)
-1. Create Next.js app (App Router + TS)
-2. Install Tailwind + shadcn/ui
-3. Create layout: Navbar + Footer + Container
-4. Implement routes (pages) with placeholders
-5. Implement Projects:
-   - MDX loader
-   - project index builder
-   - /projects grid
-   - /projects/[slug] detail rendering
-6. Resume page:
-   - embed PDF from `/public/resume/...`
-   - download link
-7. Add Coursework & Experience from `data/*` modules
-8. Add Strengths page content (MDX or TS)
+1. ✅ Next.js app (App Router + TS)
+2. ✅ TailwindCSS v4 with custom design tokens
+3. ✅ Layout: Navbar + Footer + Container
+4. ✅ All routes implemented (homepage, projects, blog, experience, strengths, resume, contact, search)
+5. ✅ Projects system with MDX loader, index builder, grid, and detail pages
+6. ✅ Blog system with MDX loader, listing, and detail pages
+7. ✅ Resume page with embedded PDF
+8. ✅ Coursework & Experience integrated into `/experience` page
+9. ✅ Search functionality with API route
+10. ✅ Design system with tokens
+
+### 🔄 In Progress / Future
+- Admin authentication and protected routes
+- Phase 2: Private knowledge base (`/me/*` routes)
 
 ---
 

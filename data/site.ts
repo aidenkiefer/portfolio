@@ -8,6 +8,6 @@ export const siteConfig: SiteConfig = {
   links: {
     github: 'https://github.com/aidenkiefer',
     linkedin: 'https://linkedin.com/in/aiden-kiefer',
-    email: 'mailto:aidenjkiefer@gmail.com',
+    email: 'mailto:hello@aidenkiefer.com',
   },
 };

@@ -15,7 +15,7 @@ export default function StrengthsPage() {
         <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">About</h1>
         <div className="max-w-prose">
           <p className="text-sm text-text-secondary leading-relaxed">
-            This isn't a personality test page: it's an explanation of my engineering mindset. These patterns shape how I approach problems, learn new systems, work on teams, and communicate technical ideas.
+            These patterns shape how I approach problems, learn new systems, work on teams, and communicate technical ideas.
           </p>
         </div>
       </div>

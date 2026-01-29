@@ -9,10 +9,9 @@ import { NavLink } from './NavLink';
 
 const navItems = [
   { href: '/projects', label: 'Projects' },
+  { href: '/services', label: 'Services' },
   { href: '/experience', label: 'Experience' },
   { href: '/blog', label: 'Blog' },
-  { href: '/strengths', label: 'About' },
-  { href: '/services', label: 'Services' },
   { href: '/resume', label: 'Resume' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -51,8 +50,8 @@ export function Navbar() {
       <nav className="border-b border-border bg-background sticky top-0 z-50">
         <Container>
           <div className="flex h-16 items-center justify-between">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               onClick={handleLogoClick}
               className="flex items-center transition-opacity duration-200 ease-out hover:opacity-80"
             >

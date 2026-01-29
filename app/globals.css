@@ -13,7 +13,11 @@
   /* --color-accent-primary generates: bg-accent-primary, text-accent-primary, border-accent-primary */
   --color-accent-primary: #1E3A5F;
   --color-accent-secondary: #9F2D20;
-  
+
+  /* Surfaces & muted text */
+  --color-surface-raised: #FBF8F4;
+  --color-text-muted: #7A746D;
+
   /* Font families */
   --font-family-sans: var(--font-ibm-plex-sans), system-ui, sans-serif;
   --font-family-mono: var(--font-ibm-plex-mono), monospace;

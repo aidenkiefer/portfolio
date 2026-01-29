@@ -1,8 +1,10 @@
+import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { siteConfig } from '@/data/site';
 import { generateMetadata } from '@/lib/seo';
 import { Mail, Github, Linkedin } from 'lucide-react';
 import { ChipMark } from '@/components/common/ChipMark';
+import { ContactForm } from '@/components/contact/ContactForm';
 
 export const metadata = generateMetadata({
   title: 'Contact',
@@ -20,7 +22,7 @@ export default function ContactPage() {
             If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect. I'm particularly drawn to roles that involve systems thinking, thoughtful design, and collaboration with other engineers.
           </p>
           <p>
-            I'm open to full-time opportunities, contract work, and conversations about interesting problems, even if there isn't an immediate role. Whether you're building new products, maintaining existing systems, or solving complex technical challenges, I'd love to hear about what you're working on.
+            I'm open to full-time opportunities, <Link href="/services" className="text-accent-primary hover:text-accent-primary/80 transition-colors">contract work</Link>, and conversations about interesting problems, even if there isn't an immediate role. Whether you're building new products, maintaining existing systems, or solving complex technical challenges, I'd love to hear about what you're working on.
           </p>
           <p>
             Feel free to reach out via email or LinkedIn, and I'll respond promptly. You can also check out my GitHub to see examples of my code and projects.
@@ -43,7 +45,7 @@ export default function ContactPage() {
             </div>
             <div>
               <div className="font-semibold text-text-primary">Email</div>
-              <div className="text-sm text-text-secondary">aidenjkiefer@gmail.com</div>
+              <div className="text-sm text-text-secondary">{siteConfig.links.email.replace('mailto:', '')}</div>
             </div>
           </a>
         )}
@@ -86,6 +88,18 @@ export default function ContactPage() {
           </a>
         )}
       </div>
+
+      {/* Email inquiry form (linked from Services CTA) */}
+      <section id="form" className="mt-16 sm:mt-20 scroll-mt-20">
+        <div className="mb-6 sm:mb-8 h-px bg-accent-secondary" />
+        <h2 className="mb-4 text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">
+          Send a message
+        </h2>
+        <p className="mb-8 text-text-secondary leading-relaxed max-w-prose">
+          Interested in a service or have a project in mind? Fill out the form below and I&apos;ll get back to you at the email you provide.
+        </p>
+        <ContactForm />
+      </section>
     </Container>
   );
 }

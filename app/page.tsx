@@ -4,7 +4,7 @@ import { Container } from '@/components/layout/Container';
 import { SectionHeading } from '@/components/common/SectionHeading';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import { getProjectsWithLogos } from '@/lib/content/projects';
-import { ArrowRight, Mail, Github, Linkedin } from 'lucide-react';
+import { ArrowRight, Mail, Github, Linkedin, Briefcase } from 'lucide-react';
 import { siteConfig } from '@/data/site';
 import { ChipMark } from '@/components/common/ChipMark';
 import { NodeGraph } from '@/components/motion/NodeGraph';
@@ -61,16 +61,16 @@ export default function Home() {
             <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
           </Link>
           <Link
-            href="/resume"
+            href="/contact"
             className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3 text-text-primary font-medium transition-colors duration-200 ease-out hover:border-accent-primary hover:text-accent-primary"
           >
-            View Resume
+            Contact
           </Link>
           <Link
-            href="/contact"
+            href="/services"
             className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-text-secondary font-medium transition-colors duration-200 ease-out hover:text-accent-primary"
           >
-            Contact Me
+            Contract Work
           </Link>
         </div>
       </section>
@@ -131,53 +131,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* How I Approach Engineering Section */}
-      <section className="mb-20">
-        <div className="mb-8 h-px bg-border" />
-        <div className="mb-8 flex items-center gap-3">
-          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
-          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">How I Approach Engineering</h2>
-        </div>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
-          <p>
-            When I work on software, I focus first on understanding the problem space and the constraints involved. I prefer to think through multiple possible approaches, weigh tradeoffs, and choose solutions that are simple, explainable, and maintainable rather than clever for their own sake.
-          </p>
-          <p>
-            This approach has served me well across different domains. Whether I'm designing a database schema, building a machine learning pipeline, or architecting a web application, I start by asking: What are we actually trying to solve? What constraints matter most? What will this look like in six months or a year? These questions help me avoid premature optimization and choose solutions that fit the context.
-          </p>
-          <p>
-            I enjoy learning new systems and technologies deeply, especially when they expose lower-level details or challenge my assumptions. When I pick up a new framework or tool, I read the documentation thoroughly, explore the source code when possible, and build real projects that require understanding internals, not just using the API. This depth-first approach means I compound knowledge over time rather than collecting surface-level familiarity with many tools.
-          </p>
-          <p>
-            I also place a high value on communication: writing clear documentation, explaining technical decisions, and making sure others can understand and build on my work. I've found that the best technical solutions are often the ones that are easiest to explain. If I can't clearly articulate why a design decision makes sense, that's usually a sign I need to reconsider the approach.
-          </p>
-        </div>
-      </section>
-
-      {/* Experience Snapshot Section */}
-      <section className="mb-12 sm:mb-16 lg:mb-20">
-        <div className="mb-6 sm:mb-8 h-px bg-border" />
-        <div className="mb-6 sm:mb-8 flex items-center gap-3">
-          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
-          <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">Experience</h2>
-        </div>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose mb-6">
-          <p>
-            I've worked on real-world software projects in both academic and professional contexts, including freelance and internship-style roles. My experience includes building and maintaining production websites, working with databases and analytics, and collaborating with non-technical stakeholders while maintaining engineering standards.
-          </p>
-          <p>
-            What I value most in these experiences is the opportunity to work on systems that have real users and real constraints. Whether it's optimizing a search campaign's performance, building a content management system that needs to scale, or designing database schemas that support complex business logic, I've learned to balance immediate needs with long-term maintainability. These projects have taught me that good engineering isn't just about writing code: it's about understanding context, making informed tradeoffs, and building systems that others can understand and extend.
-          </p>
-        </div>
-        <Link
-          href="/experience"
-          className="inline-flex items-center gap-2 text-accent-primary font-medium hover:text-accent-primary/80 transition-all duration-200 ease-out group"
-        >
-          View Full Experience
-          <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
-        </Link>
-      </section>
-
       {/* Resume Callout Section */}
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
@@ -207,6 +160,53 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Experience Snapshot Section */}
+      <section className="mb-12 sm:mb-16 lg:mb-20">
+        <div className="mb-6 sm:mb-8 h-px bg-border" />
+        <div className="mb-6 sm:mb-8 flex items-center gap-3">
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
+          <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">Experience</h2>
+        </div>
+        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose mb-6">
+          <p>
+            I've worked on real-world software projects in both academic and professional contexts, including freelance and internship-style roles. My experience includes building and maintaining production websites, working with databases and analytics, and collaborating with non-technical stakeholders while maintaining engineering standards.
+          </p>
+          <p>
+            What I value most in these experiences is the opportunity to work on systems that have real users and real constraints. Whether it's optimizing a search campaign's performance, building a content management system that needs to scale, or designing database schemas that support complex business logic, I've learned to balance immediate needs with long-term maintainability. These projects have taught me that good engineering isn't just about writing code: it's about understanding context, making informed tradeoffs, and building systems that others can understand and extend.
+          </p>
+        </div>
+        <Link
+          href="/experience"
+          className="inline-flex items-center gap-2 text-accent-primary font-medium hover:text-accent-primary/80 transition-all duration-200 ease-out group"
+        >
+          View Full Experience
+          <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
+        </Link>
+      </section>
+
+      {/* How I Approach Engineering Section */}
+      <section className="mb-20">
+        <div className="mb-8 h-px bg-border" />
+        <div className="mb-8 flex items-center gap-3">
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
+          <h2 className="text-3xl font-semibold text-text-primary tracking-tight">How I Approach Engineering</h2>
+        </div>
+        <div className="space-y-4 text-text-primary leading-relaxed max-w-2xl">
+          <p>
+            When I work on software, I focus first on understanding the problem space and the constraints involved. I prefer to think through multiple possible approaches, weigh tradeoffs, and choose solutions that are simple, explainable, and maintainable rather than clever for their own sake.
+          </p>
+          <p>
+            This approach has served me well across different domains. Whether I'm designing a database schema, building a machine learning pipeline, or architecting a web application, I start by asking: What are we actually trying to solve? What constraints matter most? What will this look like in six months or a year? These questions help me avoid premature optimization and choose solutions that fit the context.
+          </p>
+          <p>
+            I enjoy learning new systems and technologies deeply, especially when they expose lower-level details or challenge my assumptions. When I pick up a new framework or tool, I read the documentation thoroughly, explore the source code when possible, and build real projects that require understanding internals, not just using the API. This depth-first approach means I compound knowledge over time rather than collecting surface-level familiarity with many tools.
+          </p>
+          <p>
+            I also place a high value on communication: writing clear documentation, explaining technical decisions, and making sure others can understand and build on my work. I've found that the best technical solutions are often the ones that are easiest to explain. If I can't clearly articulate why a design decision makes sense, that's usually a sign I need to reconsider the approach.
+          </p>
+        </div>
+      </section>
+
       {/* Get in Touch Section */}
       <section>
         <div className="mb-6 sm:mb-8 h-px bg-border" />
@@ -224,6 +224,13 @@ export default function Home() {
           </p>
         </div>
         <div className="flex flex-wrap gap-4">
+          <Link
+            href="/services"
+            className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3 text-text-primary font-medium transition-colors duration-200 ease-out hover:border-accent-primary hover:text-accent-primary"
+          >
+            <Briefcase className="h-4 w-4" />
+            Services
+          </Link>
           {siteConfig.links.email && (
             <a
               href={siteConfig.links.email}

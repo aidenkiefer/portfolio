@@ -1,5 +1,5 @@
 import { siteConfig } from '@/data/site';
-import { Mail, Github, Linkedin } from 'lucide-react';
+import { Mail, Github, Linkedin, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 
 export function ContactCTA() {
@@ -11,6 +11,13 @@ export function ContactCTA() {
           Have questions, feedback, or want to collaborate? I'd love to hear from you.
         </p>
         <div className="flex flex-wrap gap-4">
+          <Link
+            href="/services"
+            className="flex items-center gap-2 px-4 py-2 rounded-md border border-border bg-background text-sm font-medium text-text-primary hover:border-accent-primary hover:text-accent-primary transition-all duration-200 ease-out"
+          >
+            <Briefcase className="h-4 w-4" />
+            Services
+          </Link>
           {siteConfig.links.email && (
             <Link
               href={siteConfig.links.email}

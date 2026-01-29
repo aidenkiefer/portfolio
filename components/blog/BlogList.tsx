@@ -37,13 +37,15 @@ export function BlogList({ blogs }: BlogListProps) {
       }
     };
 
-    // If sorting by 'newest' (default), show featured first, then sort everything
+    // If sorting by 'newest' (default), show pinned first, then featured, then rest
     if (sortBy === 'newest') {
-      const featured = blogs.filter((blog) => blog.featured);
-      const nonFeatured = blogs.filter((blog) => !blog.featured);
+      const pinned = blogs.filter((blog) => blog.pinned);
+      const featured = blogs.filter((blog) => !blog.pinned && blog.featured);
+      const rest = blogs.filter((blog) => !blog.pinned && !blog.featured);
+      const sortedPinned = [...pinned].sort(sortFunction);
       const sortedFeatured = [...featured].sort(sortFunction);
-      const sortedNonFeatured = [...nonFeatured].sort(sortFunction);
-      return [...sortedFeatured, ...sortedNonFeatured];
+      const sortedRest = [...rest].sort(sortFunction);
+      return [...sortedPinned, ...sortedFeatured, ...sortedRest];
     }
 
     // For other sort options, sort all blogs together (featured doesn't get special treatment)
@@ -133,9 +135,9 @@ export function BlogList({ blogs }: BlogListProps) {
                       day: 'numeric',
                     })}
                   </time>
-                  {blog.featured && (
+                  {(blog.pinned || blog.featured) && (
                     <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-text-secondary flex-shrink-0">
-                      Featured
+                      {blog.pinned ? 'Pinned' : 'Featured'}
                     </span>
                   )}
                 </div>

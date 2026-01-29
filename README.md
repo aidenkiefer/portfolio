@@ -44,6 +44,18 @@ npm run build
 npm start
 ```
 
+### Contact form (optional)
+
+The Contact page includes a form that sends messages to **hello@aidenkiefer.com**. To enable it:
+
+1. Sign up at [resend.com](https://resend.com) and get an API key.
+2. Add to `.env.local`:
+   - `RESEND_API_KEY=re_xxxx` — your Resend API key (required).
+   - `RESEND_FROM_EMAIL=Contact Form <noreply@aidenkiefer.com>` — optional; omit to use Resend’s default test address.
+3. If you use a custom from address, verify your domain in the Resend dashboard.
+
+Without `RESEND_API_KEY`, the form still renders; submissions return a “not configured” error until the key is set.
+
 ## Project Structure
 
 ```

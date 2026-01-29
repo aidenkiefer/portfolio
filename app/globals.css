@@ -172,8 +172,4 @@
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
+/* text-balance is built-in in Tailwind v4; no custom utility needed */

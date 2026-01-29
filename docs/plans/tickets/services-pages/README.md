@@ -1,6 +1,6 @@
 # Services detail pages — tickets
 
-Execute these tickets **in order** (01 → 13). Each ticket references the spec and design docs; follow them while implementing.
+Execute these tickets **in order** (01 → 16). Each ticket references the spec and design docs; follow them while implementing.
 
 - **Spec:** docs/plans/specs/services-pages-spec.md
 - **Landing spec:** docs/plans/specs/services-landing-spec.md
@@ -22,4 +22,7 @@ Execute these tickets **in order** (01 → 13). Each ticket references the spec 
 | 11 | 11-service-api-integrations.md | `/services/api-integrations` detail page |
 | 12 | 12-service-internal-tools.md | `/services/internal-tools` detail page |
 | 13 | 13-services-wire-detail-links.md | Wire Services landing page to these detail pages |
+| 14 | 14-service-automation-sprint.md | `/services/automation-sprint` package page |
+| 15 | 15-service-speed-seo.md | `/services/speed-seo` package page |
+| 16 | 16-service-startup-ai.md | `/services/startup-ai` package page |
 

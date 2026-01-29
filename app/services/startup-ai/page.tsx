@@ -370,9 +370,9 @@ export default function StartupAiPage() {
               {[
                 'Are launching a startup or new product and want AI from day one',
                 'Run a lean team without dedicated AI or engineering resources',
-                'Need to move fast and can't spend months researching and testing AI tools',
-                'Want to stand out with modern tooling but don't know where to start',
-                'Need 24/7 customer support but can't afford a support team yet',
+                "Need to move fast and can't spend months researching and testing AI tools",
+                "Want to stand out with modern tooling but don't know where to start",
+                "Need 24/7 customer support but can't afford a support team yet",
                 'Are spending too much time on repetitive content or manual personalization',
               ].map((item, idx) => (
                 <div
@@ -397,7 +397,7 @@ export default function StartupAiPage() {
                 'Already have a robust AI stack and dedicated engineers maintaining it',
                 'Need highly specialized AI (e.g., computer vision, ML model training, custom LLMs)',
                 'Want a free or DIY solution—this is a professional implementation',
-                'Aren't ready to integrate AI into your customer-facing workflows',
+                "Aren't ready to integrate AI into your customer-facing workflows",
               ].map((item, idx) => (
                 <div
                   key={idx}

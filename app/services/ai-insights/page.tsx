@@ -222,12 +222,12 @@ export default function AIInsightsPage() {
         <div className="space-y-4 max-w-3xl">
           <ul className="space-y-3">
             {[
-              'Stop guessing—you'll have data-backed forecasts for revenue, churn, or customer behavior',
+              "Stop guessing—you'll have data-backed forecasts for revenue, churn, or customer behavior",
               'Save hours each week by automating reports and analysis',
               'Identify at-risk customers or high-value opportunities before they become obvious',
               'Make faster, more confident decisions about inventory, hiring, marketing spend, or pricing',
               'Present clear, visual insights to investors, stakeholders, or your team without manual data wrangling',
-              'Reduce stress by knowing what's coming instead of reacting to surprises',
+              "Reduce stress by knowing what's coming instead of reacting to surprises",
             ].map((item, idx) => (
               <li key={idx} className="flex items-start gap-3">
                 <CheckCircle2 className="h-6 w-6 text-accent-primary flex-shrink-0 mt-0.5" />

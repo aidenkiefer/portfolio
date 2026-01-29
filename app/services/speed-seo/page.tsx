@@ -268,11 +268,11 @@ export default function SpeedSeoPage() {
           </h3>
           <ul className="space-y-3 max-w-3xl">
             {[
-              'Your site feels slow or has high bounce rates, and you know it's costing you conversions',
-              'You want better search rankings but don't need (or can't afford) a long-term SEO retainer',
-              'You're launching or relaunching a site and want to start with a strong technical foundation',
+              "Your site feels slow or has high bounce rates, and you know it's costing you conversions",
+              "You want better search rankings but don't need (or can't afford) a long-term SEO retainer",
+              "You're launching or relaunching a site and want to start with a strong technical foundation",
               'Mobile traffic is important to your business, and you need your site to perform well on phones',
-              'You've been told your site has "SEO issues" but aren't sure what that means or how to fix it',
+              'You\'ve been told your site has "SEO issues" but aren\'t sure what that means or how to fix it',
               'You need quick wins that actually move metrics—not vague promises',
             ].map((item, idx) => (
               <li key={idx} className="flex items-start gap-3">

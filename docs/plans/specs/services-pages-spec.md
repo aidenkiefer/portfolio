@@ -17,6 +17,10 @@ This spec is the **only context** needed to execute the services detail page tic
   - `/services/automation`
   - `/services/api-integrations`
   - `/services/internal-tools`
+- **Also in scope**: Three **package** pages that bundle multiple services, each with links to the individual services in that package:
+  - `/services/automation-sprint` (Automation Sprint)
+  - `/services/speed-seo` (Speed & SEO Tune-Up)
+  - `/services/startup-ai` (Startup AI Jumpstart)
 - **Also in scope**: Updating the Services landing page so its “Learn more” links point to and integrate with these new pages.
 - **Out of scope**: Changes to unrelated routes, global site navigation beyond what is needed to connect these pages, or any non-services content.
 - **Goal**: Give each service its own high-quality, SEO-conscious, conversion-ready page while keeping the experience aligned with the portfolio’s calm, engineer-first design language.
@@ -52,6 +56,24 @@ Use these mappings between landing page slugs and content docs:
 - `/services/automation` → `docs/content/process-automation.md`
 - `/services/api-integrations` → `docs/content/api-tooling.md`
 - `/services/internal-tools` → `docs/content/admin-tools.md`
+
+**Package pages (bundles):**
+
+- `/services/automation-sprint` → `docs/content/automation-sprint.md`
+- `/services/speed-seo` → `docs/content/speed-seo-tune.md`
+- `/services/startup-ai` → `docs/content/startup-ai.md`
+
+## Package Pages: Individual Service Links
+
+Package pages follow the same layout pattern as individual service pages (hero, problem/promise, deliverables, use cases, timeline, CTA repeat). In addition, **each package page must include a section (or inline links) that links to the individual service detail pages** that make up or relate to that package. Use this mapping:
+
+| Package | Individual services to link to (in this package) |
+|--------|---------------------------------------------------|
+| **Automation Sprint** | `/services/automation`, `/services/api-integrations`; optionally “often combined with” links to `/services/internal-tools`, `/services/ai-insights`, `/services/chatbots` (per doc’s Custom Packages) |
+| **Speed & SEO Tune-Up** | `/services/performance`, `/services/seo`; optionally “often combined with” links to `/services/accessibility`, `/services/personalization`, `/services/automation` (per doc’s Custom Packages) |
+| **Startup AI Jumpstart** | `/services/chatbots`, `/services/ai-content`, `/services/personalization`; optionally “often combined with” links to `/services/automation`, `/services/performance`, `/services/internal-tools`, `/services/api-integrations` (per doc’s Custom Packages) |
+
+Links may appear in a dedicated “Services in this package” or “What’s included” subsection, in the deliverables list, or in a “Custom packages” / “Want more?” section—as long as each listed individual service has a clear link to its detail page.
 
 ## Page Layout Pattern
 
@@ -101,17 +123,26 @@ When running tickets against this spec, strongly consider:
 - **nextjs-best-practices** / **nextjs-app-router-patterns**: Ensure routes, layouts, and metadata follow App Router norms.
 - **Claude Code Guide**: Keep work small-scoped, verifiable, and aligned with the repo’s ticketing workflow.
 
+Tickets in this batch should include: **Done Criteria**, and an **Implementation Summary** template to fill after completing (per `docs/plans/claude-workflow-opt.md`).
+
 ## Success Criteria
 
-- All 12 service pages exist at the correct `/services/*` paths, with layouts and copy grounded in `docs/content/*.md`.
+- All 12 individual service pages plus 3 package pages exist at the correct `/services/*` paths, with layouts and copy grounded in `docs/content/*.md`.
+- Each package page includes links to the individual services in that package (see “Package Pages: Individual Service Links” above).
 - Each page:
   - Uses `generateMetadata` with a strong title and meta description.
   - Follows the shared layout pattern while allowing for service-specific details.
   - Includes clear, relevant CTAs and internal links.
+- Package pages additionally include links to the individual service detail pages that make up (or are often combined with) that package.
 - The Services landing page:
   - Links to these pages via its “Learn more” links and/or additional inline links where helpful.
   - Remains visually and structurally consistent with its own spec.
 - No unrelated pages or global settings are modified beyond minimal SEO wiring that clearly benefits these pages.
+
+
+## Ticket Execution Order
+
+Execute tickets in `docs/plans/tickets/services-pages/` in numerical order (01 → 16). Package pages (14–16) are implemented after the 12 individual service pages and the landing wiring (13). See `docs/plans/tickets/services-pages/README.md` for the full table.
 
 ## Reference Docs (for tickets)
 
@@ -121,4 +152,5 @@ When running tickets against this spec, strongly consider:
 - docs/design-refinement.md
 - docs/plans/claude-workflow-opt.md
 - lib/seo.ts
+- lib/design-tokens.ts (for Tailwind/token usage)
 

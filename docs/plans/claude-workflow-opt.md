@@ -129,6 +129,16 @@ Never use Opus thinking for repo-wide scans.
 
 ---
 
+### Rule 7 — No QA/verification in workflow unless requested
+Do **not** add QA or verification steps to specs or tickets unless explicitly asked. That includes:
+- Instructions for Claude to run build/test commands (e.g. `npm run build`, `npm test`)
+- “Verification” sections that require running commands before claiming done
+- Done-criteria that depend on the agent having run verification commands
+
+The human will run builds, tests, and other verification themselves. Specs and tickets should describe the work and the outcome; they should not require the agent to execute verification tooling. If you want verification baked into a ticket or spec, say so explicitly.
+
+---
+
 ## 4. Example Ticket Template
 
 ### Sample ticket format
@@ -224,7 +234,8 @@ This reduces “did we already do this?” and makes handoffs and audits easier.
 ### Tickets
 - **One ticket per logical change** (or 1–3 tightly related changes). Split “footer + header + products page” into separate tickets.
 - **Reference the spec by name** in Reference Docs so constraints and intent are clear.
-- **Use stepwise Instructions** (1. Locate X. 2. Inspect Y. 3. Update Z. 4. Verify.) so Claude has a clear path and doesn’t wander.
+- **Use stepwise Instructions** (1. Locate X. 2. Inspect Y. 3. Update Z.) so Claude has a clear path and doesn’t wander.
 - **Done Criteria = verifiable:** “In devtools, footer background is …” or “Only these files were modified.” Avoid “looks good” without a concrete check.
-- **Mandate skills** for all tasks, be sure to recommend applicable skills and encourage Claude to use as many as he needs to complete the tickets to the highest quality possible. 
+- **Mandate skills** for all tasks, be sure to recommend applicable skills and encourage Claude to use as many as he needs to complete the tickets to the highest quality possible.
+- **Do not add QA/verification steps** (e.g. “run npm run build”, verification sections) unless specifically requested—see Rule 7. 
 

@@ -258,8 +258,8 @@ export default function AutomationPage() {
               'Consistency: Every task executes the same way, every time—no forgotten steps or human errors',
               'Speed: Workflows that used to take 10–30 minutes now happen in seconds',
               'Scalability: Handle 10x more volume without hiring or burning out',
-              'Clarity: You'll know exactly what happens when, with logs and notifications to keep you informed',
-              'Peace of mind: Stop worrying about whether something got done—it's automatic',
+              "Clarity: You'll know exactly what happens when, with logs and notifications to keep you informed",
+              "Peace of mind: Stop worrying about whether something got done—it's automatic",
             ].map((item, idx) => (
               <li key={idx} className="flex items-start gap-3">
                 <CheckCircle2 className="h-6 w-6 text-accent-primary flex-shrink-0 mt-0.5" />

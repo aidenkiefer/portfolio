@@ -248,7 +248,7 @@ export default function AIInsightsPage() {
           {[
             {
               step: '1. Discovery & Setup',
-              description: 'We start with a short call to understand what you want to predict or analyze. You'll share access to your data (via CSV export, API, or read-only database access). I'll confirm what's feasible and outline the approach.',
+              description: "We start with a short call to understand what you want to predict or analyze. You'll share access to your data (via CSV export, API, or read-only database access). I'll confirm what's feasible and outline the approach.",
             },
             {
               step: '2. Build & Configuration',
@@ -256,11 +256,11 @@ export default function AIInsightsPage() {
             },
             {
               step: '3. Testing & Iteration',
-              description: 'I test the model against your historical data to ensure accuracy, then refine based on your feedback. If you want automation, I'll set up scheduled runs (weekly, monthly, etc.).',
+              description: "I test the model against your historical data to ensure accuracy, then refine based on your feedback. If you want automation, I'll set up scheduled runs (weekly, monthly, etc.).",
             },
             {
               step: '4. Delivery & Walkthrough',
-              description: 'You'll receive the working model, dashboard, or automated report along with a walkthrough call. I'll explain how it works, what the results mean, and how to use it going forward.',
+              description: "You'll receive the working model, dashboard, or automated report along with a walkthrough call. I'll explain how it works, what the results mean, and how to use it going forward.",
             },
           ].map((phase, idx) => (
             <div key={idx} className="rounded-md border border-border bg-background p-6" style={{ boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)' }}>
@@ -326,7 +326,7 @@ export default function AIInsightsPage() {
             },
             {
               question: 'Do I need technical knowledge to use the results?',
-              answer: 'No. I'll deliver everything with clear explanations, visual dashboards, or automated reports that are easy to understand. You'll get a walkthrough call to ensure you're comfortable using the insights.',
+              answer: "No. I'll deliver everything with clear explanations, visual dashboards, or automated reports that are easy to understand. You'll get a walkthrough call to ensure you're comfortable using the insights.",
             },
             {
               question: 'Will this work with my existing tools and data?',
@@ -334,23 +334,23 @@ export default function AIInsightsPage() {
             },
             {
               question: 'Is this a one-time setup or ongoing?',
-              answer: 'It's flexible. You can start with a one-time analysis or forecasting model. If you want recurring reports or automated updates, I can set up scheduled automation for a small monthly fee.',
+              answer: "It's flexible. You can start with a one-time analysis or forecasting model. If you want recurring reports or automated updates, I can set up scheduled automation for a small monthly fee.",
             },
             {
-              question: 'What if I don't have much data?',
-              answer: 'You'll need at least a few months of historical data for meaningful predictions. If your dataset is very small, I'll let you know upfront and suggest alternatives like trend analysis or starting with automation to collect better data going forward.',
+              question: "What if I don't have much data?",
+              answer: "You'll need at least a few months of historical data for meaningful predictions. If your dataset is very small, I'll let you know upfront and suggest alternatives like trend analysis or starting with automation to collect better data going forward.",
             },
             {
               question: 'Is my data secure?',
-              answer: 'Yes. All data is handled via encrypted shares, read-only access, or secure API keys. I don't store your data long-term unless you explicitly request ongoing automation.',
+              answer: "Yes. All data is handled via encrypted shares, read-only access, or secure API keys. I don't store your data long-term unless you explicitly request ongoing automation.",
             },
             {
               question: 'Can you integrate this with my existing dashboard?',
-              answer: 'In most cases, yes. If you use tools like Looker Studio, Tableau, or custom dashboards, I can format the output to integrate smoothly. We'll discuss your setup during discovery.',
+              answer: "In most cases, yes. If you use tools like Looker Studio, Tableau, or custom dashboards, I can format the output to integrate smoothly. We'll discuss your setup during discovery.",
             },
             {
-              question: 'What if the predictions aren't accurate?',
-              answer: 'AI models are based on historical patterns, so accuracy improves with more data. I'll test the model and refine it during the process. If something isn't working, we'll iterate or adjust the approach—no guesswork.',
+              question: "What if the predictions aren't accurate?",
+              answer: "AI models are based on historical patterns, so accuracy improves with more data. I'll test the model and refine it during the process. If something isn't working, we'll iterate or adjust the approach—no guesswork.",
             },
           ].map((faq, idx) => (
             <div key={idx} className="rounded-md border border-border bg-background p-6" style={{ boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)' }}>

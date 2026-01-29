@@ -293,7 +293,7 @@ export default function SpeedSeoPage() {
               'You need content strategy or keyword research (this is purely technical)',
               'Your site needs a full redesign or rebuild (this is optimization, not a rebuild)',
               'You want ongoing content creation or link building (this is a one-time tune-up)',
-              'You're expecting instant #1 rankings (this fixes the foundation; ranking takes time and content)',
+              "You're expecting instant #1 rankings (this fixes the foundation; ranking takes time and content)",
             ].map((item, idx) => (
               <li key={idx} className="flex items-start gap-3">
                 <span className="text-text-secondary mt-1">•</span>
@@ -387,9 +387,9 @@ export default function SpeedSeoPage() {
             {[
               'Your site loads faster—especially on mobile and slower connections',
               'Lower bounce rates and better user experience (fast sites convert better)',
-              'Google can properly crawl and index your pages (you'll show up in search)',
+              "Google can properly crawl and index your pages (you'll show up in search)",
               'Better rankings for your target keywords over time (SEO is a foundation, not a switch)',
-              'Confidence that your site won't hurt your marketing efforts—it'll support them',
+              "Confidence that your site won't hurt your marketing efforts—it'll support them",
               'A clear before/after performance report you can reference or share with stakeholders',
             ].map((item, idx) => (
               <li key={idx} className="flex items-start gap-3">
@@ -414,7 +414,7 @@ export default function SpeedSeoPage() {
             {
               step: '1',
               title: 'Discovery & Audit',
-              description: 'I run a full performance and SEO audit using tools like Google Lighthouse, PageSpeed Insights, and Search Console. You'll get a summary of what's broken and what needs fixing.'
+              description: "I run a full performance and SEO audit using tools like Google Lighthouse, PageSpeed Insights, and Search Console. You'll get a summary of what's broken and what needs fixing."
             },
             {
               step: '2',
@@ -513,32 +513,32 @@ export default function SpeedSeoPage() {
               answer: 'Typically 2–3 days from kickoff to delivery. It depends on the size of your site and how many issues need fixing, but most optimizations are quick to implement once the audit is complete.'
             },
             {
-              question: 'Will you change my site's design or content?',
-              answer: 'No. This is a technical tune-up—I optimize what's already there. Your design, copy, and branding stay the same. If content or design issues are blocking performance, I'll flag them for you to address separately.'
+              question: "Will you change my site's design or content?",
+              answer: "No. This is a technical tune-up—I optimize what's already there. Your design, copy, and branding stay the same. If content or design issues are blocking performance, I'll flag them for you to address separately."
             },
             {
               question: 'Do I need to know how to code?',
-              answer: 'Not at all. I handle the technical work. You'll get a summary report that explains what was done in plain language, but you don't need to understand code to benefit from the improvements.'
+              answer: "Not at all. I handle the technical work. You'll get a summary report that explains what was done in plain language, but you don't need to understand code to benefit from the improvements."
             },
             {
               question: 'Will this guarantee better Google rankings?',
-              answer: 'No service can guarantee rankings—Google's algorithm considers hundreds of factors. But this package fixes the technical foundation that often holds sites back. If your content is solid, these optimizations will help you compete.'
+              answer: "No service can guarantee rankings—Google's algorithm considers hundreds of factors. But this package fixes the technical foundation that often holds sites back. If your content is solid, these optimizations will help you compete."
             },
             {
               question: 'Is this a one-time fix or ongoing maintenance?',
-              answer: 'This is a one-time optimization. Once implemented, the improvements last. If you add new content, redesign, or change platforms later, you may want a refresh—but there's no ongoing cost or retainer.'
+              answer: "This is a one-time optimization. Once implemented, the improvements last. If you add new content, redesign, or change platforms later, you may want a refresh—but there's no ongoing cost or retainer."
             },
             {
               question: 'What if my site is on WordPress, Shopify, or another platform?',
-              answer: 'This package works across platforms. I adapt the optimization methods to your CMS or framework. Whether you're on WordPress, Shopify, Webflow, Next.js, or a custom stack, I'll use the best tools for your setup.'
+              answer: "This package works across platforms. I adapt the optimization methods to your CMS or framework. Whether you're on WordPress, Shopify, Webflow, Next.js, or a custom stack, I'll use the best tools for your setup."
             },
             {
               question: 'Can I combine this with other services?',
-              answer: 'Yes. This package is often bundled with Accessibility, Personalization, or Automation. If you want a custom package, book a free consultation and we'll scope it out.'
+              answer: "Yes. This package is often bundled with Accessibility, Personalization, or Automation. If you want a custom package, book a free consultation and we'll scope it out."
             },
             {
-              question: 'What's included in the before/after report?',
-              answer: 'You'll get performance scores (before and after), Core Web Vitals data, a summary of fixes applied, and optional next-step recommendations. It's clear, visual, and easy to share with your team or stakeholders.'
+              question: "What's included in the before/after report?",
+              answer: "You'll get performance scores (before and after), Core Web Vitals data, a summary of fixes applied, and optional next-step recommendations. It's clear, visual, and easy to share with your team or stakeholders."
             },
           ].map((faq, idx) => (
             <div

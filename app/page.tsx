@@ -6,6 +6,7 @@ import { ProjectCard } from '@/components/projects/ProjectCard';
 import { getProjectsWithLogos } from '@/lib/content/projects';
 import { ArrowRight, Mail, Github, Linkedin, Briefcase } from 'lucide-react';
 import { siteConfig } from '@/data/site';
+import { servicePackages } from '@/data/services';
 import { ChipMark } from '@/components/common/ChipMark';
 import { NodeGraph } from '@/components/motion/NodeGraph';
 
@@ -61,16 +62,16 @@ export default function Home() {
             <ArrowRight className="h-4 w-4 transition-transform duration-200 ease-out group-hover:translate-x-1" />
           </Link>
           <Link
-            href="/contact"
+            href="/services"
             className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3 text-text-primary font-medium transition-colors duration-200 ease-out hover:border-accent-primary hover:text-accent-primary"
           >
-            Contact
+            View Services
           </Link>
           <Link
-            href="/services"
+            href="/contact"
             className="inline-flex items-center gap-2 rounded-md px-6 py-3 text-text-secondary font-medium transition-colors duration-200 ease-out hover:text-accent-primary"
           >
-            Contract Work
+            Contact Me
           </Link>
         </div>
       </section>
@@ -98,6 +99,55 @@ export default function Home() {
               I value clarity, communication, and steady improvement. I'm especially motivated by work that rewards thoughtful design, long-term thinking, and collaboration with other engineers.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Work With Me (Contract) Section */}
+      <section className="mb-12 sm:mb-16 lg:mb-20">
+        <div className="mb-6 sm:mb-8 h-px bg-border" />
+        <div className="mb-6 sm:mb-8 flex items-center gap-3">
+          <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
+          <h2 className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">Work With Me</h2>
+        </div>
+        <p className="mb-8 text-text-secondary leading-relaxed max-w-prose">
+          From AI chatbots to backend automation, I help startups and lean teams unlock growth with fast, effective web-based solutions. I offer individual services (chatbots, performance, SEO, automation, and more) as well as bundled packages below—all with transparent pricing and no long-term retainer.
+        </p>
+        <div className="grid gap-6 sm:grid-cols-3 mb-8">
+          {servicePackages.map((pkg) => (
+            <Link
+              key={pkg.slug}
+              href={`/services/${pkg.slug}`}
+              className="block rounded-md border border-border bg-background p-6 transition-all duration-200 ease-out hover:border-accent-primary hover:-translate-y-0.5"
+              style={{
+                boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
+              }}
+            >
+              <h3 className="mb-2 text-lg font-semibold text-text-primary">
+                {pkg.name}
+              </h3>
+              <p className="mb-4 text-sm text-text-secondary leading-relaxed">
+                {pkg.description}
+              </p>
+              <span className="text-base font-semibold text-text-primary">
+                ${pkg.price}
+              </span>
+            </Link>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-4">
+          <Link
+            href="/services"
+            className="inline-flex items-center justify-center gap-2 rounded-md border border-border px-6 py-3 text-base font-medium text-text-primary transition-colors duration-200 ease-out hover:border-accent-primary hover:text-accent-primary"
+          >
+            See all services
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center gap-2 rounded-md bg-accent-primary px-6 py-3 text-base font-medium text-white transition-colors duration-200 ease-out hover:bg-accent-primary/90"
+          >
+            Free consult
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 

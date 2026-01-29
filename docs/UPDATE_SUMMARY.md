@@ -44,7 +44,7 @@ Updated the portfolio website with real information from:
 
 4. **`data/site.ts`**
    - Updated with real contact information:
-     - Email: aidenjkiefer@gmail.com
+     - Email: hello@aidenkiefer.com
      - LinkedIn: linkedin.com/in/aiden-kiefer
      - GitHub: github.com/aidenkiefer
    - Updated description to reflect positioning statement

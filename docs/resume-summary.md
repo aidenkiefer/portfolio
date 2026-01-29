@@ -3,7 +3,7 @@
 ## Contact Information
 - Location: Chicago, IL 60608
 - Phone: (224) 622-9255
-- Email: aidenjkiefer@gmail.com
+- Email: hello@aidenkiefer.com
 - GitHub: github.com/aidenkiefer
 - LinkedIn: linkedin.com/in/aiden-kiefer
 

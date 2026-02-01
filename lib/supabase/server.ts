@@ -20,21 +20,19 @@ export interface Database {
     Tables: {
       chat_sessions: {
         Row: ChatSession;
-        Insert: Omit<ChatSession, 'id' | 'created_at'> & {
-          id?: string;
-          created_at?: string;
-        };
-        Update: Partial<Omit<ChatSession, 'id'>>;
+        Insert: { metadata?: Record<string, unknown> };
+        Update: Partial<ChatSession>;
+        Relationships: unknown[];
       };
       chat_messages: {
         Row: ChatMessage;
-        Insert: Omit<ChatMessage, 'id' | 'created_at'> & {
-          id?: string;
-          created_at?: string;
-        };
+        Insert: { session_id: string; role: 'user' | 'assistant'; content: string };
         Update: Partial<Omit<ChatMessage, 'id' | 'session_id'>>;
+        Relationships: unknown[];
       };
     };
+    Views: Record<string, { Row: Record<string, unknown>; Relationships: unknown[] }>;
+    Functions: Record<string, { Args: Record<string, unknown>; Returns: unknown }>;
   };
 }
 

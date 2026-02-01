@@ -73,8 +73,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Rate limiting: check by sessionId (if present) or IP
-    const rateLimitKey = sessionId || request.ip || 'unknown';
+    // Rate limiting: check by sessionId (if present) or IP from headers (Vercel sets x-forwarded-for / x-real-ip)
+    const forwarded = request.headers.get('x-forwarded-for');
+    const ip = forwarded ? forwarded.split(',')[0].trim() : request.headers.get('x-real-ip') ?? 'unknown';
+    const rateLimitKey = sessionId || ip;
     if (isRateLimited(rateLimitKey)) {
       return NextResponse.json(
         { error: 'Too many messages. Please try again later.' } as ChatErrorResponse,
@@ -82,7 +84,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const supabase = createClient();
+    const supabase = createClient() as any;
 
     // Create or verify session
     if (sessionId) {
@@ -112,6 +114,10 @@ export async function POST(request: NextRequest) {
       }
 
       sessionId = newSession.id;
+    }
+
+    if (!sessionId) {
+      throw new Error('Session ID required');
     }
 
     // Insert user message
@@ -171,8 +177,9 @@ export async function POST(request: NextRequest) {
     const context = formatContextForLLM(relevantChunks);
     const availableCitations = extractCitations(relevantChunks);
 
+    const history = (messageHistory ?? []) as Array<{ role: string; content: string }>;
     const structuredResponse = await callLLMWithContext(
-      messageHistory.map(msg => ({
+      history.map((msg: { role: string; content: string }) => ({
         role: msg.role as 'user' | 'assistant',
         content: msg.content,
       })),

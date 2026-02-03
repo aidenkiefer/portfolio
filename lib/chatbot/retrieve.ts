@@ -13,12 +13,12 @@ function getSupabaseClient() {
 
 /**
  * Configuration for retrieval
- * similarityThreshold: 0.5 is permissive enough for short queries (e.g. quick-start buttons);
- * 0.7 was too strict and often returned no chunks. Tune down (0.4) for more recall, up (0.6) for stricter.
+ * similarityThreshold: tuned so queries like "What tech stack?" get context (best scores often 0.44–0.48).
+ * Lower = more recall, more irrelevant chunks; higher = stricter, risk of "no relevant chunks" fallback.
  */
 const RETRIEVAL_CONFIG = {
   topK: 8, // Number of chunks to retrieve
-  similarityThreshold: 0.5, // Minimum similarity score (0-1). 0.5–0.55 works well for semantic search.
+  similarityThreshold: 0.43, // Minimum similarity score (0-1). 0.43 lets typical site queries get context.
   maxContextTokens: 3000 // Approximate max tokens for context
 } as const;
 

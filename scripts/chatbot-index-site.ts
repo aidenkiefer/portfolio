@@ -104,6 +104,24 @@ async function indexServicesPages(): Promise<ContentSource[]> {
 }
 
 /**
+ * Goals-to-services recommendations so RAG can answer "increase sales", "grow business", "e-commerce", etc.
+ */
+function indexGoalsAndRecommendations(): ContentSource[] {
+  const content = [
+    'Increase online sales: AI Customer Service Chatbots qualify leads and engage visitors 24/7. AI-Powered Web Personalization adapts the site to user behavior and boosts conversion. Technical SEO helps customers find you in search. Startup AI Jumpstart package ($350) bundles chatbot, content workflows, and personalization.',
+    'Grow my business / get more customers: Same as increasing sales. Also consider AI-Generated Content Workflows for blog and marketing copy, and Website Speed & Performance so your site loads fast and ranks better.',
+    'E-commerce / sell online / T-shirts / products: AI chatbots for support and lead qualification. Web personalization for conversion. SEO for visibility. Content workflows for product descriptions and ads. Speed optimization for a credible, fast store.',
+    'Best service for my business: Depends on goals. For sales growth: chatbots, personalization, SEO. For content: AI content workflows. For automation: Business Process Automation, API integrations. For a faster site: Speed & SEO Tune-Up ($150).'
+  ].join('\n\n');
+
+  return [{
+    url: '/services',
+    title: 'Service recommendations by goal',
+    content
+  }];
+}
+
+/**
  * Read and process services data
  */
 function indexServicesData(): ContentSource[] {
@@ -322,6 +340,7 @@ async function indexSiteContent(): Promise<void> {
     console.log('Reading content sources...');
     allSources.push(...await indexServicesPages());
     allSources.push(...indexServicesData());
+    allSources.push(...indexGoalsAndRecommendations());
     allSources.push(...await indexPortfolioProjects());
     allSources.push(...await indexAboutPage());
     allSources.push(...await indexContactPage());

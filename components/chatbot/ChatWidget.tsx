@@ -141,7 +141,7 @@ export function ChatWidget() {
     // Generate new session on next message
   };
 
-  // Simple markdown: escape HTML first to avoid invalid nesting / XSS, then apply inline patterns
+  // Simple markdown: escape HTML first, preserve newlines, then apply inline patterns
   const renderMarkdown = (content: string) => {
     const escape = (s: string) =>
       s
@@ -151,6 +151,7 @@ export function ChatWidget() {
         .replace(/"/g, '&quot;');
     const safe = escape(content);
     return safe
+      .replace(/\n/g, '<br>')
       .replace(/\*\*(.*?)\*\*/g, (_, t) => `<strong>${t}</strong>`)
       .replace(/\*(.*?)\*/g, (_, t) => `<em>${t}</em>`)
       .replace(/`(.*?)`/g, (_, t) => `<code>${t}</code>`)

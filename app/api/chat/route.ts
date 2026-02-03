@@ -209,9 +209,9 @@ export async function POST(request: NextRequest) {
     } as ChatResponse);
 
   } catch (error) {
-    // Log error for debugging but don't expose details to client
-    // Do not log message content or PII
-    console.error('Chat API error:', error instanceof Error ? error.message : 'Unknown error');
+    // Log error for debugging (check Vercel Function Logs or terminal). Do not log message content or PII.
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error('[Chat API]', message);
 
     return NextResponse.json(
       { error: 'Unable to process request. Please try again later.' } as ChatErrorResponse,

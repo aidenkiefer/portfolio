@@ -2,10 +2,14 @@ import { createClient } from '@supabase/supabase-js';
 import { embedText } from './embed';
 import type { RetrievedChunk, SiteDocument } from './rag-types';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabaseClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) {
+    throw new Error('Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
+  }
+  return createClient(url, key);
+}
 
 /**
  * Configuration for retrieval
@@ -28,6 +32,7 @@ export async function retrieveRelevantChunks(query: string): Promise<RetrievedCh
     const queryEmbedding = await embedText(query);
 
     // Query the database for similar embeddings using cosine similarity
+    const supabase = getSupabaseClient();
     const { data: results, error } = await supabase.rpc(
       'match_documents',
       {

@@ -13,10 +13,12 @@ function getSupabaseClient() {
 
 /**
  * Configuration for retrieval
+ * similarityThreshold: 0.5 is permissive enough for short queries (e.g. quick-start buttons);
+ * 0.7 was too strict and often returned no chunks. Tune down (0.4) for more recall, up (0.6) for stricter.
  */
 const RETRIEVAL_CONFIG = {
   topK: 8, // Number of chunks to retrieve
-  similarityThreshold: 0.7, // Minimum similarity score (0-1)
+  similarityThreshold: 0.5, // Minimum similarity score (0-1). 0.5–0.55 works well for semantic search.
   maxContextTokens: 3000 // Approximate max tokens for context
 } as const;
 
@@ -48,9 +50,26 @@ export async function retrieveRelevantChunks(query: string): Promise<RetrievedCh
     }
 
     if (!results || results.length === 0) {
-      console.log('No relevant chunks found for query');
+      const scores = results?.map((r: { similarity?: number }) => r.similarity) ?? [];
+      console.log('[Chat API] No relevant chunks found for query', {
+        threshold: RETRIEVAL_CONFIG.similarityThreshold,
+        scores: scores.length ? scores : '(none returned)'
+      });
+      // Debug: fetch best available scores below threshold to help tune
+      const { data: debugResults } = await supabase.rpc('match_documents', {
+        query_embedding: queryEmbedding,
+        match_threshold: 0,
+        match_count: 5
+      });
+      const bestScores = (debugResults ?? []).map((r: { similarity?: number }) => r.similarity).filter(Boolean);
+      if (bestScores.length > 0) {
+        console.log('[Chat API] Best available similarity scores (below threshold):', bestScores);
+      }
       return [];
     }
+
+    const scores = results.map((r: { similarity?: number }) => r.similarity);
+    console.log('[Chat API] Retrieved chunks', { count: results.length, scores });
 
     // Transform results into RetrievedChunk format
     const chunks: RetrievedChunk[] = results.map((result: any) => ({
@@ -66,7 +85,6 @@ export async function retrieveRelevantChunks(query: string): Promise<RetrievedCh
       similarity: result.similarity
     }));
 
-    console.log(`Retrieved ${chunks.length} relevant chunks for query`);
     return chunks;
 
   } catch (error) {

@@ -92,3 +92,19 @@ AS $$
   ORDER BY e.embedding <=> query_embedding
   LIMIT match_count;
 $$;
+
+-- =============================================================================
+-- Optional: run these in SQL Editor to log/test scores after indexing
+-- =============================================================================
+-- 1. Verify rows
+-- SELECT 'site_documents' AS tbl, COUNT(*) AS n FROM public.site_documents
+-- UNION ALL SELECT 'site_embeddings', COUNT(*) FROM public.site_embeddings;
+
+-- 2. Similarity scores using one embedding as query (first row ~1.0)
+-- SELECT url, title, ROUND((1 - (e.embedding <=> (SELECT embedding FROM public.site_embeddings LIMIT 1)))::numeric, 3) AS similarity
+-- FROM public.site_embeddings e JOIN public.site_documents d ON e.document_id = d.id
+-- ORDER BY e.embedding <=> (SELECT embedding FROM public.site_embeddings LIMIT 1) LIMIT 10;
+
+-- 3. Test match_documents (same as API): threshold 0 to see all scores
+-- SELECT id, url, title, section, ROUND(similarity::numeric, 3) AS similarity
+-- FROM public.match_documents((SELECT embedding FROM public.site_embeddings LIMIT 1), 0, 10);

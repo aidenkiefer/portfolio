@@ -88,21 +88,19 @@ export async function POST(request: NextRequest) {
 
     // Create or verify session
     if (sessionId) {
-      // Verify session exists
       const { data: existingSession, error: sessionError } = await supabase
         .from('chat_sessions')
         .select('id')
         .eq('id', sessionId)
         .single();
 
+      // If session doesn't exist (stale ID, cleared DB, or different env), create a new one
       if (sessionError || !existingSession) {
-        return NextResponse.json(
-          { error: 'Session not found' } as ChatErrorResponse,
-          { status: 400 }
-        );
+        sessionId = undefined;
       }
-    } else {
-      // Create new session
+    }
+
+    if (!sessionId) {
       const { data: newSession, error: createError } = await supabase
         .from('chat_sessions')
         .insert({ metadata: {} })

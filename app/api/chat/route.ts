@@ -108,6 +108,8 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (createError || !newSession) {
+        const detail = createError ? `${createError.message} (code: ${createError.code})` : 'no data returned';
+        console.error('[Chat API] Failed to create session:', detail);
         throw new Error('Failed to create session');
       }
 

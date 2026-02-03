@@ -35,18 +35,16 @@ export function ChatWidget() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | undefined>(undefined);
+  const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Initialize sessionId from sessionStorage on mount and show greeting if no messages
+  // After mount: restore session and show greeting (avoids hydration mismatch with sessionStorage)
   useEffect(() => {
+    setMounted(true);
     const storedSessionId = getOrCreateSessionId();
     setSessionId(storedSessionId);
-
-    // Show initial greeting if there are no messages
-    if (messages.length === 0) {
-      setMessages([INITIAL_GREETING]);
-    }
+    setMessages((prev) => (prev.length === 0 ? [INITIAL_GREETING] : prev));
   }, []);
 
   // Focus input when drawer opens
@@ -143,15 +141,20 @@ export function ChatWidget() {
     // Generate new session on next message
   };
 
-  // Helper function to render markdown content
+  // Simple markdown: escape HTML first to avoid invalid nesting / XSS, then apply inline patterns
   const renderMarkdown = (content: string) => {
-    // Simple markdown rendering for common patterns
-    // In a real implementation, you might use a proper markdown library
-    return content
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
-      .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italic
-      .replace(/`(.*?)`/g, '<code>$1</code>') // Code
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'); // Links
+    const escape = (s: string) =>
+      s
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    const safe = escape(content);
+    return safe
+      .replace(/\*\*(.*?)\*\*/g, (_, t) => `<strong>${t}</strong>`)
+      .replace(/\*(.*?)\*/g, (_, t) => `<em>${t}</em>`)
+      .replace(/`(.*?)`/g, (_, t) => `<code>${t}</code>`)
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, href) => `<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`);
   };
 
   // Check if we should show quick-start buttons (only when greeting is visible and no user messages)
@@ -226,9 +229,9 @@ export function ChatWidget() {
           </div>
         </div>
 
-        {/* Messages */}
+        {/* Messages — only render after mount to avoid hydration mismatch with sessionStorage / initial greeting */}
         <div className="flex-1 space-y-4 overflow-y-auto px-5 py-4">
-          {messages.map((message) => (
+          {mounted && messages.map((message) => (
             <div key={message.id}>
               <div
                 className={`flex ${
@@ -254,6 +257,8 @@ export function ChatWidget() {
                 >
                   {message.role === 'assistant' ? (
                     <div
+                      className="prose-inline"
+                      suppressHydrationWarning
                       dangerouslySetInnerHTML={{
                         __html: renderMarkdown(message.content),
                       }}

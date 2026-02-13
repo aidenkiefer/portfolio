@@ -195,13 +195,13 @@ export function ChatWidget() {
       return {
         ...baseStyles,
         borderRadius: isOpen ? designTokens.radii.md : '50%',
-        transition: `transform ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}, opacity ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}, border-radius ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}`,
+        transition: `transform 400ms ${designTokens.motion.easing.standard}, opacity 400ms ${designTokens.motion.easing.standard}, border-radius 400ms ${designTokens.motion.easing.standard}`,
       };
     } else {
       // Gentle Scale: standard transition
       return {
         ...baseStyles,
-        transition: `transform ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}, opacity ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}`,
+        transition: `transform 400ms ${designTokens.motion.easing.standard}, opacity 400ms ${designTokens.motion.easing.standard}`,
       };
     }
   };

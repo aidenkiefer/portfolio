@@ -31,6 +31,7 @@ function isValidUUID(str: string): boolean {
 export async function POST(request: NextRequest) {
   // Generate request ID for tracing
   const requestId = crypto.randomUUID();
+  let sessionId: string | undefined;
 
   try {
     // Parse and validate JSON body
@@ -68,7 +69,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate sessionId if provided
-    let sessionId = body.sessionId;
+    sessionId = body.sessionId;
     if (sessionId && !isValidUUID(sessionId)) {
       return NextResponse.json(
         { error: 'Invalid session ID format' } as ChatErrorResponse,

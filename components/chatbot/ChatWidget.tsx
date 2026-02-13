@@ -36,6 +36,7 @@ export function ChatWidget() {
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | undefined>(undefined);
   const [mounted, setMounted] = useState(false);
+  const [animationStyle, setAnimationStyle] = useState<'gentle-scale' | 'shape-morph'>('gentle-scale');
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -45,6 +46,17 @@ export function ChatWidget() {
     const storedSessionId = getOrCreateSessionId();
     setSessionId(storedSessionId);
     setMessages((prev) => (prev.length === 0 ? [INITIAL_GREETING] : prev));
+
+    // Load animation preference
+    const storedAnimation = localStorage.getItem('chatbot-animation') as 'gentle-scale' | 'shape-morph' | null;
+    if (storedAnimation) {
+      setAnimationStyle(storedAnimation);
+    }
+
+    // For testing - expose toggle globally
+    if (typeof window !== 'undefined') {
+      (window as any).toggleChatAnimation = toggleAnimation;
+    }
   }, []);
 
   // Focus input when drawer opens
@@ -161,6 +173,39 @@ export function ChatWidget() {
   // Check if we should show quick-start buttons (only when greeting is visible and no user messages)
   const shouldShowQuickStart = messages.length === 1 && messages[0]?.isGreeting;
 
+  const toggleAnimation = () => {
+    const newStyle = animationStyle === 'gentle-scale' ? 'shape-morph' : 'gentle-scale';
+    setAnimationStyle(newStyle);
+    localStorage.setItem('chatbot-animation', newStyle);
+    console.log(`Animation style changed to: ${newStyle}`);
+  };
+
+  // Compute drawer styles based on animation type
+  const getDrawerStyles = () => {
+    const baseStyles = {
+      backgroundColor: designTokens.colors.surface.raised,
+      border: `1px solid ${designTokens.colors.border.subtle}`,
+      boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+      transformOrigin: 'bottom right' as const,
+      pointerEvents: isOpen ? ('auto' as const) : ('none' as const),
+    };
+
+    if (animationStyle === 'shape-morph') {
+      // Shape Morph: add border-radius transition
+      return {
+        ...baseStyles,
+        borderRadius: isOpen ? designTokens.radii.md : '50%',
+        transition: `transform ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}, opacity ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}, border-radius ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}`,
+      };
+    } else {
+      // Gentle Scale: standard transition
+      return {
+        ...baseStyles,
+        transition: `transform ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}, opacity ${designTokens.motion.duration.normal} ${designTokens.motion.easing.standard}`,
+      };
+    }
+  };
+
   return (
     <>
       {/* Floating Button */}
@@ -183,14 +228,10 @@ export function ChatWidget() {
       <aside
         role="dialog"
         aria-label="Chat assistant"
-        className={`fixed bottom-0 right-0 z-50 flex h-[600px] w-full flex-col transition-transform duration-300 sm:bottom-6 sm:right-6 sm:h-[600px] sm:w-[400px] sm:rounded-md ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-        style={{
-          backgroundColor: designTokens.colors.surface.raised,
-          border: `1px solid ${designTokens.colors.border.subtle}`,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
-        }}
+        className={`fixed z-50 flex flex-col ${
+          isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+        } w-full h-[600px] bottom-0 right-0 sm:bottom-6 sm:right-6 sm:w-[400px] sm:rounded-md sm:h-[600px]`}
+        style={getDrawerStyles()}
       >
         {/* Header */}
         <div
@@ -204,6 +245,13 @@ export function ChatWidget() {
             style={{ color: designTokens.colors.text.primary }}
           >
             Questions?
+            <span
+              className="ml-2 text-xs"
+              style={{ color: designTokens.colors.text.muted }}
+              title="Click console: window.toggleChatAnimation()"
+            >
+              ({animationStyle})
+            </span>
           </h2>
           <div className="flex items-center gap-2">
             <button

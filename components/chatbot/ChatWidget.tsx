@@ -186,14 +186,15 @@ export function ChatWidget() {
       backgroundColor: designTokens.colors.surface.raised,
       border: `1px solid ${designTokens.colors.border.subtle}`,
       boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
-      transformOrigin: 'bottom right' as const,
       pointerEvents: isOpen ? ('auto' as const) : ('none' as const),
     };
 
     if (animationStyle === 'shape-morph') {
-      // Shape Morph: add border-radius transition
+      // Shape Morph: grows from bubble's center with border-radius morphing
+      // Button is 56px × 56px, center is at 28px from bottom-right corner
       return {
         ...baseStyles,
+        transformOrigin: 'calc(100% - 28px) calc(100% - 28px)',
         borderRadius: isOpen ? designTokens.radii.md : '50%',
         transition: `transform 400ms ${designTokens.motion.easing.standard}, opacity 400ms ${designTokens.motion.easing.standard}, border-radius 400ms ${designTokens.motion.easing.standard}`,
       };
@@ -201,6 +202,7 @@ export function ChatWidget() {
       // Gentle Scale: standard transition
       return {
         ...baseStyles,
+        transformOrigin: 'bottom right' as const,
         transition: `transform 400ms ${designTokens.motion.easing.standard}, opacity 400ms ${designTokens.motion.easing.standard}`,
       };
     }
@@ -229,7 +231,7 @@ export function ChatWidget() {
         role="dialog"
         aria-label="Chat assistant"
         className={`fixed z-50 flex flex-col ${
-          isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0'
+          isOpen ? 'scale-100 opacity-100' : 'scale-[0.14] opacity-0'
         } w-full h-[600px] bottom-0 right-0 sm:bottom-6 sm:right-6 sm:w-[400px] sm:rounded-md sm:h-[600px]`}
         style={getDrawerStyles()}
       >

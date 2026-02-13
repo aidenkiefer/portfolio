@@ -7,9 +7,9 @@ import {
   formatContextForLLM,
   extractCitations,
   hasHighConfidence,
-  getLowConfidenceFallback
+  getLowConfidenceResponse
 } from '@/lib/chatbot/retrieve';
-import type { ChatRequest, ChatResponse, ChatErrorResponse } from '@/lib/chatbot/types';
+import type { ChatRequest, ChatResponse, ChatErrorResponse, ErrorType } from '@/lib/chatbot/types';
 
 const MAX_MESSAGE_LENGTH = 2000;
 const CONVERSATION_HISTORY_LIMIT = 20;
@@ -29,6 +29,9 @@ function isValidUUID(str: string): boolean {
  * calls the LLM with conversation history, and returns the assistant's response.
  */
 export async function POST(request: NextRequest) {
+  // Generate request ID for tracing
+  const requestId = crypto.randomUUID();
+
   try {
     // Parse and validate JSON body
     let body: ChatRequest;
@@ -73,13 +76,30 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate pathname if provided (must be a path, not a full URL)
+    const pathname = body.pathname;
+    if (pathname && (typeof pathname !== 'string' || !pathname.startsWith('/') || pathname.includes('://') || pathname.length > 200)) {
+      return NextResponse.json(
+        { error: 'Invalid pathname format' } as ChatErrorResponse,
+        { status: 400 }
+      );
+    }
+
+    const pageTitle = body.pageTitle;
+
     // Rate limiting: check by sessionId (if present) or IP from headers (Vercel sets x-forwarded-for / x-real-ip)
     const forwarded = request.headers.get('x-forwarded-for');
     const ip = forwarded ? forwarded.split(',')[0].trim() : request.headers.get('x-real-ip') ?? 'unknown';
     const rateLimitKey = sessionId || ip;
     if (isRateLimited(rateLimitKey)) {
+      console.log(`[Chat API] [${requestId}] Rate limited: ${rateLimitKey}`);
       return NextResponse.json(
-        { error: 'Too many messages. Please try again later.' } as ChatErrorResponse,
+        {
+          ok: false,
+          errorType: 'RATE_LIMITED' as ErrorType,
+          error: 'Too many messages. Please try again later.',
+          sessionId
+        } as ChatResponse,
         { status: 429 }
       );
     }
@@ -120,6 +140,8 @@ export async function POST(request: NextRequest) {
       throw new Error('Session ID required');
     }
 
+    console.log(`[Chat API] [${requestId}] Session resolved: ${sessionId ? 'existing/created' : 'error'}`);
+
     // Insert user message
     const { error: userMessageError } = await supabase
       .from('chat_messages')
@@ -146,20 +168,42 @@ export async function POST(request: NextRequest) {
     }
 
     // RAG retrieval: embed user message and retrieve relevant chunks
-    const relevantChunks = await retrieveRelevantChunks(trimmedMessage);
+    console.log(`[Chat API] [${requestId}] Retrieval start`);
+    const retrievalStart = performance.now();
+    let relevantChunks;
+    try {
+      relevantChunks = await retrieveRelevantChunks(
+        trimmedMessage,
+        pathname ? { pathname } : undefined
+      );
+    } catch (retrievalError) {
+      console.error(`[Chat API] [${requestId}] Retrieval error:`, retrievalError);
+      return NextResponse.json({
+        ok: false,
+        errorType: 'RETRIEVAL_ERROR' as ErrorType,
+        error: "I'm having trouble searching the site information right now. Please try again in a moment.",
+        sessionId
+      } as ChatResponse);
+    }
+    const retrievalMs = Math.round(performance.now() - retrievalStart);
+    console.log(`[Chat API] [${requestId}] Retrieval end: ${relevantChunks.length} chunks, ${retrievalMs}ms`);
 
     // Check confidence level
     if (!hasHighConfidence(relevantChunks)) {
-      // Low confidence: return fallback message
-      const fallbackAnswer = getLowConfidenceFallback();
+      console.log(`[Chat API] [${requestId}] Low confidence path`);
+      // Low confidence: return page-aware clarifying response
+      const clarifierResponse = getLowConfidenceResponse(
+        trimmedMessage,
+        pathname ? { pathname } : undefined
+      );
 
-      // Save fallback assistant message
+      // Save clarifier assistant message
       const { error: assistantMessageError } = await supabase
         .from('chat_messages')
         .insert({
           session_id: sessionId,
           role: 'assistant',
-          content: fallbackAnswer,
+          content: clarifierResponse.answer,
         });
 
       if (assistantMessageError) {
@@ -167,8 +211,9 @@ export async function POST(request: NextRequest) {
       }
 
       return NextResponse.json({
-        answer: fallbackAnswer,
-        citations: [],
+        answer: clarifierResponse.answer,
+        citations: clarifierResponse.citations,
+        cta: clarifierResponse.cta,
         sessionId,
       } as ChatResponse);
     }
@@ -178,14 +223,38 @@ export async function POST(request: NextRequest) {
     const availableCitations = extractCitations(relevantChunks);
 
     const history = (messageHistory ?? []) as Array<{ role: string; content: string }>;
-    const structuredResponse = await callLLMWithContext(
-      history.map((msg: { role: string; content: string }) => ({
-        role: msg.role as 'user' | 'assistant',
-        content: msg.content,
-      })),
-      context,
-      availableCitations
-    );
+    console.log(`[Chat API] [${requestId}] LLM call start`);
+    const llmStart = performance.now();
+    let structuredResponse;
+    try {
+      structuredResponse = await callLLMWithContext(
+        history.map((msg: { role: string; content: string }) => ({
+          role: msg.role as 'user' | 'assistant',
+          content: msg.content,
+        })),
+        context,
+        availableCitations,
+        pathname ? { pathname, pageTitle } : undefined
+      );
+    } catch (llmError) {
+      const llmMs = Math.round(performance.now() - llmStart);
+      console.error(`[Chat API] [${requestId}] LLM error after ${llmMs}ms:`, llmError);
+
+      // Check if it's a config error (missing API keys)
+      const errorMessage = llmError instanceof Error ? llmError.message : '';
+      const isConfigError = errorMessage.includes('API key') || errorMessage.includes('configured');
+
+      return NextResponse.json({
+        ok: false,
+        errorType: (isConfigError ? 'CONFIG_ERROR' : 'LLM_ERROR') as ErrorType,
+        error: isConfigError
+          ? "The chatbot is not properly configured. Please contact support."
+          : "I'm having trouble generating a response right now. Please try again in a moment.",
+        sessionId
+      } as ChatResponse);
+    }
+    const llmMs = Math.round(performance.now() - llmStart);
+    console.log(`[Chat API] [${requestId}] LLM call end: ${llmMs}ms`);
 
     // Insert assistant message (store the full answer)
     const { error: assistantMessageError } = await supabase
@@ -211,11 +280,13 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     // Log error for debugging (check Vercel Function Logs or terminal). Do not log message content or PII.
     const message = error instanceof Error ? error.message : 'Unknown error';
-    console.error('[Chat API]', message);
+    console.error(`[Chat API] [${requestId}] Error:`, message);
 
-    return NextResponse.json(
-      { error: 'Unable to process request. Please try again later.' } as ChatErrorResponse,
-      { status: 500 }
-    );
+    return NextResponse.json({
+      ok: false,
+      errorType: 'UNKNOWN_ERROR' as ErrorType,
+      error: 'Unable to process request. Please try again later.',
+      sessionId
+    } as ChatResponse);
   }
 }

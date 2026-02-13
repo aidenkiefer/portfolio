@@ -92,12 +92,10 @@ export function ChatWidget() {
         body: JSON.stringify({
           message: trimmedInput,
           sessionId,
+          pathname: typeof window !== 'undefined' ? window.location.pathname : undefined,
+          pageTitle: typeof window !== 'undefined' ? document.title : undefined,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to get response');
-      }
 
       const data = await response.json();
 
@@ -107,6 +105,31 @@ export function ChatWidget() {
         saveSessionId(data.sessionId);
       }
 
+      // Handle typed errors
+      if (data.ok === false || data.errorType) {
+        let errorContent = data.error || 'Sorry, I encountered an issue. Please try again.';
+
+        // Customize error message based on type
+        if (data.errorType === 'RATE_LIMITED') {
+          errorContent = data.error || 'Too many messages. Please wait a moment and try again.';
+        } else if (data.errorType === 'RETRIEVAL_ERROR') {
+          errorContent = data.error || "I'm having trouble searching the site information. Please try again in a moment.";
+        } else if (data.errorType === 'LLM_ERROR') {
+          errorContent = data.error || "I'm having trouble generating a response. Please try again in a moment.";
+        } else if (data.errorType === 'CONFIG_ERROR') {
+          errorContent = data.error || 'The chatbot is not properly configured. Please contact support.';
+        }
+
+        const errorMessage: Message = {
+          id: `error-${Date.now()}`,
+          role: 'assistant',
+          content: errorContent,
+        };
+        setMessages((prev) => [...prev, errorMessage]);
+        return;
+      }
+
+      // Success case
       const assistantMessage: Message = {
         id: `assistant-${Date.now()}`,
         role: 'assistant',

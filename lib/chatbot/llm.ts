@@ -15,6 +15,41 @@ export interface StructuredChatResponse {
 }
 
 /**
+ * Validates a structured response object
+ *
+ * @param obj - Object to validate
+ * @param allowedCitations - List of URLs that are allowed as citations
+ * @returns Validated and filtered response, or null if invalid
+ */
+function validateStructuredResponse(
+  obj: any,
+  allowedCitations: string[]
+): StructuredChatResponse | null {
+  // Must have answer as a non-empty string
+  if (!obj || typeof obj.answer !== 'string' || obj.answer.trim().length === 0) {
+    return null;
+  }
+
+  // Citations must be an array (or absent)
+  if (obj.citations && !Array.isArray(obj.citations)) {
+    return null;
+  }
+
+  // Filter citations to only those in the allowed list
+  const filteredCitations = obj.citations
+    ? obj.citations
+        .filter((cite: any) => typeof cite === 'string' && allowedCitations.includes(cite))
+    : [];
+
+  return {
+    answer: obj.answer.trim(),
+    citations: filteredCitations,
+    recommended_services: typeof obj.recommended_services === 'string' ? obj.recommended_services : undefined,
+    cta: typeof obj.cta === 'string' ? obj.cta : undefined
+  };
+}
+
+/**
  * Calls the configured LLM with conversation history.
  * Uses Anthropic if ANTHROPIC_API_KEY is set, otherwise OpenAI with OPENAI_API_KEY.
  *
@@ -85,20 +120,22 @@ async function callOpenAI(messages: ConversationMessage[], apiKey: string): Prom
  * @param messages - Conversation history
  * @param context - Retrieved context from RAG
  * @param citations - URLs that can be cited
+ * @param pageContext - Optional page context (pathname and title)
  * @returns Structured response with answer, citations, and optional recommendations
  */
 export async function callLLMWithContext(
   messages: ConversationMessage[],
   context: string,
-  citations: string[]
+  citations: string[],
+  pageContext?: { pathname?: string; pageTitle?: string }
 ): Promise<StructuredChatResponse> {
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
   const openaiKey = process.env.OPENAI_API_KEY;
 
   if (anthropicKey) {
-    return callAnthropicWithContext(messages, context, citations, anthropicKey);
+    return callAnthropicWithContext(messages, context, citations, anthropicKey, pageContext);
   } else if (openaiKey) {
-    return callOpenAIWithContext(messages, context, citations, openaiKey);
+    return callOpenAIWithContext(messages, context, citations, openaiKey, pageContext);
   } else {
     throw new Error('No LLM API key configured. Set ANTHROPIC_API_KEY or OPENAI_API_KEY in .env.local');
   }
@@ -108,11 +145,19 @@ async function callAnthropicWithContext(
   messages: ConversationMessage[],
   context: string,
   citations: string[],
-  apiKey: string
+  apiKey: string,
+  pageContext?: { pathname?: string; pageTitle?: string }
 ): Promise<StructuredChatResponse> {
   const client = new Anthropic({ apiKey });
 
-  const systemPromptWithContext = `${SYSTEM_PROMPT}
+  let pageContextBlock = '';
+  if (pageContext?.pathname) {
+    pageContextBlock = `\n\nPAGE CONTEXT:
+Current route: ${pageContext.pathname}${pageContext.pageTitle ? `\nPage title: ${pageContext.pageTitle}` : ''}
+Use this context to tailor your answer's emphasis and next steps to the user's current page.`;
+  }
+
+  const systemPromptWithContext = `${SYSTEM_PROMPT}${pageContextBlock}
 
 CONTEXT INFORMATION:
 ${context}
@@ -138,15 +183,52 @@ Only cite URLs that are actually relevant to your answer. If no context is relev
 
   const content = response.content[0];
   if (content.type === 'text') {
+    let parsed: any;
     try {
-      return JSON.parse(content.text);
+      parsed = JSON.parse(content.text);
     } catch (error) {
-      // Fallback if JSON parsing fails
+      // JSON parsing failed - fall back to raw text
       return {
         answer: content.text,
         citations: []
       };
     }
+
+    // Validate and filter parsed response
+    const validated = validateStructuredResponse(parsed, citations);
+    if (validated) {
+      return validated;
+    }
+
+    // Validation failed - attempt one repair
+    try {
+      const repairResponse = await client.messages.create({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 1024,
+        system: systemPromptWithContext + `\n\nIMPORTANT: Your previous response had invalid JSON structure. Please respond with valid JSON containing: { "answer": "...", "citations": [...], "recommended_services": "...", "cta": "..." }`,
+        messages: messages.map(msg => ({
+          role: msg.role,
+          content: msg.content,
+        })),
+      });
+
+      const repairContent = repairResponse.content[0];
+      if (repairContent.type === 'text') {
+        const repaired = JSON.parse(repairContent.text);
+        const revalidated = validateStructuredResponse(repaired, citations);
+        if (revalidated) {
+          return revalidated;
+        }
+      }
+    } catch (repairError) {
+      // Repair attempt failed
+    }
+
+    // Both parse and repair failed - fall back to raw text
+    return {
+      answer: content.text,
+      citations: []
+    };
   }
 
   throw new Error('Unexpected response format from Anthropic');
@@ -156,11 +238,19 @@ async function callOpenAIWithContext(
   messages: ConversationMessage[],
   context: string,
   citations: string[],
-  apiKey: string
+  apiKey: string,
+  pageContext?: { pathname?: string; pageTitle?: string }
 ): Promise<StructuredChatResponse> {
   const client = new OpenAI({ apiKey });
 
-  const systemPromptWithContext = `${SYSTEM_PROMPT}
+  let pageContextBlock = '';
+  if (pageContext?.pathname) {
+    pageContextBlock = `\n\nPAGE CONTEXT:
+Current route: ${pageContext.pathname}${pageContext.pageTitle ? `\nPage title: ${pageContext.pageTitle}` : ''}
+Use this context to tailor your answer's emphasis and next steps to the user's current page.`;
+  }
+
+  const systemPromptWithContext = `${SYSTEM_PROMPT}${pageContextBlock}
 
 CONTEXT INFORMATION:
 ${context}
@@ -192,13 +282,53 @@ Only cite URLs that are actually relevant to your answer. If no context is relev
     throw new Error('No response from OpenAI');
   }
 
+  let parsed: any;
   try {
-    return JSON.parse(messageContent);
+    parsed = JSON.parse(messageContent);
   } catch (error) {
-    // Fallback if JSON parsing fails
+    // JSON parsing failed - fall back to raw text
     return {
       answer: messageContent,
       citations: []
     };
   }
+
+  // Validate and filter parsed response
+  const validated = validateStructuredResponse(parsed, citations);
+  if (validated) {
+    return validated;
+  }
+
+  // Validation failed - attempt one repair
+  try {
+    const repairResponse = await client.chat.completions.create({
+      model: 'gpt-4o-mini',
+      max_tokens: 1024,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: systemPromptWithContext + `\n\nIMPORTANT: Your previous response had invalid JSON structure. Please respond with valid JSON containing: { "answer": "...", "citations": [...], "recommended_services": "...", "cta": "..." }` },
+        ...messages.map(msg => ({
+          role: msg.role as 'user' | 'assistant',
+          content: msg.content,
+        })),
+      ],
+    });
+
+    const repairContent = repairResponse.choices[0]?.message?.content;
+    if (repairContent) {
+      const repaired = JSON.parse(repairContent);
+      const revalidated = validateStructuredResponse(repaired, citations);
+      if (revalidated) {
+        return revalidated;
+      }
+    }
+  } catch (repairError) {
+    // Repair attempt failed
+  }
+
+  // Both parse and repair failed - fall back to raw text
+  return {
+    answer: messageContent,
+    citations: []
+  };
 }

@@ -1,0 +1,378 @@
+[
+  {
+    "question": "How much does the AI chatbot cost?",
+    "intent": "pricing",
+    "expectedUrls": ["/services/chatbots"]
+  },
+  {
+    "question": "What's the pricing for SEO services?",
+    "intent": "pricing",
+    "expectedUrls": ["/services/seo"]
+  },
+  {
+    "question": "How fast can you build a chatbot?",
+    "intent": "timeline",
+    "expectedUrls": ["/services/chatbots"]
+  },
+  {
+    "question": "What's the turnaround time for website speed optimization?",
+    "intent": "timeline",
+    "expectedUrls": ["/services/performance"]
+  },
+  {
+    "question": "Can you help with Shopify integration?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services/automation"]
+  },
+  {
+    "question": "Do you offer API integrations?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services/automation"]
+  },
+  {
+    "question": "What tech stack do you use for chatbots?",
+    "intent": "stack",
+    "expectedUrls": ["/services/chatbots"]
+  },
+  {
+    "question": "What programming languages do you work with?",
+    "intent": "stack"
+  },
+  {
+    "question": "How does the consultation process work?",
+    "intent": "process"
+  },
+  {
+    "question": "What happens after I book a consultation?",
+    "intent": "process"
+  },
+  {
+    "question": "how much is it",
+    "intent": "pricing"
+  },
+  {
+    "question": "can you build a chatbot",
+    "intent": "capabilities",
+    "expectedUrls": ["/services/chatbots"]
+  },
+  {
+    "question": "I need help with my website",
+    "intent": "other"
+  },
+  {
+    "question": "SEO audit",
+    "intent": "capabilities",
+    "expectedUrls": ["/services/seo"]
+  },
+  {
+    "question": "What's included in the Startup AI Jumpstart package?",
+    "intent": "pricing",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "How much does the Speed & SEO Tune-Up cost?",
+    "intent": "pricing",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "What's the difference between the AI chatbot and AI-powered personalization?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services/chatbots", "/services"]
+  },
+  {
+    "question": "Can you help increase my online sales?",
+    "intent": "capabilities"
+  },
+  {
+    "question": "I want to grow my business",
+    "intent": "other"
+  },
+  {
+    "question": "How do I get more leads?",
+    "intent": "capabilities"
+  },
+  {
+    "question": "What's the timeline for the Automation Sprint package?",
+    "intent": "timeline",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "Do you offer payment plans?",
+    "intent": "pricing"
+  },
+  {
+    "question": "Can I see examples of your work?",
+    "intent": "other",
+    "expectedUrls": ["/projects"]
+  },
+  {
+    "question": "What industries do you work with?",
+    "intent": "other"
+  },
+  {
+    "question": "Are you available for ongoing support?",
+    "intent": "process"
+  },
+  {
+    "question": "Do you work with startups?",
+    "intent": "other"
+  },
+  {
+    "question": "What's the minimum project size?",
+    "intent": "pricing"
+  },
+  {
+    "question": "Can you handle urgent requests?",
+    "intent": "timeline"
+  },
+  {
+    "question": "What's your availability?",
+    "intent": "timeline"
+  },
+  {
+    "question": "Do you provide refunds?",
+    "intent": "process"
+  },
+  {
+    "question": "What's the best service for increasing conversions?",
+    "intent": "capabilities",
+    "pageContext": "/services"
+  },
+  {
+    "question": "How does the chatbot qualify leads?",
+    "intent": "capabilities",
+    "pageContext": "/services/chatbots",
+    "expectedUrls": ["/services/chatbots"]
+  },
+  {
+    "question": "What's the difference between the $150 and $230 chatbot options?",
+    "intent": "pricing",
+    "pageContext": "/services/chatbots",
+    "expectedUrls": ["/services/chatbots"]
+  },
+  {
+    "question": "Can the chatbot integrate with my CRM?",
+    "intent": "capabilities",
+    "pageContext": "/services/chatbots"
+  },
+  {
+    "question": "How long does SEO take to show results?",
+    "intent": "timeline",
+    "pageContext": "/services/seo",
+    "expectedUrls": ["/services/seo"]
+  },
+  {
+    "question": "What's included in the technical SEO setup?",
+    "intent": "capabilities",
+    "pageContext": "/services/seo",
+    "expectedUrls": ["/services/seo"]
+  },
+  {
+    "question": "Will speed optimization affect my site's functionality?",
+    "intent": "capabilities",
+    "pageContext": "/services/performance"
+  },
+  {
+    "question": "What's Core Web Vitals?",
+    "intent": "other",
+    "pageContext": "/services/performance",
+    "expectedUrls": ["/services/performance"]
+  },
+  {
+    "question": "Can you automate my lead handling process?",
+    "intent": "capabilities",
+    "pageContext": "/services/automation",
+    "expectedUrls": ["/services/automation"]
+  },
+  {
+    "question": "What tools do you use for automation?",
+    "intent": "stack",
+    "pageContext": "/services/automation",
+    "expectedUrls": ["/services/automation"]
+  },
+  {
+    "question": "Do you offer custom development?",
+    "intent": "capabilities"
+  },
+  {
+    "question": "Can you migrate my site to Next.js?",
+    "intent": "capabilities"
+  },
+  {
+    "question": "What's your experience with React?",
+    "intent": "stack",
+    "expectedUrls": ["/experience"]
+  },
+  {
+    "question": "Do you have e-commerce experience?",
+    "intent": "capabilities"
+  },
+  {
+    "question": "Can you help with accessibility compliance?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "What's the mobile readiness audit?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "How much for a bug fix?",
+    "intent": "pricing",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "Can you fix broken layouts?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "What's AI-generated content workflows?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "Can you create video avatars?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "What's AI-based business insights?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "Do you work with Python?",
+    "intent": "stack",
+    "expectedUrls": ["/services/automation"]
+  },
+  {
+    "question": "Can you integrate with Zapier?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services/automation"]
+  },
+  {
+    "question": "What's an internal dashboard?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services/automation"]
+  },
+  {
+    "question": "How do I book a consultation?",
+    "intent": "process",
+    "expectedUrls": ["/contact"]
+  },
+  {
+    "question": "What information do I need to provide for a quote?",
+    "intent": "process"
+  },
+  {
+    "question": "Do you sign NDAs?",
+    "intent": "process"
+  },
+  {
+    "question": "Can I hire you on retainer?",
+    "intent": "process"
+  },
+  {
+    "question": "What payment methods do you accept?",
+    "intent": "process"
+  },
+  {
+    "question": "When do I pay?",
+    "intent": "process"
+  },
+  {
+    "question": "Can you help with my Webflow site?",
+    "intent": "capabilities"
+  },
+  {
+    "question": "Do you work with WordPress?",
+    "intent": "capabilities"
+  },
+  {
+    "question": "What's your hourly rate?",
+    "intent": "pricing"
+  },
+  {
+    "question": "Can I see your portfolio?",
+    "intent": "other",
+    "expectedUrls": ["/projects"]
+  },
+  {
+    "question": "What's your background?",
+    "intent": "other",
+    "expectedUrls": ["/experience"]
+  },
+  {
+    "question": "Are you available for full-time work?",
+    "intent": "process"
+  },
+  {
+    "question": "Can you help with AI implementation?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "What's the ROI of a chatbot?",
+    "intent": "other",
+    "expectedUrls": ["/services/chatbots"]
+  },
+  {
+    "question": "How do I know if I need SEO or speed optimization?",
+    "intent": "other",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "What's the best package for a new startup?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "Can you help with both design and development?",
+    "intent": "capabilities"
+  },
+  {
+    "question": "Do you offer free consultations?",
+    "intent": "pricing"
+  },
+  {
+    "question": "What happens if I'm not satisfied with the work?",
+    "intent": "process"
+  },
+  {
+    "question": "Can you work with my existing developer?",
+    "intent": "process"
+  },
+  {
+    "question": "Do you provide ongoing maintenance?",
+    "intent": "process"
+  },
+  {
+    "question": "What's the difference between technical SEO and content SEO?",
+    "intent": "other",
+    "expectedUrls": ["/services/seo"]
+  },
+  {
+    "question": "Can AI really help my business?",
+    "intent": "other",
+    "expectedUrls": ["/services"]
+  },
+  {
+    "question": "What's the fastest way to get started?",
+    "intent": "process"
+  },
+  {
+    "question": "I'm not technical, can you still help me?",
+    "intent": "other"
+  },
+  {
+    "question": "What makes your chatbot different from others?",
+    "intent": "capabilities",
+    "expectedUrls": ["/services/chatbots"]
+  },
+  {
+    "question": "Can you guarantee results?",
+    "intent": "other"
+  }
+]

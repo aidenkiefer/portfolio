@@ -270,13 +270,6 @@ export function ChatWidget() {
             style={{ color: designTokens.colors.text.primary }}
           >
             Questions?
-            <span
-              className="ml-2 text-xs"
-              style={{ color: designTokens.colors.text.muted }}
-              title="Click console: window.toggleChatAnimation()"
-            >
-              ({animationStyle})
-            </span>
           </h2>
           <div className="flex items-center gap-2">
             <button

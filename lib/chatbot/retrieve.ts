@@ -3,6 +3,7 @@ import { embedText } from './embed';
 import { transformQueryForRetrieval } from './queryTransform';
 import { rerankChunks, type RankedChunk } from './rerank';
 import type { RetrievedChunk, SiteDocument } from './rag-types';
+import { buildCacheKey, getFromCache, setCache } from './cache';
 
 function getSupabaseClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -17,7 +18,7 @@ function getSupabaseClient() {
  * Configuration for retrieval
  * Two-stage retrieval: high-recall candidates -> rerank -> final selection
  */
-const RETRIEVAL_CONFIG = {
+export const RETRIEVAL_CONFIG = {
   // Stage 1: Multi-query candidate retrieval
   candidateThreshold: 0.25, // Lower threshold for high recall
   perQueryCount: 10, // Results per transformed query
@@ -71,7 +72,25 @@ export async function retrieveRelevantChunks(
   query: string,
   pageContext?: { pathname?: string }
 ): Promise<RetrievedChunk[]> {
+  const startTime = performance.now();
+
   try {
+    // Check cache first
+    const cacheKey = buildCacheKey(query, pageContext?.pathname);
+    const cached = await getFromCache(cacheKey);
+
+    if (cached) {
+      const latency = Math.round(performance.now() - startTime);
+      console.log('[Chat API] Cache HIT - skipping retrieval pipeline', {
+        query,
+        latency: `${latency}ms`,
+        chunkCount: cached.length
+      });
+      return cached;
+    }
+
+    console.log('[Chat API] Cache MISS - running retrieval pipeline', { query });
+
     // Step 1: Transform query into multiple retrieval queries
     const transformResult = await transformQueryForRetrieval({
       userQuery: query,
@@ -189,6 +208,15 @@ export async function retrieveRelevantChunks(
 
     // Step 8: Neighbor expansion (optional - requires chunk_index in metadata)
     const expandedChunks = await expandWithNeighbors(finalChunks, supabase);
+
+    // Cache the result before returning
+    await setCache(cacheKey, expandedChunks);
+
+    const latency = Math.round(performance.now() - startTime);
+    console.log('[Chat API] Retrieval pipeline complete', {
+      latency: `${latency}ms`,
+      chunkCount: expandedChunks.length
+    });
 
     return expandedChunks;
 

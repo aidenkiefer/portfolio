@@ -10,6 +10,7 @@ import {
   getLowConfidenceResponse
 } from '@/lib/chatbot/retrieve';
 import type { ChatRequest, ChatResponse, ChatErrorResponse, ErrorType } from '@/lib/chatbot/types';
+import { isServicesChatbotEnabled } from '@/lib/chatbot/featureFlags';
 
 const MAX_MESSAGE_LENGTH = 2000;
 const CONVERSATION_HISTORY_LIMIT = 20;
@@ -32,6 +33,18 @@ export async function POST(request: NextRequest) {
   // Generate request ID for tracing
   const requestId = crypto.randomUUID();
   let sessionId: string | undefined;
+
+  if (!isServicesChatbotEnabled()) {
+    console.log(`[Chat API] [${requestId}] Rejected: services chatbot disabled`);
+    return NextResponse.json(
+      {
+        ok: false,
+        errorType: 'CONFIG_ERROR' as ErrorType,
+        error: 'The chat assistant is temporarily unavailable.',
+      } as ChatResponse,
+      { status: 503 }
+    );
+  }
 
   try {
     // Parse and validate JSON body

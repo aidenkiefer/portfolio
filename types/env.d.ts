@@ -5,6 +5,9 @@
 
 declare namespace NodeJS {
   interface ProcessEnv {
+    /** Set to "true" to show the services chatbot and allow /api/chat. */
+    NEXT_PUBLIC_SERVICES_CHATBOT_ENABLED?: string;
+
     // Supabase configuration (chatbot feature)
     NEXT_PUBLIC_SUPABASE_URL?: string;
     NEXT_PUBLIC_SUPABASE_ANON_KEY?: string;

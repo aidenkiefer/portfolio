@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
 import { BadgeRow, Badge } from '@/components/common/BadgeRow';
 import { SearchableBadge } from '@/components/common/SearchableBadge';
+import { ReleaseFeedBoard } from '@/components/experience/ReleaseFeedBoard';
 import { experiences } from '@/data/experience';
 import { coursework } from '@/data/coursework';
 import { skills } from '@/data/skills';
@@ -12,7 +13,8 @@ import { ChipMark } from '@/components/common/ChipMark';
 
 export const metadata = generateMetadata({
   title: 'Experience & Education',
-  description: 'My professional experience, coursework, and technical skills',
+  description:
+    'Recent shipping narrative across projects, plus professional experience, coursework, and technical skills.',
   path: '/experience',
 });
 
@@ -26,20 +28,45 @@ export default function ExperiencePage() {
 
   return (
     <Container className="py-10 sm:py-14 lg:py-20">
-      <div className="mb-12 sm:mb-16 lg:mb-20">
-        <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Experience & Education</h1>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
+      <div className="mb-10 sm:mb-12 lg:mb-14">
+        <h1 className="mb-5 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">
+          Experience & Education
+        </h1>
+        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose text-sm sm:text-base">
           <p>
-            My professional experience reflects engineering work across web development, systems optimization, and data-driven decision making. Each role has involved building and maintaining systems, not just pages, with attention to performance, structure, and measurable impact.
+            I build and maintain real systems across products — not just pages. Below,{' '}
+            <strong className="font-semibold text-text-primary">Recent work</strong> is a live-style feed of what
+            I&apos;ve shipped recently, with links to case studies where they exist on this site.
           </p>
-          <p>
-            What I've learned from these experiences is that good engineering work requires more than technical skills. It demands understanding business context, collaborating with non-technical stakeholders, making decisions under uncertainty, and maintaining systems that real people depend on. Whether I'm optimizing ad campaigns, building e-commerce platforms, or maintaining content management systems, I approach each project with the same principles: understand the problem deeply, design for maintainability, and measure what matters.
+          <p className="text-text-secondary">
+            Further down: roles, coursework, and a concise skills map.{' '}
+            <a href="#professional-experience" className="text-accent-primary font-medium hover:text-accent-primary/80">
+              Jump to professional experience →
+            </a>
           </p>
         </div>
       </div>
 
+      {/* Primary feature: Release Feed */}
+      <div className="mb-16 sm:mb-20 lg:mb-24 pb-12 border-b border-border">
+        <ReleaseFeedBoard />
+      </div>
+
+      <div className="mb-12 sm:mb-16 lg:mb-20 max-w-prose space-y-4 text-text-primary leading-relaxed text-sm sm:text-base">
+        <p>
+          My professional experience reflects engineering work across web development, systems optimization, and
+          data-driven decision making. Each role has involved building and maintaining systems with attention to
+          performance, structure, and measurable impact.
+        </p>
+        <p>
+          What I&apos;ve learned is that good engineering requires understanding business context, collaborating with
+          non-technical stakeholders, and maintaining systems real people depend on — whether optimizing campaigns,
+          e-commerce platforms, or content systems.
+        </p>
+      </div>
+
       {/* Experience Section */}
-      <section className="mb-20">
+      <section id="professional-experience" className="mb-20 scroll-mt-24">
         <div className="mb-8 h-px bg-border" />
         <h2 className="mb-10 text-2xl font-semibold text-text-primary tracking-tight flex items-center gap-3">
           <ChipMark className="h-14 w-14 text-text-secondary flex-shrink-0" />
@@ -56,9 +83,7 @@ export default function ExperiencePage() {
               }}
             >
               <div className="mb-6">
-                <h3 className="text-2xl font-semibold text-text-primary mb-2">
-                  {exp.role}
-                </h3>
+                <h3 className="text-2xl font-semibold text-text-primary mb-2">{exp.role}</h3>
                 <p className="text-lg text-text-primary font-medium mb-1">{exp.company}</p>
                 <p className="text-sm text-text-secondary">
                   {exp.location} • {exp.startDate} - {exp.endDate || 'Present'}
@@ -70,9 +95,7 @@ export default function ExperiencePage() {
                 ))}
               </ul>
               <div className="pt-6 border-t border-border">
-                <h4 className="mb-4 text-sm font-medium text-text-primary uppercase tracking-wide">
-                  Technologies
-                </h4>
+                <h4 className="mb-4 text-sm font-medium text-text-primary uppercase tracking-wide">Technologies</h4>
                 <BadgeRow>
                   {exp.techStack.map((tech) => (
                     <SearchableBadge key={tech} tag={tech}>
@@ -113,13 +136,19 @@ export default function ExperiencePage() {
           <div className="flex-1">
             <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
               <p>
-                My coursework is curated to show strong computer science fundamentals and exposure across systems, algorithms, machine learning, databases, and UI. These courses have shaped how I think about engineering problems and informed my approach to system design.
+                My coursework is curated to show strong computer science fundamentals and exposure across systems,
+                algorithms, machine learning, databases, and UI. These courses have shaped how I think about
+                engineering problems and informed my approach to system design.
               </p>
               <p>
-                What I value most about my education is the balance between theory and practice. Courses like Systems Programming and Computer Design taught me to think about how software interacts with hardware and the operating system. Database Systems and Software Design helped me understand how to model real-world requirements and make architectural decisions. And courses in machine learning and data science gave me the mathematical foundation to work with complex, ambiguous problems.
+                What I value most is the balance between theory and practice. Courses like Systems Programming and
+                Computer Design taught me how software interacts with hardware and the OS. Database Systems and
+                Software Design helped me model real-world requirements and make architectural decisions. ML and data
+                science coursework gave me the foundation to work with ambiguous, data-heavy problems.
               </p>
               <p>
-                Below, I've organized the coursework by theme rather than chronologically, focusing on the skills and concepts that are most relevant to engineering work. Each course listing includes the key skills I learned and, where applicable, links to projects that demonstrate those skills in practice.
+                Below, coursework is organized by theme. Each listing includes key skills and, where applicable,
+                links to projects that demonstrate them.
               </p>
             </div>
           </div>
@@ -136,9 +165,7 @@ export default function ExperiencePage() {
         <div className="space-y-16">
           {coursework.map((group, groupIdx) => (
             <div key={groupIdx}>
-              <h3 className="mb-8 text-xl font-semibold text-text-primary border-b border-border pb-3">
-                {group.title}
-              </h3>
+              <h3 className="mb-8 text-xl font-semibold text-text-primary border-b border-border pb-3">{group.title}</h3>
               <div className="grid gap-6 md:grid-cols-2">
                 {group.courses.map((course, courseIdx) => (
                   <div
@@ -149,12 +176,8 @@ export default function ExperiencePage() {
                     }}
                   >
                     <div className="mb-4">
-                      <span className="font-mono text-xs text-accent-primary font-medium">
-                        {course.code}
-                      </span>
-                      <h4 className="text-lg font-semibold text-text-primary mt-2">
-                        {course.name}
-                      </h4>
+                      <span className="font-mono text-xs text-accent-primary font-medium">{course.code}</span>
+                      <h4 className="text-lg font-semibold text-text-primary mt-2">{course.name}</h4>
                     </div>
                     <div className="mb-4">
                       <p className="text-xs text-text-secondary uppercase tracking-wide mb-3">Skills Learned</p>
@@ -166,9 +189,7 @@ export default function ExperiencePage() {
                     </div>
                     {course.projectLinks && course.projectLinks.length > 0 && (
                       <div className="pt-4 border-t border-border">
-                        <p className="text-xs text-text-secondary uppercase tracking-wide mb-3">
-                          Related Projects
-                        </p>
+                        <p className="text-xs text-text-secondary uppercase tracking-wide mb-3">Related Projects</p>
                         <div className="flex flex-wrap gap-2">
                           {course.projectLinks.map((slug) => (
                             <Link
@@ -200,15 +221,14 @@ export default function ExperiencePage() {
         </h2>
         <div className="max-w-prose mb-8 sm:mb-10">
           <p className="text-sm text-text-secondary leading-relaxed">
-            A quick, scannable overview of technical tools and domains. Skills listed here are supported by coursework, projects, or experience and represent real working knowledge.
+            A quick, scannable overview of technical tools and domains. Skills listed here are supported by coursework,
+            projects, or experience and represent real working knowledge.
           </p>
         </div>
         <div className="space-y-10">
           {skillsByCategory.map(({ category, skills: categorySkills }) => (
             <div key={category}>
-              <h3 className="mb-4 text-lg font-semibold text-text-primary">
-                {category}
-              </h3>
+              <h3 className="mb-4 text-lg font-semibold text-text-primary">{category}</h3>
               <BadgeRow>
                 {categorySkills.map((skill) => (
                   <Badge key={skill.name}>{skill.name}</Badge>

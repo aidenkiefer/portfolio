@@ -1,0 +1,93 @@
+---
+title: "Optionalizer: Private-First Productivity OS"
+slug: "optionalizer"
+date: "2026-02-01"
+featured: true
+tags:
+  [
+    "Productivity Systems",
+    "Full-Stack Web Development",
+    "Next.js",
+    "TypeScript",
+    "Prisma",
+    "PostgreSQL",
+    "Event Modeling",
+    "AI Integration",
+    "Workflow Automation",
+    "Testing",
+  ]
+stack:
+  [
+    "Next.js 16",
+    "React 19",
+    "TypeScript",
+    "Prisma",
+    "PostgreSQL (prod) / SQLite (dev)",
+    "NextAuth.js",
+    "Tailwind CSS 4",
+    "shadcn/ui",
+    "Vitest",
+    "Anthropic SDK",
+  ]
+repoUrl: ""
+liveUrl: ""
+logo: "/images/logos/optionalizer.svg"
+summary: "A private-first personal productivity system that enforces a daily loop (plan → execute → reflect), built on an append-only event log and a strict UI→API→service→repo architecture."
+highlights:
+  - "Event-native model: append-only EffortEvent log; reporting formulas can evolve without rewriting history"
+  - "Strict layering: UI → API routes → service → repo; no Prisma in React components"
+  - "Idempotent recurring spawn via unique constraint (no cron job required)"
+  - "AI assistant with structured JSON output + Zod validation + repair pass"
+  - "Rules-based Gmail sync with conservative auto-apply guardrails"
+---
+
+## Overview
+
+Optionalizer is a private-first personal productivity system built as a single-user Next.js app. It enforces a daily loop — **plan the day, execute with a focus timer, reflect at shutdown** — and uses an append-only `EffortEvent` log as the source of truth so reporting and XP formulas can evolve without rewriting history.
+
+The product expanded from a core MVP into a v2.x life-planning platform: daily planning, focus timer execution, shutdown reflection, projects and milestones, Life Quests, reports, a budget tool, job-hunt tracking with Gmail sync, and an AI assistant — all built under a strict layered architecture.
+
+## Problem & Context
+
+Most task list apps don’t enforce intentionality. I wanted a system that makes the *ritual* non-optional: a morning plan, real-time execution tracking, and an end-of-day reflection that closes the loop.
+
+From an engineering angle, the goal was to build a feature-rich app without collapsing into “Prisma in components” or spaghetti state. That led to a hard rule: the UI calls API routes, which call services, which call repos.
+
+## Constraints
+
+- Single-user, privacy-first (no multi-tenant model).
+- SQLite for fast local iteration; production targets Postgres via Prisma datasource swap.
+- Append-only `EffortEvent` history must never be rewritten.
+- Enforced boundary: Prisma access only inside the repo layer.
+- Gmail automation must be conservative (avoid wrong status updates).
+
+## Approach & Design Decisions
+
+- **Event-native reporting**: XP and reporting derive from immutable `EffortEvent` rows; formula changes live in policy code.
+- **Frozen daily plan**: daily snapshots capture titles/priorities at freeze time so reports remain historically accurate even if tasks change.
+- **Idempotent recurrence**: “spawn recurring for date” is safe to call repeatedly; a unique constraint prevents duplicates.
+- **Structured-output assistant**: AI proposes JSON artifacts, validated with Zod and repaired when needed; writes require explicit user acceptance.
+
+## Implementation Highlights
+
+- `EffortEvent` append-only log for time + XP attribution.
+- Route-handler API surface for domain entities (tasks, plans, sessions, recurrence, reports).
+- Service/repo separation that scales to dozens of services without leaking persistence into UI.
+- Gmail sync pipeline with classification + matching + conservative auto-apply guardrails.
+- Multi-theme system via CSS custom properties and runtime switching.
+
+## Results & Evaluation
+
+- Shipped a v2.x platform with daily planning + execution loop, AI assistant, and Gmail-driven job-hunt workflows.
+- TODO: publishable demo link and metrics (internal/private system).
+
+## Tradeoffs & Limitations
+
+- Private system; demo and repo links are intentionally omitted for now.
+- Gmail sync prioritizes precision over recall; ambiguous matches fall back to manual review.
+
+## What I Learned
+
+- Event-native modeling reduces migration pressure and keeps reporting flexible.
+- Hard architectural boundaries (UI/API/service/repo) pay off as the surface area grows.
+

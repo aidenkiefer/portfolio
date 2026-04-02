@@ -2,6 +2,8 @@
 
 This document provides a comprehensive reference to the codebase structure, file organization, and key components.
 
+**Agent workflow (specs, tickets, budgets):** see `docs/workflow/workflow.md` and `docs/workflow/execution-rules.md`. **Progress log:** `docs/plans/PROGRESS.md`. **Experience Release Feed (curated shipping narrative):** `data/release-feed.ts`, workflow `docs/workflow/release-feed.md`.
+
 ## Directory Structure
 
 ### `/app` - Next.js App Router Pages

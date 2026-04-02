@@ -132,7 +132,7 @@ export async function setCache(
  * @returns Number of keys deleted
  */
 export async function flushCache(pattern: string = 'rag:v1:*'): Promise<number> {
-  let cursor = 0;
+  let cursor = '0';
   let deletedCount = 0;
 
   try {
@@ -142,10 +142,10 @@ export async function flushCache(pattern: string = 'rag:v1:*'): Promise<number> 
       const keys = result[1];
 
       if (keys.length > 0) {
-        await Promise.all(keys.map(key => redis.del(key)));
+        await Promise.all(keys.map((key) => redis.del(key)));
         deletedCount += keys.length;
       }
-    } while (cursor !== 0);
+    } while (cursor !== '0');
 
     console.log(`[RAG Cache] Flushed ${deletedCount} keys matching pattern: ${pattern}`);
     return deletedCount;

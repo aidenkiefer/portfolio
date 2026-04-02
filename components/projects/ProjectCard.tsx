@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Project } from '@/types/content';
 import { BadgeRow } from '../common/BadgeRow';
 import { SearchableBadge } from '../common/SearchableBadge';
+import { ProjectLogo } from '@/components/projects/ProjectLogo';
 
 interface ProjectCardProps {
   project: Project;
@@ -20,16 +20,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <div className="mb-3 flex items-start justify-between gap-3">
         <div className="flex items-start gap-3 flex-1 min-w-0">
           {project.logo && (
-            <div className="flex-shrink-0 mt-0.5" style={{ width: '48px', height: '48px' }}>
-              <Image
-                src={project.logo}
-                alt=""
-                width={48}
-                height={48}
-                className="object-contain"
-                style={{ width: '48px', height: '48px' }}
-              />
-            </div>
+            <ProjectLogo src={project.logo} size="sm" className="mt-0.5" />
           )}
           <h3 className="text-xl font-semibold text-text-primary group-hover:text-accent-primary transition-all duration-200 ease-out group-hover:opacity-90 flex-1">
             {project.title}

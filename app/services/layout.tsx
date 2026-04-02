@@ -1,14 +1,17 @@
-import { ChatWidget } from '@/components/chatbot/ChatWidget';
+import { isServicesChatbotEnabled } from '@/lib/chatbot/featureFlags';
+import { ServicesChatWidgetClient } from '@/components/services/ServicesChatWidgetClient';
 
 export default function ServicesLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const chatbotOn = isServicesChatbotEnabled();
+
   return (
     <>
       {children}
-      <ChatWidget />
+      {chatbotOn ? <ServicesChatWidgetClient /> : null}
     </>
   );
 }

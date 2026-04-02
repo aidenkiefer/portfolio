@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Optionalizer logo">
+  <!-- Same geometry as OptionalizerMark. Hex ? DEFAULT_THEME classic-dark (tab cannot use CSS vars). -->
+  <rect x="4" y="4" width="56" height="56" rx="9" fill="#1a2838" />
+  <path d="M32 11 51 32 32 53 13 32Z" fill="#4dcbf0" />
+  <path d="M32 23 42 32 32 41 22 32Z" fill="#1a2838" />
+</svg>

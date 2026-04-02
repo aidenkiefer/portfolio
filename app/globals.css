@@ -8,7 +8,8 @@
   --color-text-primary: #1C1B19;
   --color-text-secondary: #5E5A54;
   --color-border: #E2DED6;
-  
+  --color-border-strong: #D1CBBF;
+
   /* Accent colors (use sparingly) */
   /* --color-accent-primary generates: bg-accent-primary, text-accent-primary, border-accent-primary */
   --color-accent-primary: #1E3A5F;
@@ -16,6 +17,7 @@
 
   /* Surfaces & muted text */
   --color-surface-raised: #FBF8F4;
+  --color-surface-sunken: #F3EFE8;
   --color-text-muted: #7A746D;
 
   /* Font families */

@@ -1,24 +1,26 @@
 ---
-title: "Personal Portfolio: Next.js App Router with MDX & Search"
+title: "Personal Portfolio: Next.js + MDX + RAG Chatbot"
 slug: "personal-portfolio-website"
 date: "2025-01-01"
 featured: true
-tags: ["Software Architecture", "Web Architecture", "Frontend Architecture", "Static Site Generation (SSG)", "Performance Optimization (Web)", "SEO Fundamentals", "State Management", "Data Structures", "Searching", "Tradeoff Analysis", "Requirements Interpretation", "Technical Writing", "Documentation", "Maintainable Code", "Web Development", "Systems Design", "Content Strategy", "UI/UX Design", "SEO"]
-stack: ["Next.js", "TypeScript", "TailwindCSS", "React", "MDX", "Vercel"]
+tags: ["Software Architecture", "Web Architecture", "RAG Systems", "Vector Search (pgvector)", "Caching", "MDX", "Technical Writing", "SEO Fundamentals", "Accessibility", "Design Systems", "Searching", "Requirements Interpretation", "Tradeoff Analysis"]
+stack: ["Next.js 16", "TypeScript", "TailwindCSS 4", "React 19", "MDX", "Supabase (pgvector)", "Upstash Redis", "Vercel"]
 repoUrl: ""
-liveUrl: ""
-summary: "A content-first portfolio website built with Next.js and TypeScript, designed to showcase engineering work through case studies, experience, and thoughtful design decisions."
+liveUrl: "https://aidenkiefer.com"
+summary: "A content-first portfolio and services site built with Next.js + MDX, featuring a two-stage RAG chatbot (query expansion, vector retrieval, reranking, caching) and a calm, engineer-oriented design system."
 highlights:
-  - "Built with Next.js 16 App Router for optimal SEO and static generation"
-  - "Implemented responsive design system with TailwindCSS 4"
-  - "Created search functionality with tag-based filtering and relevance scoring"
-  - "Designed content architecture supporting MDX case studies and structured data"
-  - "Optimized for performance, accessibility, and long-term maintainability"
+  - "MDX case studies + typed content modules (experience, coursework, skills, services)"
+  - "Two-stage RAG chatbot on /services/* (query expansion → retrieval → rerank → semantic cache)"
+  - "Custom weighted search across projects, blogs, and experience (no search SaaS)"
+  - "Tailwind v4 CSS-first design system with locked palette + IBM Plex typography"
+  - "Accessibility-first UI patterns (dialogs, keyboard nav, live regions)"
 ---
 
 ## Overview
 
-This portfolio website represents a complete rethinking of how to present engineering work online. Rather than a simple gallery of projects, I built a content-first platform that emphasizes case studies, design decisions, and engineering thinking. The site demonstrates my approach to systems design, content architecture, and building maintainable web applications.
+This site is a content-first portfolio and services hub built with Next.js and MDX. Instead of a “project gallery,” it’s designed to be skimmable for recruiters while still providing real engineering depth through case studies, design decisions, and evidence-backed technical writeups.
+
+The most technically interesting feature is the services chatbot: a two-stage RAG pipeline (query expansion → vector retrieval → LLM reranking → semantic caching) that can answer questions about my services and work without exposing sensitive internals.
 
 ## Problem & Context
 

@@ -48,7 +48,7 @@ Phrases like:
 - “Cross-browser testing”
 - “Verify parity”
 
-Claude cannot *finish* these deterministically, so it keeps probing.
+Claude cannot *finish* these deterministically, so it keeps probing. CLAUDE SHOULD NOT VERIFY OR TEST ANYTHING
 
 ---
 
@@ -106,18 +106,14 @@ Claude respects explicit limits very well. Use an **escape hatch** in Allowed Fi
 
 ### Rule 4 — Mandate skills when they matter
 Tickets should include a **Mandatory skill usage** section:
-- Require **using-superpowers** first so Claude loads and follows relevant skills.
-- Require **domain skills** by name (e.g. frontend-design, react-best-practices).
-- This section should suggest 5 skills by name (depending on the task), and encourage Claude to use as many as will be helpful (ideal skill usage: 5 for small tasks, 7 for medium and up to 12-15 for large complex tasks)
-
-Example: *“Read `.claude/skills/skills/using-superpowers/SKILL.md` before doing anything else; use frontend-design when designing the treatment.”*
+- Add important skills from docs/skills-catalog.md
+- See below for more details
 
 ---
 
 ### Rule 5 — Only one writer at a time
 Multiple agents may analyze in parallel, but:
-- only one agent edits files
-- or use separate git branches
+- only one agent edits files at a time
 
 ---
 
@@ -139,6 +135,12 @@ The human will run builds, tests, and other verification themselves. Specs and t
 
 ---
 
+### Rule 8 - No GitHub actions
+Claude is not allowed to invoke any GitHub commands (ie staging changes, making commits, pushing etc.)
+Never instruct him to invoke these commands
+
+---
+
 ## 4. Example Ticket Template
 
 ### Sample ticket format
@@ -148,8 +150,13 @@ The human will run builds, tests, and other verification themselves. Specs and t
 - <single concrete change, 1–3 related items max>
 
 ## Mandatory skill usage
-- Read `.claude/skills/skills/using-superpowers/SKILL.md` first; use <domain-skill> as needed for this task.
-- (Remember we want to encourage 5-15 skills if possible)
+If skills are required:
+- Add a **Mandatory skill usage** section
+- List specific skills (from docs/skills-catalog.md) that are needed for this ticket
+- State they must obey all Hard Limits
+
+If no skills are listed:
+→ Claude uses none.
 
 ## Reference Docs (read-only)
 - docs/plans/specs/<relevant-spec>.md
@@ -172,12 +179,11 @@ The human will run builds, tests, and other verification themselves. Specs and t
 1. Use skills as above; then locate <target> in the codebase.
 2. <step two: inspect reference or existing code>.
 3. <step three: implement change>.
-4. Verify <visual/build/behavior> per Done Criteria.
+4. Stop
 
 ## Done Criteria
 - <concrete, verifiable outcome — e.g. “Footer uses eucalyptus background in devtools”>
 - Only files in Allowed Files were modified; static files unchanged
-- <Optional: project builds / npm run build passes>
 - Summarize changes in ≤5 bullets (or add Implementation Summary below)
 ```
 
@@ -196,6 +202,18 @@ Large docs (architecture, parity specs, design rules) should be handled carefull
 - **Read once, reuse often**: Ask Claude to read large spec docs once at the start of a session, then treat them as background knowledge. Don’t keep reloading them.
 - **Treat specs as constraints, not tasks**: Specs define *how* work should be done, not *what* work to do. Tickets define the concrete changes.
 - **One ticket, one spec (or a small set)**: Each ticket should reference the spec(s) that apply. Don’t ask Claude to “do everything in the spec”; point to the ticket and say “follow the spec while doing this ticket.”
+
+Tickets must NOT include:
+- “verify”
+- “QA”
+- “test”
+- “confirm it works”
+- “make sure”
+
+Instead, use **human-verifiable outcomes**, e.g.:
+- “CSS class X is applied”
+- “Component renders prop Y”
+- “Function returns sorted array”
 
 ### How to phrase instructions
 

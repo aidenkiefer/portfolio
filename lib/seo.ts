@@ -5,10 +5,13 @@ export function generateMetadata({
   title,
   description,
   path = '',
+  noIndex = false,
 }: {
   title?: string;
   description?: string;
   path?: string;
+  /** When true, set robots to noindex,nofollow (e.g. temporary admin routes). */
+  noIndex?: boolean;
 }): Metadata {
   const fullTitle = title
     ? `${title} | ${siteConfig.name}`
@@ -19,6 +22,7 @@ export function generateMetadata({
   return {
     title: fullTitle,
     description: fullDescription,
+    ...(noIndex ? { robots: { index: false, follow: false } } : {}),
     openGraph: {
       title: fullTitle,
       description: fullDescription,

@@ -1,0 +1,77 @@
+---
+title: "AidDocs: MDX Knowledge Base + Private Search + Tooling"
+slug: "aiddocs"
+date: "2026-01-15"
+featured: true
+tags:
+  [
+    "Knowledge Management",
+    "MDX",
+    "Search",
+    "Content Tooling",
+    "Next.js",
+    "TypeScript",
+    "Static Generation",
+    "Zod",
+    "Prisma",
+  ]
+stack:
+  [
+    "Next.js 14",
+    "React 18",
+    "TypeScript",
+    "MDX",
+    "KaTeX",
+    "Shiki",
+    "Fuse.js",
+    "Zod",
+    "Prisma (SQLite)",
+    "Tailwind CSS",
+  ]
+repoUrl: ""
+liveUrl: ""
+logo: "/images/logos/aiddocs.svg"
+summary: "A private, self-hosted MDX knowledge base with math/code rendering, fuzzy search, bidirectional backlinks, and a TypeScript ingestion toolchain with Zod-validated frontmatter."
+highlights:
+  - "222 MDX notes across 9 collections with KaTeX + Shiki rendering"
+  - "Client-side fuzzy search (Cmd+K) with weighted keys and keyboard navigation"
+  - "Cross-link checker generates `backlinks.json` for bidirectional navigation"
+  - "Zod frontmatter schema enforced across app + CLI tooling"
+  - "ISR strategy to scale content without slow builds"
+---
+
+## Overview
+
+AidDocs is a private knowledge base and productivity workspace designed for long-term technical recall. The core shipped surface is a Notes Vault: hundreds of MDX notes with math and code rendering, fuzzy search, and bidirectional cross-linking.
+
+Alongside the Notes Vault is an Optionalizer 3.0 scaffold (Prisma + SQLite) for a gamified productivity layer, with the data model and shell in place but CRUD paused.
+
+## Problem & Context
+
+Technical knowledge accumulates quickly and decays without structure. Existing note tools often lack first-class support for math/code, robust cross-linking, or a durable ingestion workflow. AidDocs was built to make knowledge retrieval and compounding the default.
+
+## Constraints
+
+- Privacy-first and self-hosted; no external search or indexing services.
+- Flat-file notes (MDX in git) for portability and version control.
+- Must scale to 1k–2k notes without unacceptable build time.
+
+## Approach & Design Decisions
+
+- **MDX pipeline** (remark/rehype plugins) for math (KaTeX) and syntax highlighting (Shiki).
+- **Client-side fuzzy search** (Fuse.js) to stay private and offline-capable.
+- **Zod-validated contracts** for frontmatter, enforced in both app and CLI tools.
+- **Cross-link validation + backlinks**: a script checks internal links and generates backlink maps.
+- **ISR** for content-heavy pages so builds remain fast as the vault grows.
+
+## Implementation Highlights
+
+- Notes render pipeline with custom MDX components.
+- Cmd+K search modal with keyboard navigation and weighted keys.
+- Tooling: scaffold, validate, batch frontmatter, cross-link checker.
+- TOC active heading tracking with IntersectionObserver.
+
+## Results & Evaluation
+
+- Shipped two sprints: Notes Vault + ingestion toolchain.
+- TODO: publishable demo link (private system).

@@ -1,0 +1,81 @@
+---
+title: "Caliper: Quantitative ML Trading Platform"
+slug: "caliper-quant-trading"
+date: "2026-01-01"
+featured: true
+tags:
+  [
+    "Quantitative Finance",
+    "Machine Learning",
+    "Time Series",
+    "Backtesting",
+    "Risk Management",
+    "FastAPI",
+    "Next.js",
+    "Docker",
+    "Observability",
+  ]
+stack:
+  [
+    "Python 3.11",
+    "FastAPI",
+    "Pydantic v2",
+    "Postgres + TimescaleDB",
+    "Redis",
+    "scikit-learn",
+    "SHAP",
+    "Next.js 14",
+    "TypeScript",
+    "Docker Compose",
+  ]
+repoUrl: ""
+liveUrl: ""
+summary: "An end-to-end quantitative ML trading platform with ingestion, backtesting, layered risk controls, paper/live execution adapters, and a dashboard for model health and human-in-the-loop recommendations."
+highlights:
+  - "Event-driven backtesting engine with realistic fills (slippage + commission) and walk-forward optimization"
+  - "Layered risk system (kill switch, circuit breaker, per-order/portfolio limits) with fail-secure defaults"
+  - "ML safety first: confidence gating (ABSTAIN), drift detection, SHAP explainability, HITL approval queue"
+  - "TimescaleDB hypertables for market data + Docker Compose local environment"
+  - "Next.js dashboard (Model Observatory) backed by a FastAPI contract layer"
+---
+
+## Overview
+
+Caliper is a modular quantitative ML trading platform for US equities that covers the full lifecycle: market data ingestion, feature engineering, backtesting, risk-controlled execution via a broker adapter, ML training/inference, drift monitoring, and a Next.js dashboard (“Model Observatory”).
+
+The design goal was safety and correctness: build guardrails and observability before trusting model-driven signals.
+
+## Problem & Context
+
+Most retail algorithmic trading tools are either opaque or unsafe: they don’t model risk rigorously, and ML signals are hard to trust without explainability and drift monitoring. Caliper was built to make the system inspectable and conservative by default.
+
+## Constraints
+
+- Paper trading by default; promote to live only behind explicit configuration.
+- Secrets must remain out of source control (.env examples only).
+- All orders must route through a central RiskManager (no bypass).
+
+## Approach & Design Decisions
+
+- **Service-oriented monorepo**: Python services + shared schema packages + a Next.js dashboard in one repo for atomic changes.
+- **TimescaleDB** for time-series price bars with hypertables.
+- **BFF pattern**: dashboard calls FastAPI, with rewrites/proxying to avoid leaking backend URLs.
+- **ML safety before ML performance**: confidence gating, drift checks, explainability, and HITL workflow were implemented before the first integrated model.
+
+## Implementation Highlights
+
+- Market data ingestion into TimescaleDB.
+- Feature pipeline (dozens of technical + derived features).
+- Backtesting engine with performance metrics and reporting.
+- Walk-forward optimization over strategy parameters.
+- Risk controls: drawdown limits, position caps, notional caps, and per-strategy constraints.
+- Execution OMS with idempotency via `client_order_id` patterns.
+- Dashboard surfaces health, model details, and recommendation approvals.
+
+## Results & Evaluation
+
+TODO: publishable backtest results and model accuracy (kept private; not fabricated).
+
+## Notes / Redactions
+
+This project’s extraction notes flag `publicSafe: false` pending review of risk policy configs and trained model artifacts before public release.

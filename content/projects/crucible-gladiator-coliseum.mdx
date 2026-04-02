@@ -1,0 +1,75 @@
+---
+title: "Crucible: Server-Authoritative Web3 Arena Combat"
+slug: "crucible-gladiator-coliseum"
+date: "2026-01-01"
+featured: true
+tags:
+  [
+    "Real-Time Systems",
+    "Multiplayer Game Dev",
+    "WebSockets",
+    "Server-Authoritative Simulation",
+    "TypeScript",
+    "Next.js",
+    "Canvas Rendering",
+    "Web3 / NFTs",
+    "Monorepo Architecture",
+  ]
+stack:
+  [
+    "Next.js 14",
+    "React 18",
+    "TypeScript",
+    "Node.js + Express",
+    "Socket.io",
+    "Redis",
+    "Supabase",
+    "Prisma",
+    "Solidity (Hardhat)",
+    "Turborepo (pnpm workspaces)",
+  ]
+repoUrl: ""
+liveUrl: ""
+summary: "A competitive 1v1 browser arena game with server-authoritative multiplayer (60 Hz), client-side prediction, an isomorphic physics/combat library, and ERC-721 Gladiator NFTs on a testnet."
+highlights:
+  - "60 Hz server-authoritative simulation with 20 Hz broadcast + client-side prediction/reconciliation"
+  - "Shared isomorphic physics/combat library used by both Node server and browser client"
+  - "Socket.io + Redis adapter for scalable room-based matchmaking"
+  - "ERC-721 Gladiator NFTs (testnet) with event listener syncing on-chain events to Postgres"
+  - "Admin pipeline for authoring/publishing game-data bundles (runtime avoids DB reads)"
+---
+
+## Overview
+
+Crucible is a competitive 1v1 arena combat game built to prove three hypotheses: the combat loop is fun, NFT ownership can integrate cleanly into gameplay, and real-time multiplayer can run smoothly in the browser without compromising on anti-cheat fundamentals.
+
+It’s a full-stack TypeScript monorepo: Next.js frontend (Canvas 2D rendering), a standalone Node/Express game server running authoritative combat, a shared deterministic physics/combat package used in both environments, Solidity contracts for on-chain ownership, and Supabase/Postgres persistence.
+
+## Problem & Context
+
+Many blockchain games lead with token economics and ship shallow gameplay. Crucible flips that priority: build a real multiplayer combat system first, then layer on-chain ownership in a way that doesn’t disrupt the player experience.
+
+## Constraints
+
+- Web-first (Canvas 2D) at 60 FPS.
+- Testnet-only for the demo.
+- Server-authoritative outcomes; client can predict but never decides results.
+- Small team and sprint-bounded scope.
+
+## Approach & Design Decisions
+
+- **Shared deterministic simulation**: a pure TypeScript physics/combat package runs identically in Node and the browser.
+- **60 Hz simulation, 20 Hz broadcast**: the server ticks continuously and broadcasts compressed snapshots; the client predicts locally and reconciles.
+- **Separate long-running server**: real-time match state lives in a dedicated game server, not a serverless function.
+- **Template/instance content model**: equipment templates are authored in an admin UI and published as bundles so runtime avoids DB calls mid-match.
+
+## Implementation Highlights
+
+- Weapons + projectiles with server-side validation.
+- Input validation + rate limiting for anti-cheat.
+- Matchmaking, disconnect/reconnect recovery, and persistent match history.
+- Smart contract integration (ERC-721) with event syncing.
+
+## Results & Evaluation
+
+TODO: public demo link and footage.

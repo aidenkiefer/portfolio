@@ -1,0 +1,89 @@
+---
+title: "Viridian Vault: Inventory Valuation + Provider Resolution Engine"
+slug: "viridian-vault"
+date: "2025-02-01"
+featured: true
+tags:
+  [
+    "Internal Tools",
+    "Inventory Management",
+    "Pricing Engine",
+    "Next.js",
+    "TypeScript",
+    "Supabase",
+    "Postgres",
+    "Row-Level Security (RLS)",
+    "Caching",
+    "Cron Jobs",
+  ]
+stack:
+  [
+    "Next.js 16",
+    "React 19",
+    "TypeScript",
+    "Tailwind CSS 4",
+    "Supabase (Postgres/Auth/Storage)",
+    "Zod",
+    "Vercel Cron",
+    "PokeWallet API",
+  ]
+repoUrl: ""
+liveUrl: ""
+summary: "An internal inventory platform with live market valuation, a 4-stage provider resolution cascade, TTL-based pricing cache, and daily snapshot cron jobs."
+highlights:
+  - "4-stage fuzzy resolution cascade with typed outcomes (resolved | candidates | not_found)"
+  - "Cache-first pricing engine with 6-hour TTL and batch refresh (cap: 20 items/request)"
+  - "Daily Vercel cron snapshot job with reason tags (DAILY, MANUAL, SHOW, …)"
+  - "Forced Postgres RLS gated on an allowed_users allowlist"
+  - "Binary image pipeline to Supabase Storage for resolved singles"
+---
+
+## Overview
+
+Viridian Vault is an internal web platform for a small Pokémon TCG resale operation. It tracks inventory, keeps market prices synced via the PokeWallet API, and surfaces cost basis vs. market value so you can see unrealized profit at both the item and portfolio level.
+
+The core engineering problem is identity: inventory is entered in human terms (name, set, number), but pricing requires a provider product ID. Viridian Vault solves that with a progressive multi-stage resolution cascade and an admin workflow for ambiguous matches.
+
+## Problem & Context
+
+Manual price lookups don’t scale, and show-event workflows are time-sensitive. The owners needed a system that could:
+
+- Resolve inventory items to provider IDs reliably
+- Fetch prices without violating rate limits
+- Cache and snapshot prices for trend tracking
+- Stay internal-only with real access control
+
+## Constraints
+
+- External API rate limits require cache-first design.
+- Internal-only access (no self-registration) via allowlist.
+- All writes go through server route handlers; no direct client mutations.
+
+## Approach & Design Decisions
+
+- **Persistent candidates**: multi-match resolution results are stored in a `resolution_candidates` table so ambiguity survives navigation and supports async admin resolution.
+- **Cache-first pricing**: reads hit `price_current`; refresh happens only when stale, in batches sized for provider limits.
+- **RLS as a hard gate**: forced row-level security with policies checking `allowed_users`.
+- **Incremental migrations**: versioned SQL migrations document the schema and policy evolution.
+
+## Implementation Highlights
+
+- Resolution cascade: set+number → title+set_code+number → title+number → title-only fallback.
+- Typed discriminated union outputs (resolved/candidates/not_found) for debuggability.
+- Price cache TTL and snapshot system with reason tags (DAILY/MANUAL/SHOW/TRANSACTION_EVENT).
+- Card image fetch as bytes → Supabase Storage for singles.
+
+## Results & Evaluation
+
+Per the source project docs:
+
+- Bulk resolution processes ~200 items in ~30–40 seconds.
+- Inventory list reads are cache-first; snapshots run daily.
+
+TODO: production inventory size and long-term resolution success rates.
+
+## Tradeoffs & Limitations
+
+- Internal-only; demo and repo links omitted.
+- Provider resolution is probabilistic; the admin workflow is essential for long-tail edge cases.
+

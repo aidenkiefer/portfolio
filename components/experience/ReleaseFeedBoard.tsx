@@ -12,9 +12,9 @@ import {
 import { groupReleaseFeedByWeek } from '@/lib/release-feed-utils';
 import { cn } from '@/lib/utils';
 import { useReleaseFeedVariant } from '@/hooks/useReleaseFeedVariant';
-import { ReleaseFeedTimelineView } from '@/components/experience/ReleaseFeedTimelineView';
-import { ReleaseFeedManualView } from '@/components/experience/ReleaseFeedManualView';
-import { ReleaseFeedRegisterView } from '@/components/experience/ReleaseFeedRegisterView';
+import { ReleaseFeedCommandRoomView } from '@/components/experience/ReleaseFeedCommandRoomView';
+import { ReleaseFeedMatrixView } from '@/components/experience/ReleaseFeedMatrixView';
+import { ReleaseFeedBroadcastView } from '@/components/experience/ReleaseFeedBroadcastView';
 
 function projectKeysInUse(events: ReleaseFeedEvent[]): ReleaseProjectKey[] {
   const s = new Set<ReleaseProjectKey>();
@@ -115,9 +115,9 @@ export function ReleaseFeedBoard() {
         })}
       </div>
 
-      {variant === 'timeline' && <ReleaseFeedTimelineView weeks={weeks} />}
-      {variant === 'manual' && <ReleaseFeedManualView weeks={weeks} />}
-      {variant === 'register' && <ReleaseFeedRegisterView weeks={weeks} />}
+      {variant === 'broadcast' && <ReleaseFeedBroadcastView weeks={weeks} />}
+      {variant === 'command-room' && <ReleaseFeedCommandRoomView weeks={weeks} />}
+      {variant === 'matrix' && <ReleaseFeedMatrixView weeks={weeks} />}
     </section>
   );
 }

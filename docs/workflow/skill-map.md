@@ -37,6 +37,23 @@ These are process-level skills for managing work at the git/branch level. They d
 
 ---
 
+## Layer 3: UI/UX & Visual Design Skills
+
+These are invoked when the goal is to make the portfolio visually distinctive, interactive, or memorable — not just functional. Use when building or redesigning components, pages, or features where aesthetics and engagement matter.
+
+| When | Skill | Description |
+|------|-------|-------------|
+| Designing or overhauling any portfolio page or feature UI | `interactive-portfolio` | Portfolio-specific: convert visitors in 30 seconds, stand out without gimmicks |
+| Adding micro-interactions, hover effects, or personality details | `design-spells` | Curated micro-interactions and design details that add "magic" to UI |
+| Building or redesigning any component/page with high design bar | `frontend-design` | Production-grade distinctive interfaces — explicitly "not a layout generator" |
+| Generating and comparing multiple UI component variations | `magic-ui-generator` | Generate production-ready UI variations via Magic by 21st.dev |
+| Adding motion, animation, or transitions to UI elements | `magic-animator` | Motion for logos, UI, icons, and assets |
+| Adding a 3D element, scene, or interactive 3D moment | `3d-web-experience` | 3D web experiences with performance/usability balance |
+| Handling click detection, camera controls, or interactive 3D | `threejs-interaction` | Three.js raycasting, controls, mouse/touch input, object selection |
+| Designing from scratch with full UX methodology | `ui-ux-designer` | Interface design, wireframes, design systems, accessibility |
+
+---
+
 ## Usage rules
 
 - **Ticket names the pack(s):** 0–2 core skills per ticket. 0–2 domain skills (from task-type-reference-map). Project-specific only if ticket says so.

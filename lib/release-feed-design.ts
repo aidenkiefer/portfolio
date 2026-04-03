@@ -3,34 +3,34 @@
  * Remove variant switching (and admin route) once a single design is chosen.
  */
 
-export type ReleaseFeedVariant = 'timeline' | 'manual' | 'register';
+export type ReleaseFeedVariant = 'command-room' | 'matrix' | 'broadcast';
 
 export const RELEASE_FEED_VARIANT_STORAGE_KEY = 'portfolio-release-feed-variant';
 
-export const releaseFeedVariants: ReleaseFeedVariant[] = ['timeline', 'manual', 'register'];
+export const releaseFeedVariants: ReleaseFeedVariant[] = ['command-room', 'matrix', 'broadcast'];
 
 export const releaseFeedVariantInfo: Record<
   ReleaseFeedVariant,
   { label: string; blurb: string }
 > = {
-  timeline: {
-    label: 'Spine timeline',
+  'command-room': {
+    label: 'Command Room',
     blurb:
-      'Vertical week spine with expandable cards — closest to the shipping-narrative “cornerstone” baseline (structured, scannable, calm depth).',
+      'Dark terminal panel: navigate weeks laterally, events sized by release importance — major releases dominate, patches collapse into a compact grid.',
   },
-  manual: {
-    label: 'Changelog manual',
+  matrix: {
+    label: 'Activity Matrix',
     blurb:
-      'Dense documentation-style rows: date + project column, minimal chrome — evokes manuals and release notes (Stripe/Vercel tone).',
+      'Heatmap grid of project × week cells — color and intensity encode activity. Click any cell to drill into that week\'s releases for that project.',
   },
-  register: {
-    label: 'Lab register',
+  broadcast: {
+    label: 'Broadcast',
     blurb:
-      'Compact grid of notebook-style tiles with a left category rail — warm paper layers, quick scanning without losing hierarchy.',
+      'Editorial newsroom layout: headline feature cards for major work, a compact briefs strip for patches and docs — browse by period.',
   },
 };
 
 export function parseStoredReleaseFeedVariant(raw: string | null): ReleaseFeedVariant {
-  if (raw === 'manual' || raw === 'register' || raw === 'timeline') return raw;
-  return 'timeline';
+  if (raw === 'command-room' || raw === 'matrix' || raw === 'broadcast') return raw;
+  return 'broadcast';
 }

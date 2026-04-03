@@ -21,7 +21,7 @@ export function ReleaseFeedAdminPanel() {
       <p className="text-xs font-mono uppercase tracking-widest text-accent-primary mb-2">Temporary admin</p>
       <h2 className="text-lg font-semibold text-text-primary mb-2">Release feed layout</h2>
       <p className="text-sm text-text-secondary leading-relaxed mb-6 max-w-2xl">
-        Compare three layouts that all follow the site design guidelines (warm paper, navy accent, calm technical tone).
+        Compare three layouts — each a fundamentally different approach to browsing time-based releases.
         Your choice is saved in this browser only (<code className="font-mono text-xs text-text-primary">localStorage</code>
         ). Open{' '}
         <Link href="/experience#release-feed" className="text-accent-primary font-medium hover:text-accent-primary/80">
@@ -31,7 +31,7 @@ export function ReleaseFeedAdminPanel() {
       </p>
       <fieldset>
         <legend className="sr-only">Select release feed layout variant</legend>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-3" role="group" aria-label="Layout options">
           {releaseFeedVariants.map((v) => {
             const active = variant === v;
             const info = releaseFeedVariantInfo[v];

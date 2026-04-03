@@ -41,6 +41,7 @@ Not started → Concept → Spec → Tickets → In progress → Done
 | **v1.3.1** | Chatbot docs (issues, expansion, cache notes) | date unknown | Docs | `docs/chatbot-issues-and-fixes.md`, `docs/chatbot-expansion.md`, `docs/chatbot-cache-invalidation.md` |
 | **v1.3.2** | Chatbot v2 planning artifacts | 2026-02 (design/plan dates in filenames) | Docs / plans | `docs/plans/2026-02-13-chatbot-caching-design.md`, `docs/plans/2026-02-13-chatbot-minimize-animation-design.md`, etc. |
 | **v1.0.1** | Workflow + agent docs bootstrap | 2026-04-02 | Meta | `docs/workflow/*`, `AGENTS.md`, `.claude/CLAUDE.md`, this file — Mode A from `workflow-core` |
+| **v1.0.2** | Release Feed UI redesign — three new layout variants | 2026-04-02 | UI / Experience | Replaced `timeline`, `manual`, `register` variants with `broadcast` (editorial newsroom), `command-room` (dark lateral navigator), and `matrix` (activity heatmap). New files: `ReleaseFeedCommandRoomView.tsx`, `ReleaseFeedMatrixView.tsx`, `ReleaseFeedBroadcastView.tsx`. Updated `lib/release-feed-design.ts`, `ReleaseFeedBoard.tsx`, `ReleaseFeedAdminPanel.tsx`. Default variant set to `broadcast`. Old view files left in place (unused). |
 
 ---
 

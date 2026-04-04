@@ -11,9 +11,6 @@ import {
 } from '@/data/release-feed';
 import { groupReleaseFeedByWeek } from '@/lib/release-feed-utils';
 import { cn } from '@/lib/utils';
-import { useReleaseFeedVariant } from '@/hooks/useReleaseFeedVariant';
-import { ReleaseFeedCommandRoomView } from '@/components/experience/ReleaseFeedCommandRoomView';
-import { ReleaseFeedMatrixView } from '@/components/experience/ReleaseFeedMatrixView';
 import { ReleaseFeedBroadcastView } from '@/components/experience/ReleaseFeedBroadcastView';
 
 function projectKeysInUse(events: ReleaseFeedEvent[]): ReleaseProjectKey[] {
@@ -23,7 +20,6 @@ function projectKeysInUse(events: ReleaseFeedEvent[]): ReleaseProjectKey[] {
 }
 
 export function ReleaseFeedBoard() {
-  const { variant } = useReleaseFeedVariant();
   const [projectFilter, setProjectFilter] = useState<ReleaseProjectKey | 'all'>('all');
 
   const projectOptions = useMemo(() => projectKeysInUse(releaseFeedEvents), []);
@@ -39,13 +35,19 @@ export function ReleaseFeedBoard() {
     <section id="release-feed" className="scroll-mt-24" aria-labelledby="release-feed-heading">
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-mono uppercase tracking-widest text-accent-primary mb-2">Shipping narrative</p>
-          <h2 id="release-feed-heading" className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight">
+          <p className="text-xs font-mono uppercase tracking-widest text-accent-primary mb-2">
+            Shipping narrative
+          </p>
+          <h2
+            id="release-feed-heading"
+            className="text-2xl sm:text-3xl font-semibold text-text-primary tracking-tight"
+          >
             Recent work
           </h2>
           <p className="mt-3 max-w-2xl text-text-secondary leading-relaxed text-sm sm:text-base">
-            A living feed of what I&apos;ve shipped across products and codebases — grouped by week, scoped for a public
-            audience. Summaries are outcome-first; internals stay in source repos.
+            A living feed of what I&apos;ve shipped across products and codebases — grouped by week,
+            scoped for a public audience. Summaries are outcome-first; internals stay in source
+            repos.
           </p>
         </div>
       </div>
@@ -56,11 +58,14 @@ export function ReleaseFeedBoard() {
           className="rounded-md border border-border bg-background p-5 sm:p-6"
           style={{ boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)' }}
         >
-          <h3 className="text-xs font-mono uppercase tracking-widest text-text-secondary mb-3">Now</h3>
+          <h3 className="text-xs font-mono uppercase tracking-widest text-text-secondary mb-3">
+            Now
+          </h3>
           <ul className="space-y-3">
             {releaseFeedNow.map((item, i) => (
               <li key={i} className="text-sm text-text-primary leading-relaxed">
-                <span className="font-semibold text-accent-primary">{item.label}:</span> {item.detail}
+                <span className="font-semibold text-accent-primary">{item.label}:</span>{' '}
+                {item.detail}
               </li>
             ))}
           </ul>
@@ -69,7 +74,9 @@ export function ReleaseFeedBoard() {
           className="rounded-md border border-border bg-background p-5 sm:p-6"
           style={{ boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)' }}
         >
-          <h3 className="text-xs font-mono uppercase tracking-widest text-text-secondary mb-3">Next up</h3>
+          <h3 className="text-xs font-mono uppercase tracking-widest text-text-secondary mb-3">
+            Next up
+          </h3>
           <ul className="space-y-3">
             {releaseFeedNext.map((item, i) => (
               <li key={i} className="text-sm text-text-primary leading-relaxed">
@@ -81,7 +88,7 @@ export function ReleaseFeedBoard() {
         </div>
       </div>
 
-      {/* Filters */}
+      {/* Project filters */}
       <div className="mb-8 flex flex-wrap gap-2">
         <button
           type="button"
@@ -115,9 +122,7 @@ export function ReleaseFeedBoard() {
         })}
       </div>
 
-      {variant === 'broadcast' && <ReleaseFeedBroadcastView weeks={weeks} />}
-      {variant === 'command-room' && <ReleaseFeedCommandRoomView weeks={weeks} />}
-      {variant === 'matrix' && <ReleaseFeedMatrixView weeks={weeks} />}
+      <ReleaseFeedBroadcastView weeks={weeks} />
     </section>
   );
 }

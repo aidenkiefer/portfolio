@@ -1,39 +1,23 @@
 /**
- * Temporary multi-layout experiment for the Experience “Recent work” feed.
- * Remove variant switching (and admin route) once a single design is chosen.
+ * Release Feed design constants.
+ * The Broadcast layout is the canonical design for the Experience page.
  */
 
-export type ReleaseFeedVariant = 'command-room' | 'matrix' | 'broadcast';
-
-/** When localStorage is missing/invalid or during SSR (server snapshot). */
+// Retained for any legacy imports that may reference these — safe to remove
+// once all consumers are cleaned up.
+export type ReleaseFeedVariant = 'broadcast';
 export const RELEASE_FEED_DEFAULT_VARIANT: ReleaseFeedVariant = 'broadcast';
-
 export const RELEASE_FEED_VARIANT_STORAGE_KEY = 'portfolio-release-feed-variant';
+export const releaseFeedVariants: ReleaseFeedVariant[] = ['broadcast'];
+export const releaseFeedVariantInfo: Record<ReleaseFeedVariant, { label: string; blurb: string }> =
+  {
+    broadcast: {
+      label: 'Broadcast',
+      blurb:
+        'Editorial newsroom layout: headline feature cards for major work, a compact briefs strip for patches and docs — browse by period.',
+    },
+  };
 
-export const releaseFeedVariants: ReleaseFeedVariant[] = ['command-room', 'matrix', 'broadcast'];
-
-export const releaseFeedVariantInfo: Record<
-  ReleaseFeedVariant,
-  { label: string; blurb: string }
-> = {
-  'command-room': {
-    label: 'Command Room',
-    blurb:
-      'Dark terminal panel: navigate weeks laterally, events sized by release importance — major releases dominate, patches collapse into a compact grid.',
-  },
-  matrix: {
-    label: 'Activity Matrix',
-    blurb:
-      'Heatmap grid of project × week cells — color and intensity encode activity. Click any cell to drill into that week\'s releases for that project.',
-  },
-  broadcast: {
-    label: 'Broadcast',
-    blurb:
-      'Editorial newsroom layout: headline feature cards for major work, a compact briefs strip for patches and docs — browse by period.',
-  },
-};
-
-export function parseStoredReleaseFeedVariant(raw: string | null): ReleaseFeedVariant {
-  if (raw === 'command-room' || raw === 'matrix' || raw === 'broadcast') return raw;
-  return RELEASE_FEED_DEFAULT_VARIANT;
+export function parseStoredReleaseFeedVariant(_raw: string | null): ReleaseFeedVariant {
+  return 'broadcast';
 }

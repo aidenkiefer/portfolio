@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
 import {
   parseStoredReleaseFeedVariant,
+  RELEASE_FEED_DEFAULT_VARIANT,
   RELEASE_FEED_VARIANT_STORAGE_KEY,
   type ReleaseFeedVariant,
 } from '@/lib/release-feed-design';
@@ -10,7 +11,7 @@ import {
 const VARIANT_CHANGE_EVENT = 'portfolio-release-feed-variant-change';
 
 function getSnapshot(): ReleaseFeedVariant {
-  if (typeof window === 'undefined') return 'timeline';
+  if (typeof window === 'undefined') return RELEASE_FEED_DEFAULT_VARIANT;
   return parseStoredReleaseFeedVariant(localStorage.getItem(RELEASE_FEED_VARIANT_STORAGE_KEY));
 }
 
@@ -34,7 +35,7 @@ export function setReleaseFeedVariant(v: ReleaseFeedVariant) {
 }
 
 export function useReleaseFeedVariant() {
-  const variant = useSyncExternalStore(subscribe, getSnapshot, () => 'timeline');
+  const variant = useSyncExternalStore(subscribe, getSnapshot, () => RELEASE_FEED_DEFAULT_VARIANT);
 
   const setVariant = useCallback((v: ReleaseFeedVariant) => {
     setReleaseFeedVariant(v);

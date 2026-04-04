@@ -5,6 +5,9 @@
 
 export type ReleaseFeedVariant = 'command-room' | 'matrix' | 'broadcast';
 
+/** When localStorage is missing/invalid or during SSR (server snapshot). */
+export const RELEASE_FEED_DEFAULT_VARIANT: ReleaseFeedVariant = 'broadcast';
+
 export const RELEASE_FEED_VARIANT_STORAGE_KEY = 'portfolio-release-feed-variant';
 
 export const releaseFeedVariants: ReleaseFeedVariant[] = ['command-room', 'matrix', 'broadcast'];
@@ -32,5 +35,5 @@ export const releaseFeedVariantInfo: Record<
 
 export function parseStoredReleaseFeedVariant(raw: string | null): ReleaseFeedVariant {
   if (raw === 'command-room' || raw === 'matrix' || raw === 'broadcast') return raw;
-  return 'broadcast';
+  return RELEASE_FEED_DEFAULT_VARIANT;
 }

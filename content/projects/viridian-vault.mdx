@@ -75,12 +75,19 @@ Manual price lookups don’t scale, and show-event workflows are time-sensitive.
 
 ## Results & Evaluation
 
-Per the source project docs:
+Per **workflow-core** progress and extraction (Apr 2026):
 
-- Bulk resolution processes ~200 items in ~30–40 seconds.
-- Inventory list reads are cache-first; snapshots run daily.
+- **v1.0–v1.5** (through **2026-04-01**): inventory CRUD, PokeWallet-centered pricing, RLS, dashboard, admin resolution — **v1.5.0** completed the pipeline redesign and doc overhaul (universal PokeWallet provider strategy).
+- **v2.0 Show mode** (**in progress**): spec approved **2026-04-02**; dual-mode search (PokeWallet for PURCHASE/TRADE IN, inventory DB for SALE/TRADE OUT), ~60s sale flow, offline queue v1 (`localStorage`); work on branch `feature/show-mode`.
+- **Spec’d next**: **v1.6** pipeline audit fixes (12 issues A–L), **v1.7** sealed migration (JustTCG → PokeWallet), **v1.8** background hourly sync (`POST /api/sync/hourly` + Supabase **pg_cron** / **pg_net**).
+- **v2.1 Analytics** and **v2.2 Binder scanner** are on the roadmap; binder MVP not started.
 
-TODO: production inventory size and long-term resolution success rates.
+Operational baselines:
+
+- Bulk resolution processes ~**200 items in ~30–40 seconds** (batched).
+- Inventory reads remain **cache-first**; **daily snapshot cron** at **03:00 UTC**.
+
+TODO: production inventory scale and long-term resolution success rates (not published).
 
 ## Tradeoffs & Limitations
 

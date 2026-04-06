@@ -1,7 +1,7 @@
 ---
 title: "Caliper: Quantitative ML Trading Platform"
 slug: "caliper-quant-trading"
-date: "2026-01-01"
+date: "2026-04-08"
 featured: true
 tags:
   [
@@ -23,6 +23,7 @@ stack:
     "Postgres + TimescaleDB",
     "Redis",
     "scikit-learn",
+    "XGBoost (optional)",
     "SHAP",
     "Next.js 14",
     "TypeScript",
@@ -30,52 +31,69 @@ stack:
   ]
 repoUrl: ""
 liveUrl: ""
-summary: "An end-to-end quantitative ML trading platform with ingestion, backtesting, layered risk controls, paper/live execution adapters, and a dashboard for model health and human-in-the-loop recommendations."
+summary: "A modular quant platform for US equities plus an optional Polymarket BTC market-making path: ingestion, unified feature layer, backtesting, layered risk, paper execution, offline CLOB simulation, evaluation metrics, and a Next.js Model Observatory."
 highlights:
-  - "Event-driven backtesting engine with realistic fills (slippage + commission) and walk-forward optimization"
-  - "Layered risk system (kill switch, circuit breaker, per-order/portfolio limits) with fail-secure defaults"
-  - "ML safety first: confidence gating (ABSTAIN), drift detection, SHAP explainability, HITL approval queue"
-  - "TimescaleDB hypertables for market data + Docker Compose local environment"
-  - "Next.js dashboard (Model Observatory) backed by a FastAPI contract layer"
+  - "Dual path: Alpaca equities + Polymarket CLOB/Binance features behind one strategy and risk surface"
+  - "Live FeatureSnapshot pipeline → Timescale `pm.features`; deterministic simulation + evaluation with baseline regret"
+  - "Sprint 14 BTC hourly probability model: calibration, lead-lag tests, fee-aware probes, `/v1/probability/*` (DB wiring + AC-9 tests still in flight)"
+  - "ML safety before hype: drift, confidence gating (ABSTAIN), SHAP, HITL queue — wired before production model reliance"
+  - "500+ pytest tests across backtest, API, Polymarket, features, simulation, and evaluation suites"
 ---
 
 ## Overview
 
-Caliper is a modular quantitative ML trading platform for US equities that covers the full lifecycle: market data ingestion, feature engineering, backtesting, risk-controlled execution via a broker adapter, ML training/inference, drift monitoring, and a Next.js dashboard (“Model Observatory”).
+Caliper is a private, full-stack quantitative ML trading monorepo: Python services and shared packages for market data, features, backtest, execution, risk, ML (including a dedicated **`probability_model`** package), simulation, and evaluation — plus a Next.js 14 **Model Observatory** dashboard. Work from Jan–Apr 2026 delivered **14 sprints in `main`**, from core equity tooling through Polymarket market-making, a unified architecture refactor, a unified feature layer, an offline CLOB simulation engine, and a **BTC hourly probability** stack.
 
-The design goal was safety and correctness: build guardrails and observability before trusting model-driven signals.
+Design priority is **correctness and safety** over raw PnL: paper mode by default, strict `RiskManager` gating, and observability for every automated decision.
 
 ## Problem & Context
 
-Most retail algorithmic trading tools are either opaque or unsafe: they don’t model risk rigorously, and ML signals are hard to trust without explainability and drift monitoring. Caliper was built to make the system inspectable and conservative by default.
+Most retail-facing algo stacks hide risk and model behavior. I wanted an end-to-end system that could:
+
+- Ingest and store time-series data efficiently (TimescaleDB hypertables).
+- Backtest with realistic slippage and commissions, plus walk-forward optimization.
+- Enforce layered automated risk (kill switch, circuit breaker, limits).
+- Integrate ML with confidence gating, drift detection, SHAP explainability, and human-in-the-loop approvals.
+- Extend to **prediction-market** execution without forking the risk story — via a shared **`FeatureSnapshot`** abstraction and the same allocator/risk path.
 
 ## Constraints
 
-- Paper trading by default; promote to live only behind explicit configuration.
-- Secrets must remain out of source control (.env examples only).
-- All orders must route through a central RiskManager (no bypass).
+- **Paper trading by default**; live mode requires explicit env validation.
+- **No secrets in git** — `.env.example` only; Doppler-style workflow for real keys.
+- **All orders through `RiskManager`** — no bypass of kill switch or circuit breaker.
+- **Python 3.11** — some TA libraries target 3.12+; indicators implemented with pandas/numpy where needed.
 
 ## Approach & Design Decisions
 
-- **Service-oriented monorepo**: Python services + shared schema packages + a Next.js dashboard in one repo for atomic changes.
-- **TimescaleDB** for time-series price bars with hypertables.
-- **BFF pattern**: dashboard calls FastAPI, with rewrites/proxying to avoid leaking backend URLs.
-- **ML safety before ML performance**: confidence gating, drift checks, explainability, and HITL workflow were implemented before the first integrated model.
+- **Monorepo (Python + Next.js)**: atomic schema and consumer changes; one Docker Compose for API + Timescale + Redis.
+- **TimescaleDB** for bars, `pm.features`, simulation/evaluation tables, and probability predictions (Alembic through revision **`005`**).
+- **BFF pattern**: dashboard calls FastAPI; Vercel rewrites keep the backend URL off the client.
+- **Adapter execution**: `BrokerClient` → `AlpacaClient`; Polymarket path uses session orchestration + **`PolymarketMMStrategy`**.
+- **ML safety first**: drift (PSI, KL, mean shift), ABSTAIN outputs, baselines/regret, and HITL **before** trusting production models.
 
 ## Implementation Highlights
 
-- Market data ingestion into TimescaleDB.
-- Feature pipeline (dozens of technical + derived features).
-- Backtesting engine with performance metrics and reporting.
-- Walk-forward optimization over strategy parameters.
-- Risk controls: drawdown limits, position caps, notional caps, and per-strategy constraints.
-- Execution OMS with idempotency via `client_order_id` patterns.
-- Dashboard surfaces health, model details, and recommendation approvals.
+- **Equities**: `DataProvider` → `PriceBar` feature pipeline; event-driven backtest; OMS with `client_order_id` idempotency.
+- **Polymarket (Sprint 10)**: Gamma/CLOB clients, fee engine, session orchestrator, quoting strategy, DB schema for orders/trades.
+- **Sprints 11–12**: `UnifiedSignal`, **`FeatureSnapshot`** (four feature families), `CLOBSource` + `BinanceSource`, `FeatureBuilder` + `FeatureStore`, **`GET /v1/features/{market_id}/latest|history`**.
+- **Sprint 13**: `SimulatedOrderBook`, `ExecutionSimulator`, `FeeEngine`, `AdverseSelectionModel`, `ReplayEngine`, `SimulationRunner`, `SimulationValidator`, evaluation metrics + regime matrix + baselines; **`/v1/simulation/*`** and **`/v1/evaluation/*`** (some responses still stub-backed until full DB wiring).
+- **Sprint 14**: `services/ml/probability_model/` — panel dataset, logistic + Platt + optional GBT, lead-lag diagnostics, fee-aware threshold probe, `ProbabilityPredictor`, `DriftMonitor`; **`/v1/probability/*`** router (partial mocks pending live reads). Spec **AC-9** (dedicated pytest suite) tracked as open work.
 
 ## Results & Evaluation
 
-TODO: publishable backtest results and model accuracy (kept private; not fabricated).
+- **14 sprints shipped** through **v2.4.0**; **500+ tests** in repo. SMA crossover backtest math verified on sample AAPL data.
+- **Polymarket bot**: orchestration and quoting wired; extended paper PnL validation still on the roadmap (no fabricated metrics here).
+- **Simulation**: determinism (AC-1), fill-rate checks (AC-5), regime partitioning (AC-6) exercised in tests.
+- **Roadmap**: Sprints **15–17** spec’d (regime allocation, cross-sectional fleet, reward density / wallet intelligence) — not implemented yet.
+
+## Tradeoffs & Limitations
+
+- Simulation/evaluation/probability APIs: **some routes still stub or mock** until persisted runs/reports are fully read from `pm.*` tables.
+- **Sprint 14 AC-9** (probability module test suite) **not landed** per quant ticket index.
+- **No CI/CD** in repo at last extraction; tests run locally.
+- Dashboard uses **polling**, not WebSockets.
+- Repo and detailed metrics stay **private** until a deliberate public-safe review.
 
 ## Notes / Redactions
 
-This project’s extraction notes flag `publicSafe: false` pending review of risk policy configs and trained model artifacts before public release.
+Private project: no live credentials, no real-money results, and no fabricated performance numbers in this case study.

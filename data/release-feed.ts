@@ -90,20 +90,30 @@ export interface ReleaseFeedEvent {
 /** Short bullets for the “Now” strip — hand-curated; not auto-parsed from backlog */
 export const releaseFeedNow: { label: string; detail: string }[] = [
   {
-    label: 'Viridian Vault',
-    detail: 'Show mode + dual search pillar — spec approved; implementation in progress.',
+    label: 'Caliper',
+    detail:
+      'Sprints 11–14 in main: unified pipeline, live `pm.features` layer, offline CLOB simulation + evaluation, BTC probability stack (Sprint 14 AC-9 tests still open).',
   },
   {
-    label: 'Portfolio',
-    detail: 'Shipping narrative on Experience + chatbot v2 planning.',
+    label: 'Viridian Vault',
+    detail:
+      'Show mode (dual search + 60s sale flow) in progress on `feature/show-mode`; pipeline audit, sealed migration, and hourly sync specs queued.',
+  },
+  {
+    label: 'N-2 Water',
+    detail: 'v2.4.0 copy + content QA shipped (incl. Instagram feed); v2.5.0 analytics next.',
   },
 ];
 
 /** Curated “next up” — public-safe roadmap hints */
 export const releaseFeedNext: { label: string; detail: string }[] = [
   {
-    label: 'Viridian Vault',
-    detail: 'Pipeline audit fixes, sealed migration, background sync server.',
+    label: 'N-2 Water',
+    detail: 'v2.5.0 analytics — GA4, Meta Pixel, consent/CMP, data layer, Vercel env wiring.',
+  },
+  {
+    label: 'Caliper',
+    detail: 'Wire simulation/evaluation/probability APIs to DB reads; Sprint 14 AC-9 tests; regime + fleet sprints (15–17) spec’d.',
   },
   {
     label: 'Optionalizer',
@@ -116,6 +126,42 @@ export const releaseFeedNext: { label: string; detail: string }[] = [
  * into one card before adding (see workflow doc).
  */
 export const releaseFeedEvents: ReleaseFeedEvent[] = [
+  {
+    id: 'cal-sprints-11-14',
+    projectKey: 'caliper',
+    version: 'v2.1.x–v2.4.x',
+    category: 'major',
+    title: 'Unified pipeline, feature layer, simulation engine, and BTC probability model',
+    summary:
+      'After Polymarket Sprint 10: refactored to a unified signal→risk→adapter path; shipped live FeatureSnapshot collection into Timescale `pm.features`; built deterministic CLOB replay with evaluation metrics and baselines; added `services/ml/probability_model/` with migration `005` and `/v1/probability/*` (partial stubs; AC-9 tests pending).',
+    completedDate: '2026-04-08',
+    highlights: [
+      'Sprints 11–12: `UnifiedSignal`, feature builder + store, `/v1/features/*`',
+      'Sprint 13: SimulationRunner, FeeEngine, evaluation regime matrix + `/v1/simulation/*` / `/v1/evaluation/*`',
+      'Sprint 14: calibration, lead-lag, fee-aware backtest hook, drift monitor — 500+ tests repo-wide',
+    ],
+    tags: ['ML', 'trading', 'infra', 'API'],
+    sourceNote:
+      'workflow-core/project-progress/quant-progress.md — milestones v2.1.0–v2.4.0 (last synced 2026-04-08)',
+  },
+  {
+    id: 'n2-2-4-0',
+    projectKey: 'n2-water',
+    version: 'v2.4.0',
+    category: 'minor',
+    title: 'Copy + content QA polish across the storefront',
+    summary:
+      'Closed an 11-ticket batch: legal pages, science and About narratives, FAQ, benefits grid, ingredients, team stories, Terms of Use — plus Instagram Basic Display integration with ISR caching.',
+    completedDate: '2026-04-04',
+    highlights: [
+      'Content and UX alignment after designer phases 1–8',
+      'Instagram feed live with 1-hour revalidation',
+      'Next focus: v2.5.0 analytics (GA4, Meta Pixel, CMP)',
+    ],
+    tags: ['UI', 'content', 'integrations'],
+    sourceNote:
+      'workflow-core/project-progress/n-2-progress.md + portfolio-extraction/n-2/project.md (v2.4.0 notes)',
+  },
   {
     id: 'vv-1-5-0',
     projectKey: 'viridian-vault',
@@ -228,13 +274,14 @@ export const releaseFeedEvents: ReleaseFeedEvent[] = [
   {
     id: 'port-workflow-2026-04',
     projectKey: 'portfolio',
-    version: '—',
+    version: 'v1.0.1–v1.0.2',
     category: 'docs',
-    title: 'Agent workflow + progress tracking on the portfolio',
+    title: 'Workflow bootstrap + Release Feed UI on Experience',
     summary:
-      'Added docs/workflow from workflow-core, a retrospective PROGRESS log, and this Release Feed so shipping history stays visible and maintainable.',
+      'Imported bounded-ticket workflow docs from workflow-core (Mode A), added `docs/plans/PROGRESS.md`, and shipped v1.0.2: three public Release Feed layouts (broadcast, command-room, matrix) with admin preview.',
     completedDate: '2026-04-02',
-    tags: ['workflow', 'docs'],
-    sourceNote: 'portfolio/docs/plans/PROGRESS.md + docs/workflow/* (this site)',
+    tags: ['workflow', 'docs', 'UI'],
+    sourceNote:
+      'workflow-core/project-progress/portfolio-progress.md — patches v1.0.1, v1.0.2; portfolio `ReleaseFeed*` components',
   },
 ];

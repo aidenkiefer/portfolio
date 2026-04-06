@@ -1,92 +1,68 @@
 ---
 title: "N-2 Water: React & Next.js E-Commerce with Shopify Integration"
 slug: "n2-water-ecommerce-storefront"
-date: "2025-05-01"
+date: "2026-04-05"
 featured: true
 tags: ["Software Architecture", "Web Architecture", "Frontend Architecture", "Server-Side Rendering (SSR)", "Static Site Generation (SSG)", "Performance Optimization (Web)", "SEO Fundamentals", "Third-Party API Integration", "Tradeoff Analysis", "Requirements Interpretation", "Web Development", "E-Commerce", "React", "Next.js"]
-stack: ["Next.js", "React", "TypeScript", "Shopify Storefront API", "Tailwind CSS", "Vercel / Cloudflare"]
+stack: ["Next.js 15", "React 18", "TypeScript", "Shopify Storefront API", "Shopify Customer Account API (OAuth 2.0 + PKCE)", "Tailwind CSS", "GraphQL", "Jest", "Vercel"]
 repoUrl: ""
-liveUrl: ""
+liveUrl: "https://n-2-website-store.vercel.app"
 logo: "/images/logos/n2-logo.png"
-summary: "A production e-commerce platform built with React and Next.js, integrating Shopify APIs and supporting real-world marketing and SEO constraints."
+summary: "A Next.js 15 monorepo storefront for N-2 Water: Shopify Storefront + Customer Account APIs, designer-led UI phases, PKCE auth, cross-domain cart bridge, and a staged migration from a legacy static marketing site."
 highlights:
-  - "Built production e-commerce platform with React and Next.js"
-  - "Integrated Shopify Storefront API for product data"
-  - "Optimized for performance and SEO"
-  - "Collaborated with non-technical stakeholders"
+  - "npm workspaces: `apps/store` + shared `packages/ui` (Rollup CJS/ESM) with brand design tokens"
+  - "OAuth 2.0 + PKCE for Customer Account API; HttpOnly cookies for tokens and OAuth intermediates"
+  - "Cross-domain cart via `widget.js` + `X-Cart-Id` header bridging legacy static host and the React app"
+  - "Designer integration Phases 1–8 merged (CEO toggle for legacy vs new UI pending Phase 9 sign-off)"
+  - "v2.4.0: copy/content QA across legal, science, About, FAQ, benefits, Instagram feed (Basic Display API + ISR)"
 ---
 
 ## Overview
 
-A production e-commerce platform built with React and Next.js, integrating Shopify APIs and operating under real business constraints. The goal was to build a performant, maintainable storefront that supported marketing, SEO, and customer workflows while integrating with existing e-commerce infrastructure.
+N-2 Water is a mineral-first hydration brand. This project is the **full digital platform**: a **Next.js 15 (App Router)** store in an **npm workspaces** monorepo, integrated with **Shopify Storefront API** (GraphQL) and **Customer Account API** (OAuth 2.0 + **PKCE**), deployed on **Vercel**. Development spans static HTML → React store → **20+ designer-delivered components** across homepage, science, shop, and account surfaces.
 
 ## Problem & Context
 
-The goal was to build a performant, maintainable storefront that supported marketing, SEO, and customer workflows while integrating with existing e-commerce infrastructure. This project involved building a custom storefront to replace an outdated platform, requiring careful balance between technical excellence and business requirements.
-
-Building a production e-commerce storefront requires balancing technical excellence with business requirements, marketing needs, and SEO constraints. The challenge was maintaining engineering standards while collaborating with non-technical stakeholders.
+The brand needed **marketing storytelling** and **real e-commerce** (catalog, PDP variants, cart, checkout, authenticated orders) in one maintainable codebase. Early static HTML could not support PKCE account flows, shared cart state across origins, or the scoped UI work from an external designer — without a controlled migration path.
 
 ## Constraints
 
-- Real users and live traffic requiring high reliability
-- SEO requirements for search engine visibility
-- Third-party API limitations (Shopify Storefront API)
-- Non-technical stakeholders needing to manage content
-- Performance requirements for fast page loads
-- Budget and timeline constraints
+- **Public OAuth client** — no server-side secret; **PKCE required** for Customer Account API.
+- **Cross-origin cart**: legacy static site and Next app on different origins; **cookies alone are insufficient** (`SameSite` limits).
+- **OpenID Connect discovery** for Shopify customer endpoints — avoid hardcoded URLs.
+- **Designer phases** must land inside App Router without blocking commerce-critical paths.
+- **No fabricated Lighthouse or revenue metrics** — performance hardening and production domains remain planned/deferred per internal status docs.
 
 ## Approach & Design Decisions
 
-I made architectural decisions around rendering strategies, API usage, and performance optimization, balancing development speed with long-term maintainability:
-
-1. **Next.js Architecture**: Leveraged server-side rendering and static generation for performance and SEO
-2. **Shopify Integration**: Used Shopify Storefront API for product data and inventory management
-3. **TypeScript**: Ensured type safety across the application
-4. **Performance Optimization**: Implemented code splitting, image optimization, and caching strategies
-5. **SEO Considerations**: Structured data, meta tags, and semantic HTML
-
-**Rendering Strategy**: I chose Next.js with SSR/SSG because it provides better SEO than client-side only rendering, improved initial load performance, and flexibility to mix rendering strategies per page.
-
-**Shopify Integration**: Using Shopify Storefront API rather than building a custom backend leveraged existing product management infrastructure, reduced maintenance burden, and enabled non-technical team members to manage products.
+- **Gradual migration**: root `vercel.json` redirect shell sends traffic to the store app; legacy static remained reachable during build-out.
+- **PKCE + short-lived HttpOnly cookies** for OAuth state/nonce/verifier (5-minute TTL), cleared after token exchange — tokens never exposed to client JS.
+- **`X-Cart-Id` header**: `widget.js` stores Shopify cart id in `localStorage` for the static site; API routes read header (static) or cookie (same-origin).
+- **`DesignContext` + `Shift+Ctrl+D`**: CEO/stakeholder toggle comparing designer vs legacy components until Phase 9 cleanup (delete legacy/admin paths).
+- **Zod** on API routes for safe request parsing before Shopify mutations.
 
 ## Implementation Highlights
 
-- **Shopify Storefront API Integration**: Seamless integration with Shopify for product data and inventory
-- **SSR vs CSR Tradeoffs**: Strategic use of server-side and client-side rendering based on page needs
-- **Performance Optimization**: Code splitting, image optimization, and caching strategies
-- **SEO Implementation**: Structured data, meta tags, and semantic HTML for search visibility
-- **Stakeholder Collaboration**: Effective communication with non-technical team members
-
-```typescript
-// Code coming soon...
-// Implementation details will be added here
-```
+- **GraphQL** via `graphql-request`: products, cart mutations, customer operations (see `shopify.ts` / customer OAuth helpers).
+- **REST API routes**: `/api/cart`, `/api/auth/*`, `/api/account/*`, newsletter/contact stubs ready for provider wiring.
+- **next/image migration (v2.2.0)**: `<img>` → `<Image>` across key surfaces; `remotePatterns` for Shopify CDN.
+- **Jest**: integration, security (CORS, injection), safety, and E2E-style coverage categories.
+- **Workflow alignment (v2.3.0)**: docs and audit patterns aligned to shared **workflow-core** Mode A conventions.
 
 ## Results & Evaluation
 
-The site supports live users, marketing campaigns, and ongoing iteration, demonstrating production-level engineering. The platform successfully:
-
-- Replaced the outdated storefront with a modern, performant solution
-- Integrated seamlessly with Shopify for product management
-- Achieved strong SEO performance and search visibility
-- Maintained engineering quality while meeting business requirements
-
-The project demonstrated ability to work with real-world constraints, balance technical and business needs, maintain production systems, and collaborate effectively with non-technical stakeholders.
+- **v2.0.0**: Designer phases **1–8** merged to `main` (March 2026).
+- **v2.4.0 (2026-04-04)**: **Copy + content QA** — 11 tickets (legal, science, About, FAQ, benefits, ingredients, team narratives, Terms of Use) plus **Instagram Basic Display** with **1-hour ISR** caching.
+- **v2.5.0 (next)**: **Analytics & conversion** — GA4, Meta Pixel, consent/CMP, data layer, Vercel env configuration.
+- Soft launch: production domains (`n-2water.com`, `shop.n-2water.com`) in active DNS/Vercel setup; full performance audit still deferred.
 
 ## Tradeoffs & Limitations
 
-- **Platform Constraints**: Platform constraints imposed by Shopify API limitations
-- **Rapid Iteration vs. Technical Debt**: Balancing rapid iteration with long-term maintainability
-- **Third-Party Dependencies**: Reliance on Shopify API for core functionality
-- **Performance vs. Features**: Tradeoffs between feature development and performance optimization
+- **Newsletter / contact** API routes are stubs until wired to Klaviyo/Resend (per internal roadmap).
+- **Phase 9** human gate still blocks deleting legacy/admin bundles.
+- **Third-party dependency** on Shopify APIs and rate/field behaviors.
+- Internal metrics not published here.
 
 ## What I Learned
 
-Production systems require technical judgment, communication, and the ability to work within constraints. Key insights:
-
-1. **Production Systems**: Maintaining live systems requires careful planning, monitoring, and iteration
-2. **Stakeholder Communication**: Translating technical decisions for non-technical audiences is essential
-3. **Performance Optimization**: Real-world performance requires ongoing measurement and optimization
-4. **API Integration**: Working with third-party APIs requires robust error handling, caching, and fallback strategies
-
-The experience reinforced that production engineering is as much about communication and judgment as it is about technical skills.
+Migrating a live brand site while integrating **OAuth PKCE**, **cross-domain cart state**, and **parallel designer UI** forces explicit contracts: cookie shapes, CORS allowlists, and feature flags for safe rollout.

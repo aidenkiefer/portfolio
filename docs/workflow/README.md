@@ -9,7 +9,7 @@ Agentic workflow for this repo, synchronized from `~/projects/workflow-core` usi
 
 **Created or populated:**
 
-- `workflow.md`, `execution-rules.md`, `ticket-template.md`, `skill-map.md`, `task-type-reference-map.md`, `context-flow.md`, `context-audit.md`, `philosophy.md`, `release-feed.md`
+- `workflow.md`, `execution-rules.md`, `ticket-template.md`, `skill-map.md`, `task-type-reference-map.md`, `context-flow.md`, `context-audit.md`, `philosophy.md`, `release-feed.md`, `project-case-studies.md`
 - `audits/.gitkeep`
 - Root `AGENTS.md`, `.claude/CLAUDE.md`, `.claude/rules/00-core.mdc`
 - `docs/plans/PROGRESS.md` (retrospective)

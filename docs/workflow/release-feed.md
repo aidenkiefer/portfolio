@@ -114,6 +114,7 @@ When adding a new public case study, add `portfolioSlug` and verify the MDX file
 
 - `docs/workflow/workflow.md` — Session ritual.
 - `docs/workflow/execution-rules.md` — Budgets and constraints.
+- `docs/workflow/project-case-studies.md` — `/projects` MDX from `workflow-core/project-progress/` + `portfolio-extraction/`.
 - `docs/plans/PROGRESS.md` — Portfolio repo milestone log (separate from workflow-core files).
 
 ---

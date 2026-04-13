@@ -20,7 +20,9 @@ export type ReleaseProjectKey =
   | 'optionalizer'
   | 'viridian-vault'
   | 'caliper'
-  | 'portfolio';
+  | 'portfolio'
+  | 'crucible'
+  | 'aiddocs';
 
 export interface ReleaseFeedProject {
   key: ReleaseProjectKey;
@@ -65,6 +67,18 @@ export const releaseFeedProjects: Record<ReleaseProjectKey, ReleaseFeedProject> 
     monogram: 'AK',
     portfolioSlug: 'personal-portfolio-website',
   },
+  crucible: {
+    key: 'crucible',
+    displayName: 'Crucible',
+    monogram: 'Cr',
+    portfolioSlug: 'crucible-gladiator-coliseum',
+  },
+  aiddocs: {
+    key: 'aiddocs',
+    displayName: 'AidDocs',
+    monogram: 'AD',
+    portfolioSlug: 'aiddocs',
+  },
 };
 
 export interface ReleaseFeedEvent {
@@ -92,7 +106,7 @@ export const releaseFeedNow: { label: string; detail: string }[] = [
   {
     label: 'Caliper',
     detail:
-      'Sprints 11–14 in main: unified pipeline, live `pm.features` layer, offline CLOB simulation + evaluation, BTC probability stack (Sprint 14 AC-9 tests still open).',
+      'Sprints 11–17 in main through v2.7.0: unified FeatureSnapshot layer, simulation + evaluation, probability stack (AC-9 still open), regime/HRP allocation, cross-sectional fleet, wallet clustering + composite signal aggregation.',
   },
   {
     label: 'Viridian Vault',
@@ -113,7 +127,8 @@ export const releaseFeedNext: { label: string; detail: string }[] = [
   },
   {
     label: 'Caliper',
-    detail: 'Wire simulation/evaluation/probability APIs to DB reads; Sprint 14 AC-9 tests; regime + fleet sprints (15–17) spec’d.',
+    detail:
+      'Wire simulation/evaluation/probability APIs to full persisted reads; land Sprint 14 AC-9 tests; extended Polymarket paper validation and out-of-sample ML metrics.',
   },
   {
     label: 'Optionalizer',
@@ -126,6 +141,58 @@ export const releaseFeedNext: { label: string; detail: string }[] = [
  * into one card before adding (see workflow doc).
  */
 export const releaseFeedEvents: ReleaseFeedEvent[] = [
+  {
+    id: 'cal-sprints-15-17',
+    projectKey: 'caliper',
+    version: 'v2.5.x–v2.7.x',
+    category: 'major',
+    title: 'Regime allocation, cross-sectional fleet, and wallet intelligence',
+    summary:
+      'Shipped regime detection with HRP-style allocation APIs, a 5-factor cross-sectional ranker with cooldown selection and four paper fleet strategies, then reward-density metrics, KMeans wallet clustering (k=4), smart-money signal extraction, and composite aggregation with weight learning — 17 sprints through v2.7.0.',
+    completedDate: '2026-04-12',
+    highlights: [
+      'Sprints 15–16: `/v1/regime/*`, `/v1/allocation/*`, ranker + fleet wiring',
+      'Sprint 17: on-chain maker competition signals + wallet profiles + aggregated signals',
+      'Dashboard expanded (10+ explorer routes, FeatureSnapshot inspector, responsive shell)',
+    ],
+    tags: ['ML', 'trading', 'infra', 'API'],
+    sourceNote:
+      'workflow-core/portfolio-extraction/quant/project.md — Results & Evaluation (2026-04-12); workflow-core/project-progress/quant-progress.md',
+  },
+  {
+    id: 'crucible-s6-multiplayer',
+    projectKey: 'crucible',
+    version: 'v2.1.0',
+    category: 'major',
+    title: 'Real-time PvP — matchmaking, Redis-backed Socket.io, 60 Hz authority',
+    summary:
+      'Completed multiplayer sprint: FIFO matchmaking, friends and challenges, PvP over WebSocket with Redis adapter for horizontal scaling, input validation and rate limits, disconnect/reconnect — on top of shared isomorphic physics and progression systems.',
+    completedDate: '2026-03-28',
+    highlights: [
+      '60 Hz server simulation / 20 Hz broadcast with client prediction',
+      'Sprints 0–6 complete; Sprint 7 (polish, E2E, production deploy) next',
+    ],
+    tags: ['real-time', 'backend', 'Web3'],
+    sourceNote: 'workflow-core/project-progress/crucible-progress.md — Milestone v2.1.0 (Sprint 6 — Multiplayer)',
+  },
+  {
+    id: 'aiddocs-vault-tooling',
+    projectKey: 'aiddocs',
+    version: 'v1.0–v1.2',
+    category: 'major',
+    title: 'MDX knowledge vault, ingestion CLI, and visualization layer',
+    summary:
+      'Shipped Notes Vault with KaTeX + Shiki MDX, Cmd+K Fuse.js search, cross-link checker with backlinks, Zod frontmatter contracts, and diagram components (Mermaid, SVG registry). Optionalizer schema/UI scaffold in place; NextAuth + task CRUD on roadmap.',
+    completedDate: '2026-02-10',
+    highlights: [
+      '222 MDX notes across 9 collections',
+      'scaffold-note, validate-notes, batch frontmatter, cross-link-check scripts',
+      'ISR for scale; ADR-documented architecture',
+    ],
+    tags: ['MDX', 'search', 'docs', 'tooling'],
+    sourceNote:
+      'workflow-core/portfolio-extraction/aiddocs/project.md; workflow-core/project-progress/aiddocs-progress.md — v1.2.0 Visualization',
+  },
   {
     id: 'cal-sprints-11-14',
     projectKey: 'caliper',

@@ -65,6 +65,7 @@
 - **Tickets:** `docs/plans/tickets/` (e.g. `chatbot/`, `chatbot-v2/`, `services-pages/`, `service-pages-enrichment/`)
 - **Progress log:** `docs/plans/PROGRESS.md` — brief dated completion notes
 - **Release feed (Experience page):** `data/release-feed.ts` — refresh via `docs/workflow/release-feed.md` from `workflow-core/project-progress/`
+- **Project pages (`/projects/[slug]`):** `content/projects/*.mdx` — refresh via `docs/workflow/project-case-studies.md` from `workflow-core/project-progress/` + `workflow-core/portfolio-extraction/`
 - **Design:** `docs/design-guidelines.md`, `docs/design-refinement.md`
 - **Chatbot runbook:** `docs/chatbot-feature.md`
 - **Ticket template:** `docs/workflow/ticket-template.md`. **Skill map:** `docs/workflow/skill-map.md`

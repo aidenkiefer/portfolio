@@ -2,7 +2,14 @@
 
 This document provides a comprehensive reference to the codebase structure, file organization, and key components.
 
-**Agent workflow (specs, tickets, budgets):** see `docs/workflow/workflow.md` and `docs/workflow/execution-rules.md`. **Progress log:** `docs/plans/PROGRESS.md`. **Experience Release Feed (curated shipping narrative):** `data/release-feed.ts`, workflow `docs/workflow/release-feed.md`.
+**Agent workflow (specs, tickets, budgets):** see `docs/workflow/workflow.md` and `docs/workflow/execution-rules.md`. **Progress log:** `docs/plans/PROGRESS.md`. **Experience Release Feed (curated shipping narrative):** `data/release-feed.ts`, workflow `docs/workflow/release-feed.md`. **Project case studies (`/projects`):** `content/projects/*.mdx`, workflow `docs/workflow/project-case-studies.md`.
+
+### Workflow runbooks (`docs/workflow/`)
+
+| Doc | Use |
+|-----|-----|
+| `release-feed.md` | Curate `data/release-feed.ts` from `workflow-core/project-progress/` |
+| `project-case-studies.md` | Refresh `content/projects/*.mdx` from `workflow-core/project-progress/` + `portfolio-extraction/` |
 
 ## Directory Structure
 

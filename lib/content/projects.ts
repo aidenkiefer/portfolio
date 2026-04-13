@@ -25,6 +25,7 @@ export function getAllProjects(): Project[] {
     });
 
   return projects.sort((a, b) => {
+    if (a.featured !== b.featured) return a.featured ? -1 : 1;
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 }

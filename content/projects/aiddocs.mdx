@@ -1,7 +1,7 @@
 ---
 title: "AidDocs: MDX Knowledge Base + Private Search + Tooling"
 slug: "aiddocs"
-date: "2026-01-15"
+date: "2026-02-09"
 featured: true
 tags:
   [
@@ -14,64 +14,83 @@ tags:
     "Static Generation",
     "Zod",
     "Prisma",
+    "Technical Writing",
   ]
 stack:
   [
     "Next.js 14",
     "React 18",
     "TypeScript",
-    "MDX",
+    "MDX (next-mdx-remote)",
     "KaTeX",
-    "Shiki",
+    "Shiki / rehype-pretty-code",
     "Fuse.js",
     "Zod",
     "Prisma (SQLite)",
     "Tailwind CSS",
+    "Mermaid",
   ]
 repoUrl: ""
 liveUrl: ""
 logo: "/images/logos/aiddocs.svg"
-summary: "A private, self-hosted MDX knowledge base with math/code rendering, fuzzy search, bidirectional backlinks, and a TypeScript ingestion toolchain with Zod-validated frontmatter."
+summary: "A private Next.js knowledge base: 200+ MDX notes with math and syntax highlighting, Cmd+K fuzzy search, backlinks from a cross-link checker, Zod-validated frontmatter, and a CLI ingestion suite — plus an Optionalizer 3.0 shell (schema/UI) awaiting auth-gated CRUD."
 highlights:
-  - "222 MDX notes across 9 collections with KaTeX + Shiki rendering"
-  - "Client-side fuzzy search (Cmd+K) with weighted keys and keyboard navigation"
-  - "Cross-link checker generates `backlinks.json` for bidirectional navigation"
-  - "Zod frontmatter schema enforced across app + CLI tooling"
-  - "ISR strategy to scale content without slow builds"
+  - "222 MDX notes across 9 collections; remark-math → KaTeX + Shiki pipeline"
+  - "Client-side Fuse.js search (weighted keys, keyboard nav) — zero external index"
+  - "cross-link-check.ts → public/backlinks.json for bidirectional navigation"
+  - "Four ingestion scripts: scaffold, validate, batch frontmatter, cross-link checker"
+  - "Visualization layer: Figure, SvgDiagram, Mermaid, Diagram registry in MDX"
+  - "Optionalizer: Prisma models for tasks/projects/habits/XP — CRUD gated on future NextAuth work"
 ---
 
 ## Overview
 
-AidDocs is a private knowledge base and productivity workspace designed for long-term technical recall. The core shipped surface is a Notes Vault: hundreds of MDX notes with math and code rendering, fuzzy search, and bidirectional cross-linking.
-
-Alongside the Notes Vault is an Optionalizer 3.0 scaffold (Prisma + SQLite) for a gamified productivity layer, with the data model and shell in place but CRUD paused.
+AidDocs is a **private, self-hosted** knowledge workspace: a **Notes Vault** of MDX technical notes and an **Optionalizer 3.0** productivity surface (SQLite + Prisma) that shares the app shell. The Notes side is production-usable — rich MDX, math, diagrams, search, and ingestion tooling. Optionalizer has **data model + UI scaffold**; **NextAuth** and task CRUD are planned (see workflow-core progress: **v2.0.0 Auth**, **v2.1.0 Optionalizer CRUD**).
 
 ## Problem & Context
 
-Technical knowledge accumulates quickly and decays without structure. Existing note tools often lack first-class support for math/code, robust cross-linking, or a durable ingestion workflow. AidDocs was built to make knowledge retrieval and compounding the default.
+Engineering knowledge scatters across courses, jobs, and side projects. The goal was **recall and compounding**: one place for code + math, **Git-portable** files, **no** third-party search or cloud content lock-in, and tooling that keeps frontmatter and links honest as the vault grows toward **1k–2k notes**.
 
 ## Constraints
 
-- Privacy-first and self-hosted; no external search or indexing services.
-- Flat-file notes (MDX in git) for portability and version control.
-- Must scale to 1k–2k notes without unacceptable build time.
+- **Privacy-first** — no external search APIs; client-side index acceptable.
+- **Low / zero recurring cost** — SQLite, static/ISR pages, Vercel-friendly.
+- **Single-user** — no multi-tenancy.
+- **File-based notes** — MDX in repo, not a proprietary DB blob.
 
 ## Approach & Design Decisions
 
-- **MDX pipeline** (remark/rehype plugins) for math (KaTeX) and syntax highlighting (Shiki).
-- **Client-side fuzzy search** (Fuse.js) to stay private and offline-capable.
-- **Zod-validated contracts** for frontmatter, enforced in both app and CLI tools.
-- **Cross-link validation + backlinks**: a script checks internal links and generates backlink maps.
-- **ISR** for content-heavy pages so builds remain fast as the vault grows.
+Key decisions are captured as ADRs in the project repo (`docs/architecture-decisions.md`), including:
+
+- **MDX** for notes (vs plain Markdown or a CMS).
+- **Fuse.js** for private fuzzy search with a defined migration threshold (~2k notes / ~500KB index).
+- **NextAuth** planned for auth (vs heavier SaaS auth).
+- **SQLite + Prisma** for Optionalizer with a **PostgreSQL migration path** via Prisma swap.
+- **ISR** (`revalidate`) on note/collection routes to control build time at scale.
+- **Zod** frontmatter contract enforced in app + CLI scripts.
 
 ## Implementation Highlights
 
-- Notes render pipeline with custom MDX components.
-- Cmd+K search modal with keyboard navigation and weighted keys.
-- Tooling: scaffold, validate, batch frontmatter, cross-link checker.
-- TOC active heading tracking with IntersectionObserver.
+- **MDX pipeline** — `next-mdx-remote`, custom MDX components, KaTeX + Shiki.
+- **Global search** — `GlobalSearch` Cmd/Ctrl+K; weighted Fuse keys; collection filters.
+- **Note detail** — TOC with `IntersectionObserver`, related notes, backlinks from generated JSON.
+- **Ingestion CLI** — scaffold-note, validate-notes (CI-friendly exit codes), batch-add-frontmatter, cross-link-check.
+- **Diagrams** — SvgDiagram, Mermaid client component, centralized diagram registry.
+- **Optionalizer shell** — dashboard routes and Prisma schema for tasks, projects, habits, XP events.
 
 ## Results & Evaluation
 
-- Shipped two sprints: Notes Vault + ingestion toolchain.
-- TODO: publishable demo link (private system).
+- **Sprints 1–2 shipped**: Notes Vault core + **content ingestion tooling** + visualization components.
+- **222 notes / 9 collections** validated; cross-link checker + backlinks operational when the script is run.
+- **Auth** is middleware/UI scaffold only — not enforced for production gating yet.
+- **Optionalizer CRUD** not yet shipped; blocked on auth milestone per project roadmap.
+
+## Tradeoffs & Limitations
+
+- **Manual RAG/index** — no built-in full-text service; search is client-bundle sized.
+- **Optionalizer** remains preview-only until NextAuth + CRUD land.
+- **Private repo** — no public demo link in this case study.
+
+## What I Learned
+
+Owning the full stack — **Zod at the boundary**, **CLI + app sharing schemas**, and **backlinks as a build artifact** — keeps large MDX corpora maintainable without a CMS, at the cost of writing more tooling than a typical notes app.

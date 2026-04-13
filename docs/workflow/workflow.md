@@ -15,6 +15,7 @@ Bounded, cost-efficient: minimal persistent context, specs read once per session
 - **Context flow:** [context-flow.md](./context-flow.md) — how context flows through this project's workflow lifecycle (educational)
 - **Context audit:** [context-audit.md](./context-audit.md) — quarterly guide for keeping reference docs accurate
 - **Release feed:** [release-feed.md](./release-feed.md) — refresh `data/release-feed.ts` from `workflow-core/project-progress/` for the Experience page
+- **Project case studies:** [project-case-studies.md](./project-case-studies.md) — refresh `content/projects/*.mdx` from `workflow-core/project-progress/` + `workflow-core/portfolio-extraction/`
 
 **Specs** live in `docs/plans/specs/` (read-only; summarize once per session). **Tickets** live in `docs/plans/tickets/` (including nested folders per initiative). Do not re-attach full specs every turn; use a Spec Summary when batching 3–8 tickets.
 

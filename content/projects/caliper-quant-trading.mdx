@@ -1,7 +1,7 @@
 ---
 title: "Caliper: Quantitative ML Trading Platform"
 slug: "caliper-quant-trading"
-date: "2026-04-08"
+date: "2026-04-12"
 featured: true
 tags:
   [
@@ -31,18 +31,18 @@ stack:
   ]
 repoUrl: ""
 liveUrl: ""
-summary: "A modular quant platform for US equities plus an optional Polymarket BTC market-making path: ingestion, unified feature layer, backtesting, layered risk, paper execution, offline CLOB simulation, evaluation metrics, and a Next.js Model Observatory."
+summary: "A modular quant platform for US equities plus Polymarket BTC market-making: unified FeatureSnapshot layer, simulation + evaluation engines, regime detection and allocation, cross-sectional ranking, wallet intelligence, and a Next.js Model Observatory — 17 sprints shipped through v2.7.0 (Jan–Apr 2026)."
 highlights:
   - "Dual path: Alpaca equities + Polymarket CLOB/Binance features behind one strategy and risk surface"
-  - "Live FeatureSnapshot pipeline → Timescale `pm.features`; deterministic simulation + evaluation with baseline regret"
-  - "Sprint 14 BTC hourly probability model: calibration, lead-lag tests, fee-aware probes, `/v1/probability/*` (DB wiring + AC-9 tests still in flight)"
-  - "ML safety before hype: drift, confidence gating (ABSTAIN), SHAP, HITL queue — wired before production model reliance"
-  - "500+ pytest tests across backtest, API, Polymarket, features, simulation, and evaluation suites"
+  - "Sprints 15–17: regime/HRP allocation, 5-factor cross-sectional ranker + paper fleet, reward density + wallet KMeans + signal aggregation"
+  - "550+ pytest tests (Sprint 14 AC-9 probability suite still tracked as open)"
+  - "Simulation + evaluation: determinism, fill-rate checks, regime partitions, baseline regret; API routes partially stubbed pending full DB wiring"
+  - "Dashboard: 10+ explorer routes, FeatureSnapshot inspector, mobile sidebar — aligned with workflow-core extraction"
 ---
 
 ## Overview
 
-Caliper is a private, full-stack quantitative ML trading monorepo: Python services and shared packages for market data, features, backtest, execution, risk, ML (including a dedicated **`probability_model`** package), simulation, and evaluation — plus a Next.js 14 **Model Observatory** dashboard. Work from Jan–Apr 2026 delivered **14 sprints in `main`**, from core equity tooling through Polymarket market-making, a unified architecture refactor, a unified feature layer, an offline CLOB simulation engine, and a **BTC hourly probability** stack.
+Caliper is a private, full-stack quantitative ML trading monorepo: Python services and shared packages for market data, features, backtest, execution, risk, ML (including **`probability_model`**), simulation, evaluation, regime allocation, cross-sectional ranking, and wallet intelligence — plus a Next.js 14 **Model Observatory** dashboard. Work from Jan–Apr 2026 delivered **17 sprints in `main`** through **v2.7.0**, from core equity tooling through Polymarket, unified `FeatureSnapshot` features, simulation/evaluation, probability modeling, regime + HRP allocation, fleet strategies, and on-chain-informed signals.
 
 Design priority is **correctness and safety** over raw PnL: paper mode by default, strict `RiskManager` gating, and observability for every automated decision.
 
@@ -77,14 +77,17 @@ Most retail-facing algo stacks hide risk and model behavior. I wanted an end-to-
 - **Polymarket (Sprint 10)**: Gamma/CLOB clients, fee engine, session orchestrator, quoting strategy, DB schema for orders/trades.
 - **Sprints 11–12**: `UnifiedSignal`, **`FeatureSnapshot`** (four feature families), `CLOBSource` + `BinanceSource`, `FeatureBuilder` + `FeatureStore`, **`GET /v1/features/{market_id}/latest|history`**.
 - **Sprint 13**: `SimulatedOrderBook`, `ExecutionSimulator`, `FeeEngine`, `AdverseSelectionModel`, `ReplayEngine`, `SimulationRunner`, `SimulationValidator`, evaluation metrics + regime matrix + baselines; **`/v1/simulation/*`** and **`/v1/evaluation/*`** (some responses still stub-backed until full DB wiring).
-- **Sprint 14**: `services/ml/probability_model/` — panel dataset, logistic + Platt + optional GBT, lead-lag diagnostics, fee-aware threshold probe, `ProbabilityPredictor`, `DriftMonitor`; **`/v1/probability/*`** router (partial mocks pending live reads). Spec **AC-9** (dedicated pytest suite) tracked as open work.
+- **Sprint 14**: `probability_model` — calibration, lead-lag tests, `/v1/probability/*` (AC-9 test wiring still open per project status).
+- **Sprints 15–16**: regime detection + HRP allocator (`/v1/regime/*`, `/v1/allocation/*`); cross-sectional 5-factor ranker, cooldown selection, four paper fleet strategies; dashboard overhaul.
+- **Sprint 17**: reward density, wallet intelligence (KMeans k=4), smart-money signals, composite aggregation with weight learning.
 
 ## Results & Evaluation
 
-- **14 sprints shipped** through **v2.4.0**; **500+ tests** in repo. SMA crossover backtest math verified on sample AAPL data.
-- **Polymarket bot**: orchestration and quoting wired; extended paper PnL validation still on the roadmap (no fabricated metrics here).
-- **Simulation**: determinism (AC-1), fill-rate checks (AC-5), regime partitioning (AC-6) exercised in tests.
-- **Roadmap**: Sprints **15–17** spec’d (regime allocation, cross-sectional fleet, reward density / wallet intelligence) — not implemented yet.
+- **17 sprints shipped** through **v2.7.0**; **550+ pytest tests** in repo (per workflow-core portfolio extraction). SMA crossover backtest math verified on sample AAPL bars.
+- **Polymarket bot**: session orchestrator and quoting implemented; extended paper PnL validation still on the roadmap (no fabricated production metrics).
+- **Simulation + evaluation**: determinism, fill-rate, and regime test criteria exercised; some API responses still stub-backed until full DB integration.
+- **Probability stack**: library + migration + router merged; **AC-9** and live DB reads called out as remaining work in source docs.
+- **Roadmap**: further live/paper validation and out-of-sample ML metrics depend on training runs — not claimed here.
 
 ## Tradeoffs & Limitations
 

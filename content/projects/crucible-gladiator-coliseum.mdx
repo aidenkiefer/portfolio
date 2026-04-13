@@ -1,7 +1,7 @@
 ---
 title: "Crucible: Server-Authoritative Web3 Arena Combat"
 slug: "crucible-gladiator-coliseum"
-date: "2026-01-01"
+date: "2026-04-02"
 featured: true
 tags:
   [
@@ -14,6 +14,7 @@ tags:
     "Canvas Rendering",
     "Web3 / NFTs",
     "Monorepo Architecture",
+    "Row-Level Security (RLS)",
   ]
 stack:
   [
@@ -21,55 +22,70 @@ stack:
     "React 18",
     "TypeScript",
     "Node.js + Express",
-    "Socket.io",
-    "Redis",
+    "Socket.io + Redis adapter",
     "Supabase",
     "Prisma",
     "Solidity (Hardhat)",
+    "wagmi + viem",
     "Turborepo (pnpm workspaces)",
   ]
 repoUrl: ""
 liveUrl: ""
-summary: "A competitive 1v1 browser arena game with server-authoritative multiplayer (60 Hz), client-side prediction, an isomorphic physics/combat library, and ERC-721 Gladiator NFTs on a testnet."
+summary: "A competitive 1v1 browser arena with 60 Hz server-authoritative combat, client-side prediction over a shared physics library, Socket.io + Redis scaling, and ERC-721 Gladiator NFTs on Polygon Mumbai — Sprints 0–6 shipped; Sprint 7 (polish & deploy) planned."
 highlights:
-  - "60 Hz server-authoritative simulation with 20 Hz broadcast + client-side prediction/reconciliation"
-  - "Shared isomorphic physics/combat library used by both Node server and browser client"
-  - "Socket.io + Redis adapter for scalable room-based matchmaking"
-  - "ERC-721 Gladiator NFTs (testnet) with event listener syncing on-chain events to Postgres"
-  - "Admin pipeline for authoring/publishing game-data bundles (runtime avoids DB reads)"
+  - "60 Hz authoritative simulation / 20 Hz broadcast; shared deterministic `packages/shared` physics in Node + browser"
+  - "Progression & loot: XP to level 20, six cross-class skill trees (108 skills), crafting, salvage, match history"
+  - "Sprint 6: FIFO matchmaking, friends & challenges, PvP WebSocket, Redis-backed adapter, input validation + rate limits"
+  - "Template/instance equipment model: admin UI → validated bundles in Supabase Storage → in-memory `BundleLoader` at runtime"
+  - "ERC-721 GladiatorNFT + game-server listener syncing mint events to Postgres"
 ---
 
 ## Overview
 
-Crucible is a competitive 1v1 arena combat game built to prove three hypotheses: the combat loop is fun, NFT ownership can integrate cleanly into gameplay, and real-time multiplayer can run smoothly in the browser without compromising on anti-cheat fundamentals.
+Crucible is a **competitive 1v1 arena combat** game: players own Gladiators and gear as **ERC-721 NFTs** (Polygon Mumbai) and fight in skill-influenced real-time battles. The stack is a **TypeScript monorepo** — Next.js 14 frontend (Canvas 2D + prediction), a **standalone Node/Express game server** for authoritative simulation, **shared physics/combat** in `packages/shared`, **Prisma + Supabase** persistence, and **Solidity** contracts via Hardhat.
 
-It’s a full-stack TypeScript monorepo: Next.js frontend (Canvas 2D rendering), a standalone Node/Express game server running authoritative combat, a shared deterministic physics/combat package used in both environments, Solidity contracts for on-chain ownership, and Supabase/Postgres persistence.
+As of the last workflow-core sync, **Sprints 0–6 are complete** (auth, NFT mint, CPU + PvP combat, progression/loot, multiplayer infrastructure). **Sprint 7** (E2E tests, production deploy, demo polish) is the next milestone.
 
 ## Problem & Context
 
-Many blockchain games lead with token economics and ship shallow gameplay. Crucible flips that priority: build a real multiplayer combat system first, then layer on-chain ownership in a way that doesn’t disrupt the player experience.
+Many Web3 games optimize for tokens over gameplay. Crucible **prioritizes combat feel first**, then layers NFT ownership without forcing crypto on every player (social auth + optional wallet link). The engineering challenge is **low-latency, cheat-resistant multiplayer** in the browser while keeping on-chain scope minimal.
 
 ## Constraints
 
-- Web-first (Canvas 2D) at 60 FPS.
-- Testnet-only for the demo.
-- Server-authoritative outcomes; client can predict but never decides results.
-- Small team and sprint-bounded scope.
+- **Web-first**: Canvas 2D at ~60 FPS; no heavy native client.
+- **Testnet-only demo** (Mumbai); mainnet documented but not deployed.
+- **Server-authoritative**: clients may predict; **never** decide outcomes.
+- **Small team / sprint-bounded** scope across seven planned sprints.
 
 ## Approach & Design Decisions
 
-- **Shared deterministic simulation**: a pure TypeScript physics/combat package runs identically in Node and the browser.
-- **60 Hz simulation, 20 Hz broadcast**: the server ticks continuously and broadcasts compressed snapshots; the client predicts locally and reconciles.
-- **Separate long-running server**: real-time match state lives in a dedicated game server, not a serverless function.
-- **Template/instance content model**: equipment templates are authored in an admin UI and published as bundles so runtime avoids DB calls mid-match.
+- **Isomorphic shared library** — `packages/shared` runs the same deterministic physics in the **game server** and **browser** for prediction + reconciliation.
+- **Separate game server** — Long-lived Socket.io process (Railway-style hosting) avoids serverless cold starts and holds match state in memory.
+- **60 Hz sim / 20 Hz broadcast** — Continuous ticks with compressed snapshots; client interpolates and reconciles.
+- **Template/instance content** — Equipment authored in DB, published to **JSON bundles** in storage, loaded once at startup (**no DB mid-match**).
+- **Redis Socket.io adapter** — Enables horizontal scaling groundwork for rooms and matchmaking.
+- **Anti-cheat layering** — Stamina/cooldown validation, sliding-window **rate limits**, server-only truth.
 
 ## Implementation Highlights
 
-- Weapons + projectiles with server-side validation.
-- Input validation + rate limiting for anti-cheat.
-- Matchmaking, disconnect/reconnect recovery, and persistent match history.
-- Smart contract integration (ERC-721) with event syncing.
+- **apps/web** — NextAuth (Google/Twitter), wagmi/viem mint UI, arena Canvas + `useClientPrediction` / `useRealTimeMatch`, progression UI, admin bundle authoring, quick match + friends flows.
+- **apps/game-server** — `MatchInstance` 60 Hz loop, `CombatEngine`, CPU AI (three HP-tier strategies), matchmaking, disconnect/reconnect window, `BlockchainListener` (ethers v6).
+- **packages/shared** — Vectors, movement, melee arcs, four weapons, projectiles, skills, crafting, loot pools.
+- **contracts** — `GladiatorNFT.sol` (OpenZeppelin ERC-721, eight rolled stats at mint).
 
 ## Results & Evaluation
 
-TODO: public demo link and footage.
+- **Core demo criteria met**: mint, equip, fight CPU, quick-match PvP, friends/challenges, authoritative outcomes, leveling + skill trees, rarity-tiered loot, crafting — per sprint documentation through **v2.1.0** (multiplayer).
+- **Sprint 7** still open: E2E coverage, Vercel + Railway production story, asset polish, demo video.
+- **No fabricated latency or CCU metrics** — extended production baselines still TODO.
+
+## Tradeoffs & Limitations
+
+- Scaling to very high concurrency still needs **load balancer + sticky sessions** beyond Redis adapter alone.
+- **Placeholder art**; frontend test coverage called out as Sprint 7 scope.
+- **Testnet / programmer-art** demo — not positioned as a production game SKU.
+- Friends surface: some GET routes noted as deferred in sprint summaries.
+
+## What I Learned
+
+Shipping **shared deterministic physics** for both authority and prediction, plus **WebSocket room hygiene** and **content bundles** that remove DB reads from the hot path, is the difference between a playable arena and a fragile prototype — and keeping **NFT scope narrow** (ownership + mint) avoids derailing gameplay work.

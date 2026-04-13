@@ -41,6 +41,17 @@ export const skills: Skill[] = [
   {
     name: 'Socket Programming',
     category: 'Systems',
+    projectLinks: ['crucible-gladiator-coliseum'],
+  },
+  {
+    name: 'Redis',
+    category: 'Systems',
+    projectLinks: ['crucible-gladiator-coliseum'],
+  },
+  {
+    name: 'Real-time / multiplayer systems',
+    category: 'Systems',
+    projectLinks: ['crucible-gladiator-coliseum'],
   },
   {
     name: 'MySQL',
@@ -63,6 +74,16 @@ export const skills: Skill[] = [
     category: 'Web',
   },
   {
+    name: 'Fuse.js',
+    category: 'Web',
+    projectLinks: ['aiddocs'],
+  },
+  {
+    name: 'Mermaid',
+    category: 'Web',
+    projectLinks: ['aiddocs'],
+  },
+  {
     name: 'Liquid',
     category: 'Web',
   },
@@ -75,16 +96,31 @@ export const skills: Skill[] = [
   {
     name: 'pandas',
     category: 'Data/ML',
-    projectLinks: ['climate-change-bird-migration'],
+    projectLinks: ['climate-change-bird-migration', 'caliper-quant-trading'],
   },
   {
     name: 'scikit-learn',
     category: 'Data/ML',
-    projectLinks: ['climate-change-bird-migration', 'id3-decision-tree'],
+    projectLinks: ['climate-change-bird-migration', 'id3-decision-tree', 'caliper-quant-trading'],
   },
   {
     name: 'PyTorch',
     category: 'Data/ML',
+  },
+  {
+    name: 'Time series & regime modeling',
+    category: 'Data/ML',
+    projectLinks: ['caliper-quant-trading'],
+  },
+  {
+    name: 'Portfolio / risk allocation (HRP-style)',
+    category: 'Data/ML',
+    projectLinks: ['caliper-quant-trading'],
+  },
+  {
+    name: 'Clustering & signal aggregation',
+    category: 'Data/ML',
+    projectLinks: ['caliper-quant-trading'],
   },
   {
     name: 'Decision Trees',
@@ -119,6 +155,11 @@ export const skills: Skill[] = [
   {
     name: 'Jupyter',
     category: 'Tools',
+  },
+  {
+    name: 'MDX content tooling (CLI validation)',
+    category: 'Tools',
+    projectLinks: ['aiddocs'],
   },
   {
     name: 'Linux/Bash',

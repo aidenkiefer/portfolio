@@ -106,12 +106,12 @@ export const releaseFeedNow: { label: string; detail: string }[] = [
   {
     label: 'Caliper',
     detail:
-      'Sprints 11–17 in main through v2.7.0: unified FeatureSnapshot layer, simulation + evaluation, probability stack (AC-9 still open), regime/HRP allocation, cross-sectional fleet, wallet clustering + composite signal aggregation.',
+      'v2.7.0 complete (17 sprints): unified pipeline, Polymarket market-making, simulation/evaluation, probability model, regime/HRP allocation, cross-sectional fleet, wallet clustering. Wiring ranking/fleet APIs to live DB reads; Sprint 14 AC-9 tests open.',
   },
   {
     label: 'Viridian Vault',
     detail:
-      'Show mode (dual search + 60s sale flow) in progress on `feature/show-mode`; pipeline audit, sealed migration, and hourly sync specs queued.',
+      'v1.6.x pipeline audit + resolution overhaul shipped (2026-04-17); v1.9.0 Resolve Items maintenance hub in progress; Show mode on `feature/show-mode`; sealed migration and hourly sync queued.',
   },
   {
     label: 'N-2 Water',
@@ -141,6 +141,24 @@ export const releaseFeedNext: { label: string; detail: string }[] = [
  * into one card before adding (see workflow doc).
  */
 export const releaseFeedEvents: ReleaseFeedEvent[] = [
+  {
+    id: 'vv-1-6-x',
+    projectKey: 'viridian-vault',
+    version: 'v1.6.x',
+    category: 'minor',
+    title: 'Pipeline audit overhaul and resolution engine v2',
+    summary:
+      'Completed 7 pipeline audit fixes (atomic price writes, ≤3 bulk DB calls per refresh, quota tracking, thundering-herd guard, image fetch hardening, TTL centralization) and shipped PokeWallet resolution v2: restructured 4-stage fallback with set_code+number first, critical API corrections, card number normalization, and CardMarket pricing fallback.',
+    completedDate: '2026-04-17',
+    highlights: [
+      'v1.6.0: Audit tickets A–L — atomic writes, quota guard, thundering-herd prevention, TTL centralization',
+      'v1.6.1: 4-stage auto-resolve restructured (set_code+number first); post_filter_count in AttemptLog',
+      'v1.6.2: Critical fix json.results (was json.data), X-API-Key header, pagination fallback, number normalization',
+    ],
+    tags: ['backend', 'API', 'performance'],
+    sourceNote:
+      'workflow-core/project-progress/viridian-vault-progress.md — Milestone v1.6.0, patches v1.6.1–v1.6.2 (completed 2026-04-17)',
+  },
   {
     id: 'cal-sprints-15-17',
     projectKey: 'caliper',

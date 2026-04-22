@@ -1,7 +1,7 @@
 ---
 title: "Viridian Vault: Inventory Valuation + Provider Resolution Engine"
 slug: "viridian-vault"
-date: "2026-04-05"
+date: "2026-04-17"
 featured: true
 tags:
   [
@@ -68,18 +68,21 @@ Manual price lookups don’t scale, and show-event workflows are time-sensitive.
 
 ## Implementation Highlights
 
-- Resolution cascade: set+number → title+set_code+number → title+number → title-only fallback.
-- Typed discriminated union outputs (resolved/candidates/not_found) for debuggability.
+- Resolution cascade v2: 4-stage fallback (set_code+number → title+set_code+number → title+number → title-only), now with set_code first for higher hit rate on singles.
+- Typed discriminated union outputs (resolved/candidates/not_found) for debuggability; `post_filter_count` added in AttemptLog.
 - Price cache TTL and snapshot system with reason tags (DAILY/MANUAL/SHOW/TRANSACTION_EVENT).
 - Card image fetch as bytes → Supabase Storage for singles.
+- Pipeline audit hardening (v1.6.0): atomic price writes, quota tracking, thundering-herd guard, image fetch hardening, TTL centralization, set-mapping TTL.
 
 ## Results & Evaluation
 
-Per **workflow-core** progress and extraction (Apr 2026):
+Per **workflow-core** progress (last synced 2026-04-22):
 
 - **v1.0–v1.5** (through **2026-04-01**): inventory CRUD, PokeWallet-centered pricing, RLS, dashboard, admin resolution — **v1.5.0** completed the pipeline redesign and doc overhaul (universal PokeWallet provider strategy).
-- **v2.0 Show mode** (**in progress**): spec approved **2026-04-02**; dual-mode search (PokeWallet for PURCHASE/TRADE IN, inventory DB for SALE/TRADE OUT), ~60s sale flow, offline queue v1 (`localStorage`); work on branch `feature/show-mode`.
-- **Spec’d next**: **v1.6** pipeline audit fixes (12 issues A–L), **v1.7** sealed migration (JustTCG → PokeWallet), **v1.8** background hourly sync (`POST /api/sync/hourly` + Supabase **pg_cron** / **pg_net**).
+- **v1.6.x** (completed **2026-04-17**): pipeline audit (7 tickets, A–L) — atomic price writes, ≤3 bulk DB calls per refresh cycle, quota tracking, thundering-herd guard, image fetch hardening, TTL centralization, and set-mapping TTL. PokeWallet resolution v2: 4-stage fallback restructured with `set_code+number` first, critical API corrections (`json.results`, `X-API-Key` header), pagination fallback, and card number normalization.
+- **v1.9.0 Resolve Items hub** (**in progress**, 2026-04-22): unifying the 4-step settings workflow (set mappings, singles resolve/repair, price refresh, images) into `/admin/resolve-items`; spec + design + implementation plan written.
+- **v2.0 Show mode** (**in progress**): spec approved 2026-04-02; dual-mode search (PokeWallet for PURCHASE/TRADE IN, inventory DB for SALE/TRADE OUT), ~60s sale flow, offline queue v1; branch `feature/show-mode`.
+- **Spec’d**: **v1.7** sealed migration (JustTCG → PokeWallet), **v1.8** background hourly sync (`POST /api/sync/hourly` + Supabase **pg_cron** / **pg_net**).
 - **v2.1 Analytics** and **v2.2 Binder scanner** are on the roadmap; binder MVP not started.
 
 Operational baselines:

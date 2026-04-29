@@ -44,6 +44,7 @@ export const coursework: CourseworkGroup[] = [
         code: 'CS 261',
         name: 'Machine Organization',
         skillsLearned: ['Computer architecture', 'Assembly language', 'Memory management'],
+        projectLinks: ['cache-performance-analysis'],
       },
       {
         code: 'CS 361',
@@ -69,6 +70,7 @@ export const coursework: CourseworkGroup[] = [
         code: 'CS 341',
         name: 'Programming Language Concepts',
         skillsLearned: ['Language paradigms', 'Type systems', 'Functional programming', 'Language design'],
+        projectLinks: ['language-concepts-projects'],
       },
       {
         code: 'CS 342',

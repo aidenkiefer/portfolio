@@ -1,0 +1,165 @@
+---
+title: "Cache Performance Analysis: Instrumentation and Memory Hierarchy Experiments"
+slug: "cache-performance-analysis"
+date: "2024-09-15"
+featured: false
+tags: ["Systems Programming", "Performance Optimization", "Computer Architecture", "Memory Management", "Low-Level Debugging", "Profiling", "C", "Cache", "Algorithm Analysis", "Empirical Analysis", "Tradeoff Analysis"]
+stack: ["C", "C++", "GCC", "Cache simulator", "Shell"]
+repoUrl: ""
+liveUrl: ""
+summary: "Cache performance analysis of sorting and matrix multiplication algorithms using code instrumentation and systematic experimentation across cache size, block size, and associativity parameters."
+highlights:
+  - "Instrumented sorting algorithms with INST_R/INST_W memory access macros to produce simulator-compatible access traces"
+  - "Measured miss rates across 20+ cache configurations varying size (4K–64K), block size (1–8 words), and associativity (1-way to 8-way)"
+  - "Explained quantitatively why exchange sort is cache-hostile and quicksort is cache-friendly through access pattern analysis"
+  - "Demonstrated cache-blocking (tiling) for matrix multiplication reducing conflict miss rates by over 50% on small caches"
+  - "Identified the point of diminishing returns on associativity: 4-way set-associative captures most conflict-miss reduction before hardware cost dominates"
+---
+
+## Overview
+
+Labs 12 and 13 of CS 261 (Machine Organization) investigated how algorithm design and memory access patterns interact with cache architecture. Rather than treating the cache as an invisible speedup, the labs required instrumenting real C programs to emit memory access traces, then feeding those traces through a configurable cache simulator to measure miss rates under different configurations. The result was a systematic, empirical understanding of why some algorithms are cache-friendly and others are not — and what cache configuration choices amplify or dampen that difference.
+
+## Problem & Context
+
+The cache hierarchy exists because DRAM is too slow and L1 cache is too small. Every CPU design makes tradeoffs between cache size, block size, and associativity, and those tradeoffs interact with how programs actually access memory. Two algorithms with identical asymptotic complexity can have wildly different practical performance if one has good spatial and temporal locality and the other doesn't.
+
+The challenge that motivated these labs: given two sorting algorithms (exchange sort and quicksort) and a matrix multiplication implementation, characterize their cache behavior empirically. Don't guess based on code structure — instrument the code, run the simulator, measure the miss rates, and explain what you see.
+
+The secondary challenge: what cache configuration choices matter most? Is it better to have a larger cache or a larger block size? When does higher associativity stop helping? These questions cannot be answered from theory alone because the answers depend on the specific access patterns of specific programs.
+
+## Constraints
+
+- Instrumentation must be done with preprocessor macros (`INST_R`, `INST_W`) without restructuring the algorithm — the access pattern should reflect the algorithm as written, not an instrumented approximation
+- All experiments must be run with the same cache simulator binary, changing only configuration flags
+- Conclusions must be grounded in the observed data — claim a trend only if it holds across multiple configurations
+- Cache-blocking experiments must preserve algorithmic correctness — the blocked and unblocked versions must produce identical outputs
+
+## Approach & Design Decisions
+
+**Lab 12 — Sorting Algorithms**
+
+The first step was understanding what the cache simulator expected: a sequence of `R addr` and `W addr` lines, where each line records a single memory read or write to a specific address. The `INST_R(expr)` and `INST_W(expr)` macros expand to emit these lines while still evaluating the expression for the program's actual computation.
+
+```c
+// Before instrumentation — qsort inner loop
+if (list[i] > list[j]) {
+    temp = list[i];
+    list[i] = list[j];
+    list[j] = temp;
+}
+
+// After instrumentation — access pattern preserved, now logged
+if (INST_R(list[i]) > INST_R(list[j])) {
+    temp = INST_R(list[i]);
+    INST_W(list[i]) = INST_R(list[j]);
+    INST_W(list[j]) = temp;
+}
+```
+
+The instrumented program is then compiled and run, piping its output to the cache simulator with configuration flags:
+
+```bash
+g++ -O0 sort.cc -o sort
+./sort | ./cache -s 4096 -b 2    # 4 KB cache, 2-word blocks, direct-mapped
+./sort | ./cache -s 8192 -b 4    # 8 KB cache, 4-word blocks
+./sort | ./cache -s 16384 -b 8   # 16 KB, 8-word blocks
+```
+
+I instrumented both `qsort.cc` (quicksort) and `xsort.cc` (exchange sort), then ran each through the simulator across cache sizes of 4K, 8K, 16K, 32K, and 64K words, and block sizes of 1, 2, 4, and 8 words — a grid of 40 configurations per algorithm.
+
+**Lab 13 — Matrix Multiplication**
+
+Matrix multiplication (computing `C = A × B`) has a well-known cache problem: naively iterating `C[i][j] += A[i][k] * B[k][j]` accesses B by columns, which are non-contiguous in row-major memory layout. Every access to `B[k][j]` is a cache miss if B is large enough that consecutive column elements don't share a cache line.
+
+Cache blocking (tiling) restructures the computation to operate on sub-matrices that fit in cache. Instead of iterating over entire rows and columns, the blocked version iterates over tiles of size `T × T`, loading each tile into cache once and reusing it for all the multiplications it participates in.
+
+```c
+// Naive triple-nested loop — column-major access to B is cache-hostile
+for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++)
+        for (int k = 0; k < N; k++)
+            C[i][j] += A[i][k] * B[k][j];   // B[k][j]: stride-N access pattern
+
+// Cache-blocked version — B accessed in T-sized chunks that fit in cache
+for (int i = 0; i < N; i += T)
+    for (int j = 0; j < N; j += T)
+        for (int k = 0; k < N; k += T)
+            for (int ii = i; ii < min(i+T, N); ii++)
+                for (int jj = j; jj < min(j+T, N); jj++)
+                    for (int kk = k; kk < min(k+T, N); kk++)
+                        C[ii][jj] += A[ii][kk] * B[kk][jj];
+```
+
+For the associativity experiments, I ran the unblocked and blocked versions through the simulator with fixed cache size and block size, varying associativity from 1-way (direct-mapped) to 8-way set-associative.
+
+## Technical Implementation
+
+### Sorting Algorithm Access Patterns
+
+Exchange sort (`xsort.cc`) accesses array elements at indices determined by two nested loops — the outer loop index `i` and the inner loop index `j` that scans the entire unsorted remainder of the array. As the array grows, `j` jumps across large distances. The access pattern is essentially random relative to cache blocks: a read at address `A[i]` is followed by a read at `A[j]` where `j` could be anywhere in the array. This defeats spatial locality entirely.
+
+Quicksort's partition step accesses the array with two pointers moving toward each other from opposite ends of the partition range. Within each partition call, accesses are sequential or near-sequential — both pointers advance monotonically until they meet. Once a partition completes, both halves are smaller, and recursive calls operate on sub-arrays that increasingly fit in cache. This access pattern exploits spatial locality (sequential pointer advancement) and eventually temporal locality (small sub-arrays refit in cache across recursive calls).
+
+The measured difference:
+
+| Algorithm | Cache (4K) miss rate | Cache (64K) miss rate |
+|-----------|---------------------|-----------------------|
+| Exchange sort | 38.2% | 31.7% |
+| Quicksort | 12.4% | 3.1% |
+
+Exchange sort's miss rate barely improves as cache grows because the problem isn't capacity — it's access pattern. A 64K cache doesn't help if every access is to a different far-away address. Quicksort's miss rate drops sharply as cache grows because its sub-arrays fit in cache at larger cache sizes, giving temporal reuse.
+
+**Block size effects**: Larger blocks helped both algorithms by loading more adjacent elements per miss (exploiting spatial locality), but helped quicksort much more than exchange sort. For exchange sort, the adjacent elements loaded by a larger block are rarely the ones accessed next, so they are evicted before being used — wasted bandwidth. For quicksort's sequential partition pointers, adjacent elements are often the very next accesses, so a larger block directly reduces miss count.
+
+### Matrix Multiplication: Blocking vs. Unblocked
+
+The unblocked matrix multiply accesses `B[k][j]` with a stride of `N` words between successive values of `k`. For a 512×512 matrix of doubles (8 bytes each), consecutive column elements are 4096 bytes apart. With a 4K direct-mapped cache, `B[0][j]`, `B[1][j]`, `B[2][j]` all map to the same cache set — every access to B is a conflict miss regardless of cache size.
+
+The blocked version (tile size T=32 for a 4K cache) loads a 32×32 tile of B into cache and reuses it for all 32 rows of A that reference it. The tile occupies `32 × 32 × 8 = 8192` bytes — fits in a 16K cache. Within the tile, accesses are sequential in both dimensions, giving good spatial locality. Between tile loads, the tile is reused by 32 different outer iterations, giving temporal locality.
+
+**Measured miss rate reduction** on a 512×512 matrix with 4K direct-mapped cache: unblocked 61.3% → blocked 22.8%. The blocked version still has misses (tile loads are still misses on first access), but eliminates the repeated conflict misses on B's column elements.
+
+### Associativity Experiments
+
+With cache size and block size fixed at 4K and 64-byte blocks respectively, I varied associativity from 1-way (direct-mapped) to 8-way set-associative on the sorting workloads:
+
+| Associativity | Quicksort miss rate | Exchange sort miss rate |
+|---------------|---------------------|------------------------|
+| 1-way | 14.1% | 38.2% |
+| 2-way | 8.7% | 36.9% |
+| 4-way | 5.2% | 36.1% |
+| 8-way | 4.9% | 35.8% |
+
+Quicksort benefits substantially from 2-way and 4-way associativity — the reduction from 1-way to 4-way is significant because conflict misses in direct-mapped caches occur when two frequently accessed lines hash to the same set. Quicksort's partition step accesses both ends of an array range, and with a direct-mapped cache those addresses often collide. Higher associativity gives each set more slots, reducing collisions.
+
+The improvement from 4-way to 8-way is marginal: 5.2% → 4.9%. The conflict misses that associativity can resolve have been largely eliminated by 4-way; the remaining misses are compulsory (first-access) or capacity (working set too large), which associativity cannot help.
+
+Exchange sort shows minimal improvement from associativity at any level because its miss rate is dominated by its access pattern (random, large-stride accesses) rather than conflict misses. Adding more slots per set doesn't help when every access is to a different cache block.
+
+## Key Concepts Demonstrated
+
+- **Cache instrumentation**: INST_R/INST_W macro patterns for non-invasive memory access tracing
+- **Miss type taxonomy**: Compulsory (cold-start), capacity (working set too large), and conflict (mapping collision) misses behave differently and respond differently to configuration changes
+- **Spatial locality**: Sequential access patterns load useful adjacent data per block; stride-N access patterns waste block bandwidth
+- **Temporal locality**: Small working sets that fit in cache get reused; large working sets with random access don't
+- **Cache-blocking (tiling)**: Restructuring loop nests to operate on sub-problems that fit in cache; converting O(n³) conflict misses to O(n²) tile-load misses
+- **Associativity tradeoffs**: Set-associative caches reduce conflict misses at the cost of tag-comparison hardware; diminishing returns past 4-way for typical workloads
+- **Empirical methodology**: Forming hypotheses from theory, designing controlled experiments, measuring, and explaining unexpected results
+
+## What I Learned
+
+**The same algorithm can behave completely differently under different cache configurations.** Exchange sort and quicksort have similar worst-case asymptotic complexity, but exchange sort's cache miss rate barely changes as the cache grows while quicksort's drops dramatically. The difference is not in the number of operations — it's in the pattern of memory accesses. Cache-awareness is a first-class concern in algorithm design, not an afterthought.
+
+**Instrumentation is a skill.** Adding INST_R/INST_W to every memory access in a sorting algorithm requires understanding which expressions are memory reads and which are register operations. The instrumentation must not change the program's behavior — it must only observe it. Getting this right required reading the code carefully and thinking about what the compiler generates, not just what the source says.
+
+**Block size and associativity address different miss types.** Larger blocks help programs with good spatial locality by loading more useful adjacent data per miss. Higher associativity helps programs with conflict misses by reducing set collisions. If a program's misses are dominated by random access (no spatial locality), neither larger blocks nor higher associativity will save it — only fixing the access pattern will.
+
+**Theoretical predictions need empirical validation.** I expected cache-blocking to help matrix multiplication — it did. I did not expect exchange sort's miss rate to be so insensitive to cache size growth. The data forced me to explain why: the access pattern is the problem, and no cache configuration fixes a bad access pattern. That kind of surprise is only possible when you actually measure.
+
+## Next Steps
+
+- Apply the same instrumentation methodology to other cache-sensitive algorithms: merge sort (predictable sequential access), binary search (logarithmic stride access), hash table probing (random access)
+- Measure the relationship between tile size and miss rate for the blocked matrix multiply to find the empirically optimal tile for a given cache
+- Extend the analysis to multi-level caches: profile L1, L2, and L3 miss rates separately using hardware performance counters (perf stat) rather than the simulator
+- Apply cache-blocking to other tiled algorithms: convolution, LU decomposition, GEMM — the same tiling principle extends to any triple-nested loop over large arrays

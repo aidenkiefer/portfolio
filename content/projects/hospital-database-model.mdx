@@ -1,0 +1,257 @@
+---
+title: "Hospital Management System: Full Database Lifecycle with MySQL"
+slug: "hospital-database-model"
+date: "2024-12-01"
+featured: false
+tags: ["Databases", "Relational Databases", "Data Modeling", "Schema Design", "Normalization", "ER Modeling", "SQL", "Transaction Management", "Query Optimization", "Database Design", "MySQL", "Concurrency Control", "Referential Integrity", "Data Integrity", "Constraints", "Tradeoff Analysis"]
+stack: ["MySQL", "SQL", "ER diagramming"]
+repoUrl: ""
+liveUrl: ""
+logo: "/images/logos/db.svg"
+summary: "A full-lifecycle relational database project: ER modeling, BCNF normalization, and SQL implementation for a hospital management system handling patients, staff, medications, and billing."
+highlights:
+  - "Designed complete ER model with weak entities, specialization, and union types across a complex hospital domain"
+  - "Applied BCNF normalization across 9 related tables to eliminate every form of redundancy and update anomaly"
+  - "Built SQL views over multi-table joins to give billing staff and physicians stable, stakeholder-specific interfaces"
+  - "Implemented ACID-compliant transactions for concurrent nurse and physician record updates"
+  - "Translated the three-schema architecture — ERD through relational schema to optimized SQL — without changes cascading upward"
+---
+
+## Overview
+
+A term project for CS 480 (Database Systems) that built a hospital management system end to end: from informal requirements through ER modeling, normalization, SQL schema design, and query development. The domain — patients, physicians, nurses, rooms, medications, and billing — was chosen for its real complexity: weak entities, ternary relationships, union billing types, and concurrent multi-table writes. Every design decision traces back to concrete correctness properties, not rules followed for their own sake.
+
+## Problem & Context
+
+Hospital management is one of the most demanding real-world database domains. The requirements expose several properties that stress-test relational design:
+
+**Dependent entities**: Health records have no independent existence — a record belongs to exactly one patient and its identity is defined by that relationship. An orphan health record is meaningless; the schema must enforce that.
+
+**Ternary relationships**: A nurse administering a medication to a specific patient at a specific time is a three-way event. Collapsing it into three binary pairs (nurse-patient, nurse-medication, medication-patient) loses the ability to answer "which nurse gave which medication to which patient when" — it introduces spurious tuples during natural join.
+
+**Union billing**: Room charges, medication charges, and procedure charges are structurally different entities with different sources, but all must be queryable together for a patient's bill. The schema needs a way to unify them without losing type information.
+
+**Total participation**: Every admitted patient must be monitored by at least one physician — a constraint the ER model can express but SQL cannot enforce natively without triggers.
+
+**Concurrent writes**: Nurses on different shifts charting medication administrations, physicians updating monitoring notes simultaneously — multi-table writes that must be atomic or not happen at all.
+
+## Constraints
+
+- Health records must be modeled as a weak entity — their primary key is composite, including the parent patient's key
+- Payable types (room, medication, instruction charges) must unify into a single billing interface without discarding type information
+- Total participation on the patient side of the physician-monitoring relationship
+- All tables must satisfy BCNF — no redundancy, no partial or transitive dependencies
+- Concurrent charting operations must be atomic: a medication administration that creates an Administers row but fails before creating the corresponding Payable row leaves billing inconsistent
+- Schema must support multi-table joins for operational queries without excessive denormalization
+
+## Approach & Design Decisions
+
+The project followed the standard three-phase database design methodology. Each phase informed the next without backtracking.
+
+**Phase 1 — Conceptual Design (ER Modeling)**
+
+I mapped requirements to an ER diagram before writing any SQL. The major structural decisions:
+
+*HealthRecord as a weak entity*: Records are identified by `(patientID, recordID)` — the recordID is only unique within a patient. This forces a composite primary key and a CASCADE delete so that removing a patient removes their records. There is no such thing as a health record without a patient.
+
+*Administers as a ternary relationship*: The three-way relationship between nurse, patient, and medication cannot be reduced without introducing spurious combinations. The ternary `Administers` table with a composite key over `(nurseID, patientID, medicationID, administrationTime)` captures exactly what happened.
+
+*Specialization/union for Payables*: Room charges, medication charges, and instruction charges share common attributes (patientID, amount, dateCharged) but differ in source. I modeled a `Payable` union supertype with a `payableType` discriminator column rather than three separate tables requiring UNION across every billing query. The supertype table is the single source of truth for "what does this patient owe."
+
+*Total participation on Monitors*: Every patient must have at least one physician. SQL cannot natively enforce "at least one related row" without a trigger, so I documented this as an application-layer invariant enforced during admission — and noted the gap between ER expressiveness and SQL enforcement.
+
+**Phase 2 — Normalization**
+
+Starting from the relational translation of the ER diagram, I verified each table against normal form definitions:
+
+*2NF check on Administers*: The non-key attributes (`dosageGiven`, `administrationTime` used as part of the key itself) depend on the full composite key, not a subset. A nurse's name is stored in `Nurse`, not in `Administers` — no partial dependency. ✓
+
+*3NF check across all tables*: Physician specialty lives in the `Physician` table, not on the `Monitors` junction. If specialty were on `Monitors`, updating a physician's specialty would require touching every monitoring row — a classic transitive dependency that causes update anomalies. ✓
+
+*BCNF verification*: In every non-trivial functional dependency, the determinant is a candidate key. No table had a determinant that was a proper subset of a candidate key without being one itself. ✓
+
+**Phase 3 — SQL Implementation**
+
+With a normalized schema, I implemented DDL with full constraint enforcement, views for stakeholder-specific access, and transactions for concurrent writes.
+
+## Technical Implementation
+
+### Schema
+
+```sql
+CREATE TABLE Room (
+    roomID      INT PRIMARY KEY AUTO_INCREMENT,
+    roomType    ENUM('ICU', 'standard', 'surgery', 'recovery') NOT NULL,
+    capacity    INT NOT NULL,
+    dailyRate   DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE Patient (
+    patientID     INT PRIMARY KEY AUTO_INCREMENT,
+    name          VARCHAR(100) NOT NULL,
+    dob           DATE NOT NULL,
+    admissionDate DATE NOT NULL,
+    roomID        INT NOT NULL,
+    FOREIGN KEY (roomID) REFERENCES Room(roomID)
+);
+
+-- Weak entity: identity requires the parent patientID
+CREATE TABLE HealthRecord (
+    recordID    INT NOT NULL,
+    patientID   INT NOT NULL,
+    diagnosis   TEXT,
+    notes       TEXT,
+    dateCreated DATE NOT NULL,
+    PRIMARY KEY (recordID, patientID),
+    FOREIGN KEY (patientID) REFERENCES Patient(patientID)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE Physician (
+    physicianID INT PRIMARY KEY AUTO_INCREMENT,
+    name        VARCHAR(100) NOT NULL,
+    specialty   VARCHAR(80) NOT NULL
+);
+
+CREATE TABLE Nurse (
+    nurseID INT PRIMARY KEY AUTO_INCREMENT,
+    name    VARCHAR(100) NOT NULL,
+    shift   ENUM('day', 'evening', 'night') NOT NULL
+);
+
+CREATE TABLE Medication (
+    medicationID INT PRIMARY KEY AUTO_INCREMENT,
+    name         VARCHAR(100) NOT NULL,
+    dosageUnit   VARCHAR(20) NOT NULL,
+    unitCost     DECIMAL(8,2) NOT NULL
+);
+
+-- M:N junction: physicians can monitor multiple patients, patients have multiple physicians
+CREATE TABLE Monitors (
+    patientID   INT NOT NULL,
+    physicianID INT NOT NULL,
+    startDate   DATE NOT NULL,
+    PRIMARY KEY (patientID, physicianID),
+    FOREIGN KEY (patientID)   REFERENCES Patient(patientID),
+    FOREIGN KEY (physicianID) REFERENCES Physician(physicianID)
+);
+
+-- Ternary: who gave what to whom and when — cannot reduce without losing information
+CREATE TABLE Administers (
+    nurseID            INT NOT NULL,
+    patientID          INT NOT NULL,
+    medicationID       INT NOT NULL,
+    administrationTime DATETIME NOT NULL,
+    dosageGiven        DECIMAL(8,2) NOT NULL,
+    PRIMARY KEY (nurseID, patientID, medicationID, administrationTime),
+    FOREIGN KEY (nurseID)      REFERENCES Nurse(nurseID),
+    FOREIGN KEY (patientID)    REFERENCES Patient(patientID),
+    FOREIGN KEY (medicationID) REFERENCES Medication(medicationID)
+);
+
+-- Union supertype for billing: discriminator preserves type information
+CREATE TABLE Payable (
+    payableID   INT PRIMARY KEY AUTO_INCREMENT,
+    patientID   INT NOT NULL,
+    payableType ENUM('room', 'medication', 'instruction') NOT NULL,
+    amount      DECIMAL(10,2) NOT NULL,
+    dateCharged DATE NOT NULL,
+    FOREIGN KEY (patientID) REFERENCES Patient(patientID)
+);
+```
+
+### Operational Queries
+
+```sql
+-- Which patients is a given physician monitoring, with current room and latest diagnosis?
+SELECT p.name AS patient, r.roomType, hr.diagnosis, hr.dateCreated
+FROM Patient p
+JOIN Monitors m    ON p.patientID   = m.patientID
+JOIN Physician ph  ON m.physicianID = ph.physicianID
+JOIN Room r        ON p.roomID      = r.roomID
+LEFT JOIN HealthRecord hr ON p.patientID = hr.patientID
+    AND hr.dateCreated = (
+        SELECT MAX(dateCreated)
+        FROM HealthRecord
+        WHERE patientID = p.patientID
+    )
+WHERE ph.name = 'Chen'
+ORDER BY p.name;
+
+-- All medication administrations for a patient with nurse and medication names
+SELECT n.name AS nurse, m.name AS medication,
+       a.dosageGiven, a.dosageGiven * m.unitCost AS chargedAmount,
+       a.administrationTime
+FROM Administers a
+JOIN Nurse      n ON a.nurseID      = n.nurseID
+JOIN Medication m ON a.medicationID = m.medicationID
+WHERE a.patientID = 47
+ORDER BY a.administrationTime DESC;
+```
+
+### Billing View
+
+```sql
+-- Billing staff sees one clean row per patient — no 5-table joins every time
+CREATE VIEW PatientBillingSummary AS
+SELECT
+    p.patientID,
+    p.name,
+    p.admissionDate,
+    SUM(pay.amount)                                                   AS totalBilled,
+    SUM(CASE WHEN pay.payableType = 'room'        THEN pay.amount ELSE 0 END) AS roomCharges,
+    SUM(CASE WHEN pay.payableType = 'medication'  THEN pay.amount ELSE 0 END) AS medCharges,
+    SUM(CASE WHEN pay.payableType = 'instruction' THEN pay.amount ELSE 0 END) AS procCharges
+FROM Patient p
+LEFT JOIN Payable pay ON p.patientID = pay.patientID
+GROUP BY p.patientID, p.name, p.admissionDate;
+```
+
+### Transaction-Safe Medication Charting
+
+```sql
+-- A medication administration touches two tables: both must succeed or neither persists
+START TRANSACTION;
+
+    INSERT INTO Administers (nurseID, patientID, medicationID, administrationTime, dosageGiven)
+    VALUES (12, 47, 8, NOW(), 250.00);
+
+    INSERT INTO Payable (patientID, payableType, amount, dateCharged)
+    VALUES (47, 'medication', 45.00, CURDATE());
+
+COMMIT;
+-- ROLLBACK on any error: partial charting is worse than no charting
+```
+
+## Key Concepts Demonstrated
+
+- **Weak entities**: Composite primary keys, CASCADE delete, existence dependency
+- **Ternary relationships**: Why binary decomposition introduces spurious tuples; when a composite key is semantically required
+- **Union supertypes**: Discriminator-column pattern for polymorphic entity sets without multiple UNION queries
+- **Total participation**: ER expressiveness vs. SQL enforcement gap; trigger and application-layer patterns
+- **2NF / 3NF / BCNF normalization**: Eliminating partial dependencies, transitive dependencies, and non-candidate-key determinants
+- **Multi-table JOINs**: LEFT JOIN for optional relationships; correlated subqueries for per-group maximums
+- **SQL Views**: Stakeholder-specific abstractions that decouple application queries from schema evolution
+- **ACID Transactions**: Atomic multi-table writes; ROLLBACK semantics for partial failures
+- **Referential integrity**: CASCADE delete for dependent records; FK constraints as schema-enforced business rules
+- **Three-schema architecture**: Conceptual (ER) → Logical (relational schema) → Physical (indexes, constraints) without upward coupling
+
+## What I Learned
+
+**ER modeling determines everything downstream.** A wrong decision at the conceptual stage — treating health records as independent entities rather than weak ones, or modeling nurse-medication-patient as binary pairs — propagates through the schema and every query. Fixing it later means rewriting DDL, migrating data, and touching every query that references those tables.
+
+**Normalization is about correctness, not rules.** BCNF eliminates a concrete risk: without it, a physician's specialty update requires touching every row in the Monitors table. Every normal form violation maps to a real update anomaly that will surface in production.
+
+**Views are a first-class tool, not an afterthought.** Billing staff shouldn't write a 6-table JOIN every time they need a patient summary. Views provide stable query interfaces over a schema that can evolve — a view's definition can change without breaking every downstream query that uses it.
+
+**Transactions are non-negotiable for multi-table writes.** A medication administration that inserts into Administers but fails before inserting into Payable leaves the database inconsistent: the charting event is logged but the bill is missing. In a hospital, that inconsistency affects patient billing and potentially clinical records.
+
+**SQL cannot fully enforce ER constraints.** Total participation — "every patient must have at least one monitoring physician" — has no clean SQL equivalent without triggers or deferred constraints. This gap between what can be modeled conceptually and what SQL enforces natively is where application-level validation becomes load-bearing.
+
+## Next Steps
+
+- Add indexes on `Monitors(physicianID)` and `Administers(patientID, administrationTime)` to accelerate high-frequency query paths
+- Implement role-based views: nurses see medication and administration data; billing staff see only Payable summaries; physicians see monitoring and diagnosis views
+- Add temporal room-occupancy tracking — archive room assignments on discharge rather than overwriting, enabling historical queries
+- Explore stored procedures for admission and discharge workflows to enforce the total-participation monitoring constraint at the database layer
+- Extend the Payable model to include insurance coverage, co-pay percentages, and payment status tracking

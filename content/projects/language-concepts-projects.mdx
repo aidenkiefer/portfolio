@@ -1,0 +1,210 @@
+---
+title: "Programming Language Concepts: Multi-Paradigm Projects in Python, F#, and Go"
+slug: "language-concepts-projects"
+date: "2025-05-01"
+featured: false
+tags: ["Software Architecture", "Backend Architecture", "Databases", "Functional Programming", "Concurrency", "Multithreading", "Language Paradigms", "Compiler Design", "Lexical Analysis", "Parsing", "Design Patterns", "N-Tier Architecture", "Query Optimization", "Interface Design", "Goroutines", "Channels", "Pattern Matching", "Recursion", "Python", "F#", "Go", "SQLite", "SQL"]
+stack: ["Python", "F#", "Go", "SQLite", "SQL"]
+repoUrl: ""
+liveUrl: ""
+summary: "A collection of projects from CS 341 (Programming Language Concepts) spanning four paradigms: N-tier database apps in Python, a functional lexer and parser in F#, and a concurrent graphics renderer in Go."
+highlights:
+  - "Built CTA L transit database app in Python using strict N-tier architecture against a multi-million-row ridership SQLite database"
+  - "Applied strategic SQL indexing to reduce CTA ridership queries from multi-second scans to millisecond lookups"
+  - "Built Chicago Lobbyist database app applying the same N-tier pattern to a different domain and schema"
+  - "Implemented a SimpleC lexer in F# using pattern matching and recursive token classification"
+  - "Built a recursive-descent parser for a subset of C using discriminated unions and context-free grammar rules"
+  - "Implemented a concurrent graphics renderer in Go with goroutines, channels, and a polymorphic Drawable interface"
+---
+
+## Overview
+
+CS 341 (Programming Language Concepts) covered how different languages embody different computation models — procedural, functional, concurrent — and what those differences mean for program design. Rather than studying paradigms in the abstract, each project required implementing something real in a language that made that paradigm's tradeoffs concrete. The result is a collection of four projects across three languages, each illustrating a distinct way of thinking about programs.
+
+## Problem & Context
+
+Language fluency at a surface level — syntax, standard library, idioms — is not the same as understanding why a language works the way it does. A Python programmer who understands N-tier separation thinks differently about data access than one who doesn't. An F# programmer who has implemented pattern matching for a parser understands exhaustiveness checking and algebraic types differently from someone who has only read about them. A Go programmer who has built concurrent programs with goroutines understands CSP-style concurrency differently from someone who has used threads and mutexes.
+
+CS 341 used projects to force that deeper understanding. Each assignment presented a problem where the host language's paradigm was either the natural solution or an interesting constraint:
+
+- **Python**: Build database-backed applications with clean separation between UI, business logic, and data access
+- **F#**: Implement a lexer and parser for a toy language using only functional tools — no mutable state, no imperative loops
+- **Go**: Build a concurrent renderer where the correctness of the output depends on goroutines cooperating through channels
+
+## Constraints
+
+**Python N-tier projects**:
+- Strict three-layer separation: presentation tier may not touch the database directly; data tier may not contain business logic
+- Must handle production-scale data: the CTA ridership database contains millions of rows
+- Object tier must expose clean domain objects, not raw database tuples
+
+**F# lexer and parser (Project 4)**:
+- No mutable state: all parsing functions must be pure
+- The lexer must produce a token stream; the parser must consume it without lookahead beyond one token
+- Must handle the full SimpleC grammar: identifiers, integer literals, string literals, operators, keywords
+- Parser must report meaningful errors on invalid input
+
+**Go concurrent renderer (Project 5)**:
+- All shapes must implement a shared `Drawable` interface to enable polymorphic rendering
+- Rendering must happen concurrently — each shape drawn in its own goroutine
+- Results must be collected via channels without data races
+- Synchronization must not deadlock
+
+## Approach & Design Decisions
+
+### Python: N-Tier Database Applications
+
+Both the CTA transit app and the Chicago Lobbyist app followed the same architectural template: three clearly bounded tiers with no cross-tier shortcuts.
+
+**Presentation tier** handled user input and output — command-line menus, formatted output, input validation. It called the object tier exclusively; it had no knowledge of SQL or SQLite.
+
+**Object tier** defined domain classes (`Station`, `Stop`, `Lobbyist`, `Client`) with methods representing business operations: `Station.find_by_name(name)`, `Stop.get_ridership_by_day(date_range)`. These methods held the business logic and delegated raw data retrieval to the data tier. Callers received typed objects, not tuples.
+
+**Data tier** executed SQL queries and returned raw results. It knew nothing about the domain model — no business logic, no formatting. Its only job was parameterized queries against the SQLite connection.
+
+The CTA database presented an additional challenge: queries on unindexed columns over millions of ridership rows took multi-second response times, which was unacceptable for an interactive app. I added indexes on the columns used in WHERE clauses and JOINs, which reduced common queries from 3–5 seconds to under 50 milliseconds. Seeing that difference on real data made the value of indexing immediate and impossible to forget.
+
+The Chicago Lobbyist app applied the same three-tier discipline to a different schema: lobbyists, their clients, and the compensation records linking them. The domain was different enough that the object tier classes bore no resemblance to the CTA classes, but the architectural pattern was identical. The reuse was in the pattern, not the code.
+
+### F#: SimpleC Lexer and Parser (Project 4)
+
+The goal was to implement a lexer and a recursive-descent parser for SimpleC, a simplified subset of C, using F# exclusively.
+
+**Lexer design**: The lexer consumed a character stream and produced a list of tagged tokens. F#'s pattern matching on discriminated unions was the natural tool — each token type is a union case (`ID of string`, `INT_LIT of int`, `STRING_LIT of string`, `KEYWORD of string`, `SEMICOLON`, `LPAREN`, `RPAREN`, etc.), and classifying a character sequence is a match expression.
+
+```fsharp
+// Discriminated union for token types
+type Token =
+    | ID of string
+    | INT_LIT of int
+    | STRING_LIT of string
+    | KEYWORD of string
+    | SEMICOLON | LPAREN | RPAREN | LBRACE | RBRACE
+    | PLUS | MINUS | TIMES | DIVIDE | ASSIGN
+    | EOF
+
+// Lex a single token from the remaining input
+let rec lexToken (chars: char list) : Token * char list =
+    match chars with
+    | [] -> EOF, []
+    | ';' :: rest -> SEMICOLON, rest
+    | '(' :: rest -> LPAREN, rest
+    | ')' :: rest -> RPAREN, rest
+    | c :: rest when System.Char.IsLetter(c) ->
+        let id, remaining = lexIdentifierOrKeyword (c :: rest)
+        let token = if isKeyword id then KEYWORD id else ID id
+        token, remaining
+    | c :: rest when System.Char.IsDigit(c) ->
+        let n, remaining = lexInteger (c :: rest)
+        INT_LIT n, remaining
+    | _ -> failwithf "Unexpected character: %c" (List.head chars)
+```
+
+The recursive structure of `lexToken` mirrors the grammar: each case handles one category of input and returns both the matched token and the unconsumed remainder of the input, enabling the next call to pick up where this one left off without mutation.
+
+**Parser design**: The parser implemented recursive descent — one function per grammar production, consuming tokens left to right. F#'s discriminated unions again provided exhaustiveness: matching on the token type at the head of the stream and failing loudly on unexpected input.
+
+```fsharp
+// Parse a statement: if-stmt | assignment-stmt | ...
+let rec parseStmt (tokens: Token list) : ASTNode * Token list =
+    match tokens with
+    | KEYWORD "if" :: rest   -> parseIfStmt rest
+    | KEYWORD "int" :: rest  -> parseVarDecl rest
+    | ID _ :: ASSIGN :: rest -> parseAssignment tokens
+    | _                      -> failwithf "Unexpected token: %A" (List.head tokens)
+```
+
+The purity constraint was the most valuable: because no function could hold mutable state, every parsing function had a clear contract — token list in, AST node and remaining tokens out. This made functions easy to reason about, test in isolation, and compose.
+
+### Go: Concurrent Graphics Renderer (Project 5 / HW7)
+
+The renderer drew geometric shapes — circles, lines, rectangles — concurrently, with each shape rendered in its own goroutine and results collected through a channel.
+
+**Interface design**: All shapes implement a `Drawable` interface with a single method, `Draw(canvas *Canvas)`. The renderer never knows whether it's drawing a circle or a rectangle — it calls `shape.Draw(canvas)` polymorphically. This is Go interfaces in their natural form: implicit satisfaction, zero boilerplate.
+
+```go
+type Drawable interface {
+    Draw(canvas *Canvas)
+}
+
+type Circle struct {
+    X, Y, Radius int
+    Color        color.RGBA
+}
+
+func (c Circle) Draw(canvas *Canvas) {
+    // Bresenham's circle algorithm — writes pixels to canvas
+}
+
+type Rectangle struct {
+    X, Y, Width, Height int
+    Color               color.RGBA
+}
+
+func (r Rectangle) Draw(canvas *Canvas) {
+    // Fill rectangular region
+}
+```
+
+**Concurrent rendering**: Each shape was launched in a goroutine. A `sync.WaitGroup` tracked completion — incrementing before each goroutine launch, decrementing inside each goroutine's defer. A `done` channel signaled when all rendering was complete.
+
+```go
+func RenderAll(shapes []Drawable, canvas *Canvas) {
+    var wg sync.WaitGroup
+
+    for _, shape := range shapes {
+        wg.Add(1)
+        go func(s Drawable) {
+            defer wg.Done()
+            s.Draw(canvas)
+        }(shape)
+    }
+
+    wg.Wait()
+}
+```
+
+The correctness challenge: two goroutines writing to overlapping regions of the canvas create data races. The solution was to partition the canvas into non-overlapping regions assigned per shape, or to use a mutex around pixel writes. I used region partitioning where possible and a lightweight mutex for shapes that couldn't be partitioned — preferring the approach that minimized contention over the one that was simplest to implement.
+
+## Key Concepts Demonstrated
+
+**Python N-tier**:
+- N-tier / layered architecture: strict separation between presentation, business logic, and data access
+- Parameterized SQL queries for injection prevention
+- SQL indexing: strategic index placement on high-cardinality WHERE and JOIN columns
+- Domain object design: typed objects as the interface between tiers, not raw tuples
+- Scalability thinking: querying millions of rows requires a different approach than querying hundreds
+
+**F# functional programming**:
+- Discriminated unions as sum types: exhaustive, type-safe token and AST representations
+- Recursive descent parsing: one function per grammar production, consuming a token stream
+- Pure functions: no mutable state; every function's output is determined entirely by its inputs
+- Pattern matching: structural decomposition with exhaustiveness enforced by the compiler
+- Continuation-passing style: threading remaining input through recursive calls rather than advancing a mutable pointer
+
+**Go concurrency**:
+- Goroutines: lightweight cooperative threads managed by the Go scheduler
+- `sync.WaitGroup`: coordinating goroutine completion without explicit signaling
+- Interface-based polymorphism: implicit satisfaction, decoupled from type hierarchy
+- Data race avoidance: region partitioning and mutex discipline
+- CSP (Communicating Sequential Processes) model: channels as the primary coordination mechanism
+
+## What I Learned
+
+**The language shapes what solutions look like.** The same N-tier architecture that feels natural to implement in Python with classes and methods would be awkward in F#, where the natural unit is a function. The same concurrency model that goroutines make simple in Go would require explicit thread management and more ceremony in Python or Java. Language choice is not just syntax preference — it determines which patterns are idiomatic and which are fights against the grain.
+
+**Functional purity is a debugging tool.** The F# lexer and parser were easier to debug than comparable imperative code because every function's behavior was fully determined by its inputs. There was no hidden mutable state to inspect, no iteration order to trace. Correctness could be established function by function.
+
+**Indexing is the first performance tool to reach for.** The CTA ridership database made this concrete. Multi-second queries became millisecond queries by adding indexes to the right columns — no query rewriting, no schema changes, no algorithm improvements. Understanding when and where to index is one of the highest-leverage database skills.
+
+**Interfaces should be defined by the consumer, not the implementor.** In the Go renderer, `Drawable` was defined by the rendering engine, not by the shape types. Any struct that satisfies `Draw(canvas *Canvas)` works — the shapes don't import the renderer package. This dependency inversion is natural in Go but requires deliberate effort in languages with explicit interface declarations.
+
+**Concurrency bugs are deterministic under the right conditions.** Data races in the Go renderer surfaced reliably when I ran the race detector — not sometimes, consistently. The Go race detector (`go run -race`) turned what could have been a flaky, hard-to-reproduce bug into a deterministic failure pointing to the exact lines involved.
+
+## Next Steps
+
+- Extend the CTA app with time-range analytics: which stations see the largest ridership drop on weekdays vs. weekends?
+- Add a proper query planner layer to the Python N-tier apps that selects indexes dynamically based on the query pattern
+- Extend the SimpleC parser to produce an AST and implement a basic type checker that rejects mismatched assignments
+- Add a code generation pass to the F# compiler pipeline: translate the AST to a simple stack-based bytecode
+- Extend the Go renderer with a pipeline architecture: a `source` goroutine produces shape descriptors, worker goroutines render them, a `sink` goroutine composites the results

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Project } from '@/types/content';
 import { BadgeRow } from '../common/BadgeRow';
 import { SearchableBadge } from '../common/SearchableBadge';
@@ -10,11 +11,23 @@ interface ProjectMetaProps {
 }
 
 export function ProjectMeta({ project }: ProjectMetaProps) {
+  const isLaneLink = project.slug === 'lanelink-engineering';
   return (
     <div className="mb-12 space-y-6 border-b border-border pb-8">
+      {isLaneLink && (
+        <div className="overflow-hidden rounded-md border border-border">
+          <div className="flex flex-wrap items-center justify-between gap-3 bg-[#101c4e] px-5 py-4">
+            <Image src="/images/logos/openlane-white.svg" alt="OPENLANE" width={160} height={22} className="h-auto w-40" />
+            <span className="text-xs uppercase tracking-wide text-white/80">Professional engineering experience</span>
+          </div>
+          <div className="px-5 py-5">
+            <Image src="/images/logos/lanelink.png" alt="LaneLink" width={240} height={44} className="h-auto w-60 max-w-full" />
+          </div>
+        </div>
+      )}
       <div>
         <div className="flex items-start gap-4 mb-3">
-          {project.logo && (
+          {project.logo && !isLaneLink && (
             <ProjectLogo src={project.logo} size="md" className="mt-1" />
           )}
           <h1 className="text-4xl font-semibold text-text-primary">

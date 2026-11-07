@@ -54,12 +54,17 @@ export default function ExperiencePage() {
                 boxShadow: '0 1px 0 rgba(0, 0, 0, 0.04)',
               }}
             >
-              <div className="mb-6">
-                <h3 className="text-2xl font-semibold text-text-primary mb-2">{exp.role}</h3>
-                <p className="text-lg text-text-primary font-medium mb-1">{exp.company}</p>
-                <p className="text-sm text-text-secondary">
-                  {exp.location} • {exp.startDate} - {exp.endDate || 'Present'}
-                </p>
+              <div className="mb-6 flex items-start gap-4">
+                {exp.company.startsWith('OPENLANE') && (
+                  <Image src="/images/logos/openlane-symbol.png" alt="OPENLANE" width={48} height={48} className="mt-1 shrink-0 rounded-md" />
+                )}
+                <div className="min-w-0">
+                  <h3 className="text-2xl font-semibold text-text-primary mb-2">{exp.role}</h3>
+                  <p className="text-lg text-text-primary font-medium mb-1">{exp.company}</p>
+                  <p className="text-sm text-text-secondary">
+                    {exp.location} • {exp.startDate} - {exp.endDate || 'Present'}
+                  </p>
+                </div>
               </div>
               <ul className="mb-8 list-disc space-y-3 pl-5 text-text-primary leading-relaxed">
                 {exp.bullets.map((bullet, bulletIdx) => (

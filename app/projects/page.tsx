@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
 import { ProjectCard } from '@/components/projects/ProjectCard';
 import { getAllProjects, getFeaturedProjects } from '@/lib/content/projects';
@@ -20,6 +21,7 @@ export default function ProjectsPage() {
         <p className="text-text-secondary leading-relaxed">Selected work in product architecture, data systems, integrations, and developer tooling. Each case study explains the problem, my role, implementation decisions, and current limitations.</p>
       </header>
       <aside className="mb-10 rounded-md border border-border p-6">
+        <Image src="/images/logos/lanelink.png" alt="LaneLink" width={210} height={39} className="mb-5 h-auto w-[210px] max-w-full" />
         <p className="mb-2 text-xs uppercase tracking-wide text-accent-primary">Professional work · OPENLANE</p>
         <Link href="/projects/lanelink-engineering" className="text-xl font-semibold text-text-primary hover:text-accent-primary">LaneLink: workflows, reporting, and integration-test tooling →</Link>
         <p className="mt-2 max-w-prose text-text-secondary">Selected completed contributions from my full-time software engineering internship.</p>

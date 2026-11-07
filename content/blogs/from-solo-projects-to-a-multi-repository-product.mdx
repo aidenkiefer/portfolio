@@ -1,0 +1,64 @@
+---
+title: "From Solo Projects to a Multi-Repository Product"
+slug: "from-solo-projects-to-a-multi-repository-product"
+date: "2026-11-06"
+excerpt: "How my LaneLink internship expanded the way I trace workflows, preserve data history, and verify changes across system boundaries."
+featured: true
+tags: ["Software Engineering", "Integration Testing", "Reporting", "System Design"]
+relatedLinks:
+  - label: "Selected LaneLink Engineering Work"
+    url: "lanelink-engineering"
+    type: "project"
+  - label: "What I Look for First in an Unfamiliar Codebase"
+    url: "what-i-look-for-first-in-an-unfamiliar-codebase"
+    type: "blog"
+---
+
+Since late June, I’ve been working full-time as a Software Engineer Intern on OPENLANE’s LaneLink team. My independent projects gave me experience designing applications end to end. Working within an existing multi-repository product has added another dimension: understanding the contracts a change touches before deciding how to implement it.
+
+The examples below are simplified to focus on the engineering decisions and lessons.
+
+## Follow the Workflow Beyond the Interface
+
+An interface action can look small while changing behavior across several services. In my auction transfer work, selecting a new destination was only the start. The active vehicle state, prior auction history, audit trail, and later integration updates all needed to remain coherent.
+
+The useful unit of investigation was the user’s workflow. Starting from the interface, I traced which service accepted the request, what data changed, and which later updates depended on that state. That gave me a way to reason about the change across repositories without treating each repository as an isolated task.
+
+## Separate Current State From History
+
+A transfer illustrates a broader modeling problem. A system needs to show where something is now while retaining enough information to explain how it got there.
+
+In a fictional delivery application, changing the assigned depot should update the active route without erasing earlier delivery attempts. The same distinction applies to many operational workflows: the current state serves the next action, while history supports explanation and reporting.
+
+That distinction changes verification. Checking that a new destination appears in the interface is useful, but incomplete. Earlier history and subsequent updates also need to make sense.
+
+## Make Reports Explain Themselves
+
+My inventory reporting work involved nine lifecycle KPIs and matching vehicle-level drilldowns. The important contract was that a summary count and its detail view described the same population under the same filters and permissions.
+
+A current-state metric also answers a different question from a period-based activity metric. “What is active now?” and “What happened last month?” can both be valid reports, but applying the same date rule to both can produce a misleading result.
+
+A drilldown makes that definition inspectable. When a user can see the records behind a count, the report becomes easier to understand and verify.
+
+## Test Tools Have Users Too
+
+I also built an authenticated dashboard for test vehicles and extended a lifecycle simulator. That work combined interface design with state modeling: engineers needed a controlled way to prepare realistic scenarios, advance supported states, and clean up afterward.
+
+A simulator has to do more than display a plausible status. Its transitions and events need to exercise the downstream behavior being tested. Invalid actions and teardown paths matter because they determine whether a scenario can be repeated without manual repair.
+
+## Verify What Happens After the First Success
+
+Scheduled automation brought another useful perspective. A job can complete some actions and then fail. Retrying the entire run may repeat work that already succeeded.
+
+For recurring reminders, grouping recipients, avoiding overlapping execution, and treating partial sends carefully were part of the implementation. More generally, I now look for the second execution as well as the first: repeated events, retries, and existing human overrides can reveal assumptions that a successful first run hides.
+
+## What Has Changed in My Approach
+
+I still enjoy designing an application from a blank page. LaneLink has expanded the questions I ask when changing an existing product:
+
+- Which user workflow does this change support?
+- Which services and data contracts does it touch?
+- What should remain true about history and authorization?
+- How will I verify later updates, repeated actions, and partial completion?
+
+Those questions make the work more concrete. They connect the code I’m changing to the people and systems that depend on its behavior.

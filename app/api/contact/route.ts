@@ -70,6 +70,10 @@ export async function POST(request: Request) {
 }
 
 const INTEREST_LABELS: Record<string, string> = {
+  engineering: 'Engineering opportunity',
+  collaboration: 'Project collaboration',
+  contract: 'Selective contract work',
+  other: 'Other',
   general: 'General inquiry',
   chatbots: 'AI Chatbots',
   'ai-content': 'AI Content Workflows',

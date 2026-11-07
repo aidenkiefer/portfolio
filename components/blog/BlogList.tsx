@@ -1,5 +1,7 @@
 'use client';
 
+import { formatContentDate } from '@/lib/format-date';
+
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { BadgeRow } from '@/components/common/BadgeRow';
@@ -37,16 +39,6 @@ export function BlogList({ blogs }: BlogListProps) {
       }
     };
 
-    // If sorting by 'newest' (default), show featured first, then sort everything
-    if (sortBy === 'newest') {
-      const featured = blogs.filter((blog) => blog.featured);
-      const nonFeatured = blogs.filter((blog) => !blog.featured);
-      const sortedFeatured = [...featured].sort(sortFunction);
-      const sortedNonFeatured = [...nonFeatured].sort(sortFunction);
-      return [...sortedFeatured, ...sortedNonFeatured];
-    }
-
-    // For other sort options, sort all blogs together (featured doesn't get special treatment)
     return [...blogs].sort(sortFunction);
   }, [blogs, sortBy]);
 
@@ -109,10 +101,10 @@ export function BlogList({ blogs }: BlogListProps) {
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12">
         {sortedBlogs.map((blog) => {
-          // Sort tags alphabetically (as a proxy for relevance/importance)
-          const sortedTags = blog.tags ? [...blog.tags].sort((a, b) => a.localeCompare(b)) : [];
+          // Show a compact set of editorially ordered tags.
+          const sortedTags = blog.tags || [];
           const isExpanded = expandedTags.has(blog.slug);
-          const MAX_TAGS = 10;
+          const MAX_TAGS = 4;
           const visibleTags = isExpanded ? sortedTags : sortedTags.slice(0, MAX_TAGS);
           const hasMoreTags = sortedTags.length > MAX_TAGS;
 
@@ -126,12 +118,8 @@ export function BlogList({ blogs }: BlogListProps) {
             >
               <Link href={`/blog/${blog.slug}`} className="flex-grow">
                 <div className="mb-4 flex items-start justify-between gap-4">
-                  <time className="text-sm text-text-secondary font-mono">
-                    {new Date(blog.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
+                  <time dateTime={blog.date} className="text-sm text-text-secondary font-mono">
+                    {formatContentDate(blog.date)}
                   </time>
                   {blog.featured && (
                     <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-text-secondary flex-shrink-0">

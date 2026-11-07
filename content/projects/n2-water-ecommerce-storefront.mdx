@@ -2,6 +2,11 @@
 title: "N-2 Water: React & Next.js E-Commerce with Shopify Integration"
 slug: "n2-water-ecommerce-storefront"
 date: "2026-04-12"
+status: "Production storefront · Role ended August 2026"
+ownership: "Web development and Shopify integration"
+audience: "Customers and business stakeholders"
+outcome: "Marketing and commerce workflows with authenticated accounts and shared cart state"
+workflow: ["Browse marketing and product pages", "Manage the cart across site origins", "Authenticate through Shopify account flows", "Access checkout and account history"]
 featured: true
 tags: ["Software Architecture", "Web Architecture", "Frontend Architecture", "Server-Side Rendering (SSR)", "Static Site Generation (SSG)", "Performance Optimization (Web)", "SEO Fundamentals", "Third-Party API Integration", "Tradeoff Analysis", "Requirements Interpretation", "Web Development", "E-Commerce", "React", "Next.js"]
 stack: ["Next.js 15", "React 18", "TypeScript", "Shopify Storefront API", "Shopify Customer Account API (OAuth 2.0 + PKCE)", "Tailwind CSS", "GraphQL", "Jest", "Vercel"]
@@ -51,17 +56,15 @@ The brand needed **marketing storytelling** and **real e-commerce** (catalog, PD
 
 ## Results & Evaluation
 
-- **v2.0.0**: Designer phases **1–8** merged to `main` (March 2026).
-- **v2.4.0 (2026-04-04)**: **Copy + content QA** — 11 tickets (legal, science, About, FAQ, benefits, ingredients, team narratives, Terms of Use) plus **Instagram Basic Display** with **1-hour ISR** caching.
-- **v2.5.0 (next)**: **Analytics & conversion** — GA4, Meta Pixel, consent/CMP, data layer, Vercel env configuration.
-- Soft launch: production domains (`n-2water.com`, `shop.n-2water.com`) in active DNS/Vercel setup; full performance audit still deferred.
+My work supported a production headless commerce storefront, including marketing pages, authenticated accounts, order history, subscriptions, and cross-domain cart persistence. I collaborated with stakeholders and designers through iterative feedback and staged rollout. My role ended in August 2026.
 
-## Tradeoffs & Limitations
+Jest coverage included integration, security, and safety scenarios. I do not claim a measured revenue or performance improvement from these engineering changes.
 
-- **Newsletter / contact** API routes are stubs until wired to Klaviyo/Resend (per internal roadmap).
-- **Phase 9** human gate still blocks deleting legacy/admin bundles.
-- **Third-party dependency** on Shopify APIs and rate/field behaviors.
-- Internal metrics not published here.
+## Tradeoffs & Further Work
+
+- Shopify API behavior and rate limits are external dependencies.
+- A staged migration creates temporary complexity around legacy pages and shared cart state.
+- Broader performance and conversion evaluation requires representative production measurements; no figures are published here.
 
 ## What I Learned
 

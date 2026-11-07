@@ -1,44 +1,38 @@
+import Link from 'next/link';
 import { Container } from '@/components/layout/Container';
 import { ProjectCard } from '@/components/projects/ProjectCard';
-import { getAllProjects } from '@/lib/content/projects';
+import { getAllProjects, getFeaturedProjects } from '@/lib/content/projects';
 import { generateMetadata } from '@/lib/seo';
-import { ChipMark } from '@/components/common/ChipMark';
 
 export const metadata = generateMetadata({
   title: 'Projects',
-  description: 'Case studies in problem-solving, design decisions, and technical tradeoffs',
+  description: 'Selected work in product architecture, reporting, integrations, and developer tooling.',
   path: '/projects',
 });
 
 export default function ProjectsPage() {
-  const projects = getAllProjects();
-
+  const featured = getFeaturedProjects();
+  const moreProjects = getAllProjects().filter((project) => !project.featured && project.slug !== 'lanelink-engineering');
   return (
     <Container className="py-10 sm:py-14 lg:py-20">
-      <div className="mb-12 sm:mb-16 lg:mb-20">
-        <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Projects</h1>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
-          <p>
-            Each project is a case study in problem-solving. I focus on design decisions, technical tradeoffs, and what I learned, not just what I built. These projects reflect how I approach systems, ambiguity, and real engineering constraints.
-          </p>
-          <p>
-            The projects here span academic work, applied engineering, and production systems. What ties them together is a focus on understanding problems deeply before jumping to solutions, making informed decisions about tradeoffs, and building systems that are maintainable and explainable. Some projects are polished and production-ready; others are explorations that helped me understand fundamental concepts. All of them represent real thinking about real problems.
-          </p>
-          <p>
-            When you click into a case study, you'll find detailed explanations of the problem context, the constraints I worked within, the design decisions I made, and what I learned along the way. My goal isn't to showcase perfect solutions: it's to demonstrate how I think through engineering challenges and make decisions when the path forward isn't obvious.
-          </p>
-        </div>
-      </div>
-      <div className="mb-8 h-1 bg-accent-secondary" />
-      {projects.length === 0 ? (
-        <p className="text-text-secondary">No projects yet. Check back soon!</p>
-      ) : (
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      )}
+      <header className="mb-8 sm:mb-10 max-w-prose">
+        <h1 className="mb-5 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary">Projects</h1>
+        <p className="text-text-secondary leading-relaxed">Selected work in product architecture, data systems, integrations, and developer tooling. Each case study explains the problem, my role, implementation decisions, and current limitations.</p>
+      </header>
+      <aside className="mb-10 rounded-md border border-border p-6">
+        <p className="mb-2 text-xs uppercase tracking-wide text-accent-primary">Professional work · OPENLANE</p>
+        <Link href="/projects/lanelink-engineering" className="text-xl font-semibold text-text-primary hover:text-accent-primary">LaneLink: workflows, reporting, and integration-test tooling →</Link>
+        <p className="mt-2 max-w-prose text-text-secondary">Selected completed contributions from my full-time software engineering internship.</p>
+      </aside>
+      <section aria-labelledby="selected-projects">
+        <h2 id="selected-projects" className="mb-6 text-2xl font-semibold text-text-primary">Selected projects</h2>
+        <div className="grid gap-6 sm:grid-cols-2">{featured.map((project) => <ProjectCard key={project.slug} project={project} />)}</div>
+      </section>
+      <section className="mt-16 border-t border-border pt-8" aria-labelledby="more-projects">
+        <h2 id="more-projects" className="mb-3 text-2xl font-semibold text-text-primary">More projects & coursework</h2>
+        <p className="mb-6 text-text-secondary">Additional work in systems, machine learning, real-time applications, and web development.</p>
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">{moreProjects.map((project) => <ProjectCard key={project.slug} project={project} />)}</div>
+      </section>
     </Container>
   );
 }

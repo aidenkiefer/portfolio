@@ -18,15 +18,9 @@ export default function ContactPage() {
       <div className="mb-8 sm:mb-12">
         <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Contact</h1>
         <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
-          <p>
-            If you're interested in my work or think I might be a good fit for your team, I'd be happy to connect. I'm particularly drawn to roles that involve systems thinking, thoughtful design, and collaboration with other engineers.
-          </p>
-          <p>
-            I'm open to full-time opportunities, <Link href="/services" className="text-accent-primary hover:text-accent-primary/80 transition-colors">contract work</Link>, and conversations about interesting problems, even if there isn't an immediate role. Whether you're building new products, maintaining existing systems, or solving complex technical challenges, I'd love to hear about what you're working on.
-          </p>
-          <p>
-            Feel free to reach out via email or LinkedIn, and I'll respond promptly. You can also check out my GitHub to see examples of my code and projects.
-          </p>
+          <p>I&apos;m interested in software engineering opportunities and collaboration on product workflows, reporting, integrations, and developer tools.</p>
+          <p>My current work is on OPENLANE&apos;s LaneLink team. If you&apos;re building a product or growing an engineering team, tell me about the role and the problems you&apos;re working on.</p>
+          <p>For a focused internal tool, integration, or reporting project, I also consider <Link href="/services" className="text-accent-primary underline">selective contract work</Link>. You can reach me directly or use the form below.</p>
         </div>
       </div>
       <div className="mb-6 sm:mb-8 h-1 bg-accent-secondary" />
@@ -96,7 +90,7 @@ export default function ContactPage() {
           Send a message
         </h2>
         <p className="mb-8 text-text-secondary leading-relaxed max-w-prose">
-          Interested in a service or have a project in mind? Fill out the form below and I&apos;ll get back to you at the email you provide.
+          Share an engineering opportunity, a collaboration idea, or a focused project. I&apos;ll reply to the email you provide.
         </p>
         <ContactForm />
       </section>

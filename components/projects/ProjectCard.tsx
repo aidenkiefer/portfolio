@@ -26,12 +26,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
             {project.title}
           </h3>
         </div>
-        {project.featured && (
-          <span className="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-text-secondary flex-shrink-0">
-            Featured
-          </span>
-        )}
+
       </div>
+      {project.status && <p className="mb-3 text-xs font-medium text-accent-primary">{project.status}</p>}
       <p className="mb-4 text-text-secondary leading-relaxed">{project.summary}</p>
       {project.stack && project.stack.length > 0 && (
         <div className="mb-2">
@@ -49,7 +46,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div>
           <p className="text-[10px] text-text-secondary uppercase tracking-wide mb-1.5">Topics</p>
           <BadgeRow>
-            {project.tags.slice(0, 7).map((tag) => (
+            {project.tags.slice(0, 3).map((tag) => (
               <SearchableBadge key={tag} tag={tag}>
                 {tag}
               </SearchableBadge>

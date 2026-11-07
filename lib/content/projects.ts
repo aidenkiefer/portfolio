@@ -47,19 +47,11 @@ export function getProjectBySlug(slug: string): Project | null {
 }
 
 export function getFeaturedProjects(): Project[] {
-  return getAllProjects().filter((project) => project.featured);
+  const order = ['optionalizer', 'viridian-vault', 'n2-water-ecommerce-storefront', 'aiddocs'];
+  return getAllProjects().filter((project) => project.featured)
+    .sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug));
 }
 
 export function getProjectsWithLogos(): Project[] {
-  const projectsWithLogos = getAllProjects().filter((project) => project.logo);
-  // Return the three specific projects with logos in a specific order
-  const logoProjectSlugs = [
-    'n2-water-ecommerce-storefront',
-    'relational-database-design-normalization',
-    'tender-heart-vintage',
-  ];
-  
-  return logoProjectSlugs
-    .map((slug) => projectsWithLogos.find((p) => p.slug === slug))
-    .filter((project): project is Project => project !== undefined);
+  return getFeaturedProjects().filter((project) => project.logo);
 }

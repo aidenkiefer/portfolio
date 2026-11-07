@@ -96,13 +96,13 @@ export const coursework: CourseworkGroup[] = [
         code: 'CS 412',
         name: 'Intro to Machine Learning',
         skillsLearned: ['Supervised learning', 'Unsupervised learning', 'Model evaluation', 'Feature engineering'],
-        projectLinks: ['climate-change-bird-migration'],
+        projectLinks: ['tracking-shifts-climate-change-bird-migration'],
       },
       {
         code: 'CS 418',
         name: 'Introduction to Data Science',
         skillsLearned: ['Data analysis', 'Statistical methods', 'Data visualization', 'pandas', 'NumPy'],
-        projectLinks: ['climate-change-bird-migration'],
+        projectLinks: ['tracking-shifts-climate-change-bird-migration'],
       },
       {
         code: 'CS 411',

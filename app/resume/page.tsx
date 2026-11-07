@@ -17,7 +17,7 @@ export default function ResumePage() {
         <h1 className="mb-6 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">Resume</h1>
         <div className="max-w-prose mb-6 sm:mb-8">
           <p className="text-sm text-text-secondary leading-relaxed">
-            For a concise overview of my background, experience, and skills, you can view or download my resume below.
+            My resume covers my current full-time LaneLink internship at OPENLANE, earlier commerce work, selected projects, and technical skills.
           </p>
         </div>
         <div className="mb-6 sm:mb-8 h-1 bg-accent-secondary" />

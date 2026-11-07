@@ -22,6 +22,7 @@ export function Footer() {
               © {new Date().getFullYear()} {siteConfig.name}
             </p>
             <div className="flex gap-4 items-center">
+              <Link href="/services" className="text-sm text-text-secondary hover:text-accent-primary">Selective contract work</Link>
               <button
                 onClick={() => setShowLoginModal(true)}
                 className="text-text-secondary hover:text-accent-primary transition-colors duration-200 ease-out"

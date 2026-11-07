@@ -6,10 +6,10 @@ import { usePathname } from 'next/navigation';
 import { Container } from './Container';
 import { Logo } from '@/components/Logo';
 import { NavLink } from './NavLink';
+import { Menu, X } from 'lucide-react';
 
 const navItems = [
   { href: '/projects', label: 'Projects' },
-  { href: '/services', label: 'Services' },
   { href: '/experience', label: 'Experience' },
   { href: '/blog', label: 'Blog' },
   { href: '/resume', label: 'Resume' },
@@ -37,14 +37,6 @@ export function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
-  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // On mobile, prevent navigation and toggle menu instead
-    if (typeof window !== 'undefined' && window.innerWidth < 640) {
-      e.preventDefault();
-      setIsMobileMenuOpen(!isMobileMenuOpen);
-    }
-  };
-
   return (
     <>
       <nav className="border-b border-border bg-background sticky top-0 z-50">
@@ -52,11 +44,21 @@ export function Navbar() {
           <div className="flex h-16 items-center justify-between">
             <Link
               href="/"
-              onClick={handleLogoClick}
+              aria-label="Aiden Kiefer home"
               className="flex items-center transition-opacity duration-200 ease-out hover:opacity-80"
             >
               <Logo className="h-20 w-20 text-text-primary" />
             </Link>
+            <button
+              type="button"
+              className="sm:hidden rounded-md border border-border p-2 text-text-primary"
+              aria-label={isMobileMenuOpen ? 'Close navigation' : 'Open navigation'}
+              aria-controls="mobile-navigation"
+              aria-expanded={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
             <div className="hidden gap-4 sm:flex sm:gap-6">
               {navItems.map((item) => (
                 <NavLink
@@ -72,6 +74,9 @@ export function Navbar() {
       
       {/* Mobile Dropdown Menu */}
       <div
+        id="mobile-navigation"
+        inert={!isMobileMenuOpen}
+        aria-hidden={!isMobileMenuOpen}
         className={`fixed inset-0 top-16 z-40 sm:hidden transition-all duration-300 ease-out ${
           isMobileMenuOpen
             ? 'opacity-100 pointer-events-auto'

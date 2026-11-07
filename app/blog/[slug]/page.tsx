@@ -1,3 +1,4 @@
+import { formatContentDate } from '@/lib/format-date';
 import { notFound } from 'next/navigation';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
@@ -61,12 +62,8 @@ export default async function BlogPostPage({
 
       <article className="max-w-prose">
         <header className="mb-8">
-          <time className="text-sm text-text-secondary font-mono mb-4 block">
-            {new Date(blog.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+          <time dateTime={blog.date} className="text-sm text-text-secondary font-mono mb-4 block">
+            {formatContentDate(blog.date)}
           </time>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight mb-6">
             {blog.title}

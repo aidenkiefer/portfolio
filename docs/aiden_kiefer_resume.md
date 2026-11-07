@@ -1,44 +1,47 @@
+# Aiden Kiefer
 
-Aiden Kiefer  
-Chicago, IL 60608 | (224) 622-9255 | hello@aidenkiefer.com  
-aidenkiefer.com | github.com/aidenkiefer | linkedin.com/in/aiden-kiefer  
+Chicago, IL | (224) 622-9255 | hello@aidenkiefer.com
+aidenkiefer.com | github.com/aidenkiefer | linkedin.com/in/aiden-kiefer
 
 ## Experience
 
-**Web Developer** — N-2 Water (Remote)  
-*May 2025 – Present*  
-- Led development of a production headless e-commerce storefront using **Next.js**, **React**, and **TypeScript**, supporting revenue-critical customer and marketing flows.  
-- Integrated **Shopify Storefront and Customer Account APIs** to implement authenticated customer experiences including login/registration, order history, subscriptions, and cross-domain cart persistence.  
-- Drove ~189% higher ROAS and ~76% traffic growth through Google Ads campaign optimization (keyword segmentation, targeting, and A/B testing) in collaboration with marketing stakeholders.  
+**Software Engineer Intern — OPENLANE, LaneLink Team (Full-time)**
+June 2026–Present
 
-**Software Engineering Intern** — Tribl Records (Atlanta, GA)  
-*Apr 2020 – Nov 2021*  
-- Developed and maintained internal web tools using **HTML**, **CSS**, and **JavaScript** to improve usability for content and media workflows.  
-- Optimized backend queries and server configurations, improving responsiveness and reducing page load times.  
+- Built an auction transfer workflow spanning React/TypeScript interfaces, Node.js services, and an external auction integration; updated active vehicle state while preserving prior auction history and audit notes.
+- Built an authenticated Next.js dashboard and extended an internal integration-test platform with vehicle lifecycle simulation, validated state transitions, transactional Firestore updates, and events consumed by downstream services.
+- Implemented a client inventory dashboard with nine lifecycle KPIs and vehicle-level drilldowns, aligning reporting queries, authorization, and filters so summary counts matched underlying records.
+- Automated recurring document-status reminders through scheduled Node.js jobs, recipient grouping, and deployment configuration with safeguards against overlapping runs and duplicate sends after partial failures.
 
-## Personal Projects
+**Web Developer — N-2 Water (Remote)**
+May 2025–August 2026
 
-**Portfolio Chatbot (Production RAG System, 2026)** — TypeScript, Next.js, Supabase (pgvector), Redis  
-- Architected a multi-stage retrieval pipeline with hybrid semantic/keyword search, LLM-based reranking, threshold-gated confidence routing, and typed error handling.  
-- Implemented versioned caching with automatic invalidation on configuration changes, plus structured output validation and safe fallbacks to improve reliability under partial system failures.  
+- Developed a headless commerce website using Next.js, React, and TypeScript, supporting marketing content and a production e-commerce storefront.
+- Integrated Shopify Storefront and Customer Account APIs for authentication, order history, subscriptions, and cross-domain cart persistence; collaborated with stakeholders to refine customer workflows.
 
-**DataDuel (Performance Normalization Platform, 2025)** — Python, PostgreSQL, OAuth 2.0 (Strava)  
-- Designed an improvement-based scoring algorithm to normalize performance across cohorts, enabling fair comparisons across different baseline levels.  
-- Built OAuth 2.0 integration with automatic token refresh and migrated persistence from JSON to PostgreSQL with backward-compatible cutover.  
+## Selected Projects
 
-**Climate Change & Bird Migration Analysis (2025)** — Python, pandas, scikit-learn  
-- Built regression models to learn long-term climate trends from historical data (1961–2005), validated against modern data (2005–2024), and forecasted future conditions through 2050.  
-- Designed data pipelines and evaluation workflows to analyze ecological datasets and communicate modeling limitations.  
+**Viridian Vault — Inventory Valuation Platform**
+TypeScript, Next.js, PostgreSQL
+
+- Built a cache-first inventory and pricing platform with a four-stage resolution pipeline, TTL-based pricing, atomic updates, and validated integrations with external APIs.
+- Designed PostgreSQL schemas, Row-Level Security policies, and versioned migrations; implemented scheduled serverless workflows to refresh pricing data.
+
+**Optionalizer — Productivity Platform**
+TypeScript, Next.js, PostgreSQL
+
+- Designed a layered UI, API, service, and repository architecture to separate presentation, business logic, and data access across a multi-feature application.
+- Built an append-only event model for state tracking and analytics; implemented schema validation and Vitest testing workflows to verify behavior and catch regressions.
 
 ## Education
 
-**University of Illinois Chicago** — Chicago, IL  
-B.S. in Computer Science, Graduated Dec 2025  
+University of Illinois Chicago — B.S. in Computer Science, December 2025
 
 ## Technical Skills
 
-**Languages:** TypeScript, JavaScript, Python, SQL, C/C++  
-**Frameworks:** Next.js, React, Node.js  
-**Web & Integrations:** REST APIs, OAuth 2.0, Shopify Storefront API, Authentication  
-**Data & ML:** NumPy, pandas, scikit-learn; Regression, Decision Trees, SVMs  
-**Tools:** Git, GitHub Actions (CI/CD), Jest, Linux/Bash  
+- Languages: TypeScript, JavaScript, SQL, Python, C/C++, HTML/CSS
+- Frontend: React, Next.js, Tailwind CSS
+- Backend & Data: Node.js, REST APIs, Firebase, Firestore, PostgreSQL, Supabase, Redis
+- Testing & Reliability: Vitest, Jest, pytest, integration testing, lifecycle simulation, Zod validation
+- Tools & Delivery: Git, GitHub Actions, Docker, Linux/Bash, Vercel, scheduled jobs, Agile/Scrum
+- Integrations: OAuth 2.0, Firebase Authentication, Shopify APIs, OpenAI APIs, Anthropic APIs

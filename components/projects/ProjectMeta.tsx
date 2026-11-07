@@ -24,6 +24,29 @@ export function ProjectMeta({ project }: ProjectMetaProps) {
         <p className="text-lg text-text-secondary">{project.summary}</p>
       </div>
 
+      {project.status && (
+        <dl className="grid gap-5 sm:grid-cols-2 text-sm">
+          {[
+            ['Status', project.status], ['My role', project.ownership],
+            ['Users', project.audience], ['Result', project.outcome],
+          ].map(([label, value]) => value ? (
+            <div key={label}><dt className="mb-1 font-semibold text-text-primary">{label}</dt><dd className="text-text-secondary leading-relaxed">{value}</dd></div>
+          ) : null)}
+        </dl>
+      )}
+      {project.workflow && (
+        <figure className="rounded-md border border-border p-5">
+          <figcaption className="mb-4 text-sm font-medium text-text-primary">Workflow overview</figcaption>
+          <ol className="grid gap-3 sm:grid-cols-2">
+            {project.workflow.map((step, index) => (
+              <li key={step} className="flex gap-3 text-sm leading-relaxed text-text-secondary">
+                <span className="font-mono text-accent-primary">{index + 1}.</span>{step}
+              </li>
+            ))}
+          </ol>
+        </figure>
+      )}
+
       {project.highlights && project.highlights.length > 0 && (
         <div>
           <h3 className="mb-3 font-medium text-text-primary">Highlights</h3>

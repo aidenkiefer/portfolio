@@ -2,6 +2,11 @@
 title: "Viridian Vault: Inventory Valuation + Provider Resolution Engine"
 slug: "viridian-vault"
 date: "2026-04-17"
+status: "Internal application · Inventory and pricing core implemented"
+ownership: "Full-stack application, database, and pricing pipeline"
+audience: "A small trading-card resale operation"
+outcome: "Inventory resolution, cached valuation, and scheduled price snapshots"
+workflow: ["Enter inventory details", "Resolve provider identity or review candidates", "Read cached prices and refresh stale data", "Store valuation snapshots"]
 featured: true
 tags:
   [
@@ -76,21 +81,17 @@ Manual price lookups don’t scale, and show-event workflows are time-sensitive.
 
 ## Results & Evaluation
 
-Per **workflow-core** progress (last synced 2026-04-22):
+The implemented core includes inventory management, provider resolution, a pricing cache, access policies, and scheduled snapshots. Pipeline hardening added atomic price writes, quota tracking, concurrent-refresh protection, and centralized TTL handling.
 
-- **v1.0–v1.5** (through **2026-04-01**): inventory CRUD, PokeWallet-centered pricing, RLS, dashboard, admin resolution — **v1.5.0** completed the pipeline redesign and doc overhaul (universal PokeWallet provider strategy).
-- **v1.6.x** (completed **2026-04-17**): pipeline audit (7 tickets, A–L) — atomic price writes, ≤3 bulk DB calls per refresh cycle, quota tracking, thundering-herd guard, image fetch hardening, TTL centralization, and set-mapping TTL. PokeWallet resolution v2: 4-stage fallback restructured with `set_code+number` first, critical API corrections (`json.results`, `X-API-Key` header), pagination fallback, and card number normalization.
-- **v1.9.0 Resolve Items hub** (**in progress**, 2026-04-22): unifying the 4-step settings workflow (set mappings, singles resolve/repair, price refresh, images) into `/admin/resolve-items`; spec + design + implementation plan written.
-- **v2.0 Show mode** (**in progress**): spec approved 2026-04-02; dual-mode search (PokeWallet for PURCHASE/TRADE IN, inventory DB for SALE/TRADE OUT), ~60s sale flow, offline queue v1; branch `feature/show-mode`.
-- **Spec’d**: **v1.7** sealed migration (JustTCG → PokeWallet), **v1.8** background hourly sync (`POST /api/sync/hourly` + Supabase **pg_cron** / **pg_net**).
-- **v2.1 Analytics** and **v2.2 Binder scanner** are on the roadmap; binder MVP not started.
+The resolution workflow returns explicit resolved, candidate, or not-found outcomes so ambiguous inventory can be reviewed without silently accepting an incorrect provider match.
 
-Operational baselines:
+## Status & Next Steps
 
-- Bulk resolution processes ~**200 items in ~30–40 seconds** (batched).
-- Inventory reads remain **cache-first**; **daily snapshot cron** at **03:00 UTC**.
+The implemented inventory and pricing core is distinct from planned extensions. A unified resolution workspace, show-mode transaction flows, hourly background sync, analytics, and binder scanning are not presented here as completed. Public usage and long-term resolution success metrics are not available.
 
-TODO: production inventory scale and long-term resolution success rates (not published).
+## Validation & Further Work
+
+Typed outcomes, Zod validation, database policies, and atomic updates define checks at API and persistence boundaries. Further evaluation should measure resolution quality against reviewed inventory and exercise provider failures and refresh concurrency at representative scale.
 
 ## Tradeoffs & Limitations
 

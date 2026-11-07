@@ -11,6 +11,11 @@ export interface Project {
   highlights: string[];
   content?: string;
   logo?: string;
+  status?: string;
+  ownership?: string;
+  audience?: string;
+  outcome?: string;
+  workflow?: string[];
 }
 
 export interface Experience {

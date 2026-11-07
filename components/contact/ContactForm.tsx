@@ -4,23 +4,10 @@ import { useState } from 'react';
 
 const INTEREST_OPTIONS = [
   { value: '', label: 'Select an option (optional)' },
-  { value: 'general', label: 'General inquiry' },
-  { value: 'chatbots', label: 'AI Chatbots' },
-  { value: 'ai-content', label: 'AI Content Workflows' },
-  { value: 'personalization', label: 'AI Personalization' },
-  { value: 'ai-video', label: 'AI Voiceovers & Video' },
-  { value: 'ai-insights', label: 'AI Business Insights' },
-  { value: 'performance', label: 'Performance & Speed' },
-  { value: 'seo', label: 'Technical SEO' },
-  { value: 'accessibility', label: 'Accessibility & Mobile' },
-  { value: 'bugfixes', label: 'Bug Fixes' },
-  { value: 'automation', label: 'Automation' },
-  { value: 'api-integrations', label: 'API Integrations' },
-  { value: 'internal-tools', label: 'Internal Tools & Dashboards' },
-  { value: 'startup-ai', label: 'Starter package: Startup AI Jumpstart' },
-  { value: 'speed-seo', label: 'Starter package: Speed & SEO Tune-Up' },
-  { value: 'automation-sprint', label: 'Starter package: Automation Sprint' },
-  { value: 'custom', label: 'Custom project / other' },
+  { value: 'engineering', label: 'Engineering opportunity' },
+  { value: 'collaboration', label: 'Project collaboration' },
+  { value: 'contract', label: 'Selective contract work' },
+  { value: 'other', label: 'Other' },
 ];
 
 const inputBase =
@@ -130,7 +117,7 @@ export function ContactForm() {
           required
           rows={5}
           className={`${inputBase} resize-y min-h-[120px]`}
-          placeholder="Tell me about your project or what you're looking for..."
+          placeholder="Tell me about the role, collaboration, or problem you have in mind..."
           disabled={status === 'sending'}
         />
       </div>

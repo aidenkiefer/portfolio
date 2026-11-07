@@ -2,6 +2,11 @@
 title: "AidDocs: MDX Knowledge Base + Private Search + Tooling"
 slug: "aiddocs"
 date: "2026-02-09"
+status: "Private application · Notes core implemented; auth and task CRUD planned"
+ownership: "Independent application and content-tooling development"
+audience: "Personal technical reference and writing"
+outcome: "Searchable MDX notes with validation, backlinks, and ingestion tooling"
+workflow: ["Ingest and validate MDX notes", "Render code, math, and diagrams", "Search the local content index", "Follow cross-links and generated backlinks"]
 featured: true
 tags:
   [
@@ -33,7 +38,7 @@ stack:
 repoUrl: ""
 liveUrl: ""
 logo: "/images/logos/aiddocs.svg"
-summary: "A private Next.js knowledge base: 200+ MDX notes with math and syntax highlighting, Cmd+K fuzzy search, backlinks from a cross-link checker, Zod-validated frontmatter, and a CLI ingestion suite — plus an Optionalizer 3.0 shell (schema/UI) awaiting auth-gated CRUD."
+summary: "A private MDX knowledge base with local fuzzy search, generated backlinks, schema validation, and CLI ingestion tools. Authentication and productivity CRUD remain planned."
 highlights:
   - "222 MDX notes across 9 collections; remark-math → KaTeX + Shiki pipeline"
   - "Client-side Fuse.js search (weighted keys, keyboard nav) — zero external index"

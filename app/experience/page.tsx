@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { Container } from '@/components/layout/Container';
 import { BadgeRow, Badge } from '@/components/common/BadgeRow';
 import { SearchableBadge } from '@/components/common/SearchableBadge';
-import { ReleaseFeedBoard } from '@/components/experience/ReleaseFeedBoard';
 import { experiences } from '@/data/experience';
 import { coursework } from '@/data/coursework';
 import { skills } from '@/data/skills';
@@ -14,11 +13,11 @@ import { ChipMark } from '@/components/common/ChipMark';
 export const metadata = generateMetadata({
   title: 'Experience & Education',
   description:
-    'Recent shipping narrative across projects, plus professional experience, coursework, and technical skills.',
+    'Full-time software engineering internship on OPENLANE’s LaneLink team, earlier roles, education, and technical skills.',
   path: '/experience',
 });
 
-const skillCategories = ['Languages', 'Systems', 'Web', 'Data/ML', 'Tools'];
+const skillCategories = ['Languages', 'Web', 'Backend & Data', 'Testing & Delivery', 'Systems', 'Data/ML', 'Tools'];
 
 export default function ExperiencePage() {
   const skillsByCategory = skillCategories.map((category) => ({
@@ -32,36 +31,9 @@ export default function ExperiencePage() {
         <h1 className="mb-5 text-3xl sm:text-4xl lg:text-5xl font-semibold text-text-primary tracking-tight">
           Experience & Education
         </h1>
-        <div className="space-y-4 text-text-primary leading-relaxed max-w-prose text-sm sm:text-base">
-          <p>
-            I build and maintain real systems across products — not just pages. Below,{' '}
-            <strong className="font-semibold text-text-primary">Recent work</strong> is a live-style feed of what
-            I&apos;ve shipped recently, with links to case studies where they exist on this site.
-          </p>
-          <p className="text-text-secondary">
-            Further down: roles, coursework, and a concise skills map.{' '}
-            <a href="#professional-experience" className="text-accent-primary font-medium hover:text-accent-primary/80">
-              Jump to professional experience →
-            </a>
-          </p>
-        </div>
-      </div>
-
-      {/* Primary feature: Release Feed */}
-      <div className="mb-16 sm:mb-20 lg:mb-24 pb-12 border-b border-border">
-        <ReleaseFeedBoard />
-      </div>
-
-      <div className="mb-12 sm:mb-16 lg:mb-20 max-w-prose space-y-4 text-text-primary leading-relaxed text-sm sm:text-base">
-        <p>
-          My professional experience reflects engineering work across web development, systems optimization, and
-          data-driven decision making. Each role has involved building and maintaining systems with attention to
-          performance, structure, and measurable impact.
-        </p>
-        <p>
-          What I&apos;ve learned is that good engineering requires understanding business context, collaborating with
-          non-technical stakeholders, and maintaining systems real people depend on — whether optimizing campaigns,
-          e-commerce platforms, or content systems.
+        <p className="max-w-prose text-text-primary leading-relaxed">
+          Since late June 2026, I&apos;ve worked full-time as a Software Engineer Intern on OPENLANE&apos;s LaneLink team,
+          building product workflows, reporting, integration-test tools, and scheduled automation.
         </p>
       </div>
 
@@ -125,6 +97,20 @@ export default function ExperiencePage() {
         </div>
       </section>
 
+      <section className="mb-16 rounded-md border border-border p-6 sm:p-8">
+        <h2 className="mb-4 text-2xl font-semibold text-text-primary">Recent engineering work</h2>
+        <p className="mb-4 max-w-prose text-text-secondary leading-relaxed">
+          My LaneLink work connects three recurring problems: preserving history across service boundaries,
+          making reporting inspectable, and making realistic integration tests repeatable.
+        </p>
+        <Link href="/projects/lanelink-engineering" className="text-accent-primary font-medium">Read the selected work →</Link>
+      </section>
+      <section className="mb-12">
+        <h2 className="mb-3 text-2xl font-semibold text-text-primary">Education</h2>
+        <p className="font-medium text-text-primary">University of Illinois Chicago</p>
+        <p className="text-text-secondary">B.S. in Computer Science · Graduated December 2025 · Chicago, IL</p>
+      </section>
+
       {/* Coursework Section */}
       <section className="mb-20">
         <div className="mb-8 h-px bg-border" />
@@ -134,23 +120,10 @@ export default function ExperiencePage() {
         </h2>
         <div className="flex flex-col md:flex-row gap-8 items-start mb-12">
           <div className="flex-1">
-            <div className="space-y-4 text-text-primary leading-relaxed max-w-prose">
-              <p>
-                My coursework is curated to show strong computer science fundamentals and exposure across systems,
-                algorithms, machine learning, databases, and UI. These courses have shaped how I think about
-                engineering problems and informed my approach to system design.
-              </p>
-              <p>
-                What I value most is the balance between theory and practice. Courses like Systems Programming and
-                Computer Design taught me how software interacts with hardware and the OS. Database Systems and
-                Software Design helped me model real-world requirements and make architectural decisions. ML and data
-                science coursework gave me the foundation to work with ambiguous, data-heavy problems.
-              </p>
-              <p>
-                Below, coursework is organized by theme. Each listing includes key skills and, where applicable,
-                links to projects that demonstrate them.
-              </p>
-            </div>
+            <p className="max-w-prose text-text-primary leading-relaxed">
+              Coursework in systems, algorithms, databases, software design, machine learning, and user interfaces
+              provides the foundation for my professional work. Expand the course list for related projects and skills.
+            </p>
           </div>
           <div className="relative w-full md:w-64 h-40 md:h-48 rounded-md overflow-hidden border border-border">
             <Image
@@ -162,6 +135,8 @@ export default function ExperiencePage() {
             />
           </div>
         </div>
+        <details>
+          <summary className="mb-8 cursor-pointer text-accent-primary font-medium">Explore coursework</summary>
         <div className="space-y-16">
           {coursework.map((group, groupIdx) => (
             <div key={groupIdx}>
@@ -209,6 +184,7 @@ export default function ExperiencePage() {
             </div>
           ))}
         </div>
+        </details>
       </section>
 
       {/* Skills Section */}

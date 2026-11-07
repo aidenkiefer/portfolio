@@ -1,0 +1,77 @@
+---
+title: "Owning a Change Beyond the Pull Request"
+slug: "owning-a-change-beyond-the-pull-request"
+date: "2026-10-28"
+excerpt: "Scheduled work, read-only audits, and review have expanded my definition of done—and made me appreciate a well-explained limitation."
+featured: true
+tags: ["Engineering Judgment", "Testing", "Workflow Automation", "Career Development"]
+relatedLinks:
+  - label: "From Solo Projects to a Multi-Repository Product"
+    url: "from-solo-projects-to-a-multi-repository-product"
+    type: "blog"
+  - label: "What an Auction Transfer Workflow Taught Me About Data History"
+    url: "what-an-auction-transfer-workflow-taught-me-about-data-history"
+    type: "blog"
+---
+
+A green checkmark is a very persuasive little shape.
+
+On a personal project, it’s tempting to see one, merge the change, and mentally start the next feature. I’ve definitely done the celebratory tab-closing routine.
+
+A few months into my internship, my definition of “done” has become more demanding. Work involving scheduled operations and read-only data audits, along with review, regression coverage, and preview testing, has made me think harder about what a change means after the implementation is finished.
+
+The examples here are fictional. They illustrate general engineering questions, rather than any employer’s systems or procedures.
+
+## A successful run leaves some questions open
+
+Imagine a library app that sends a weekly reminder about borrowed equipment. During a test, the reminder goes out correctly. Good start.
+
+Now imagine the task runs again. Or gets interrupted after doing some of its work. Or begins while an earlier run is still busy.
+
+The first successful run doesn’t tell us what will happen in those situations. The right behavior depends on the product, but the questions are worth asking before people depend on the automation.
+
+This is one of the biggest changes in how I think about background work. I’m less satisfied with proving that an action can happen, and more interested in whether its behavior remains understandable when execution is repeated, delayed, or incomplete.
+
+An automated task has a remarkable ability to repeat an assumption with great enthusiasm.
+
+## Sometimes the useful output is a question
+
+Read-only audit work has taught me a related lesson about restraint.
+
+In a fictional membership directory, two similar names might indicate duplicate entries. They might also belong to different people. Finding a candidate and deciding what to change are separate decisions.
+
+An audit can be valuable by making the uncertainty visible: here is something worth reviewing, here is why it was flagged, and here is what the evidence doesn’t establish.
+
+That is a complete and useful contribution even if it changes no records.
+
+Earlier in my development, I tended to associate progress with producing a visible change. I now have more appreciation for tools that help someone make a better decision before a change happens. “I found a candidate for review” is also a much more accurate handoff than “I fixed the problem” when no correction was actually performed.
+
+## Review makes my reasoning easier to inspect
+
+I’m learning to treat a pull request as a way to make a change understandable to another person. The diff shows what I edited; the explanation needs to connect that edit to the intended behavior.
+
+That means being specific about what I checked and where uncertainty remains. A reviewer should be able to distinguish a confirmed result from an assumption without interviewing me about every sentence.
+
+Writing that explanation is useful work for me, too. If I struggle to describe why a behavior is correct, I often have one more question to resolve.
+
+I’d rather find that question while drafting the explanation than after someone else has built on my assumption.
+
+## Different checks provide different evidence
+
+Focused tests can exercise a particular rule. Regression checks can help catch an unintended effect on existing behavior. A preview walkthrough can show whether the complete user interaction is understandable in that setting.
+
+I’m getting more careful about what I conclude from each one. A passing test supports the behavior it exercises. A preview can reveal interaction problems without proving how every operating condition will behave.
+
+For the fictional library reminder, I might be confident about who qualifies for a reminder while still needing evidence about repeated execution. Those are different claims, and treating them separately makes the remaining work easier to see.
+
+More checks aren’t automatically better. I want checks that answer a real question about the change.
+
+## Leaving a change understandable
+
+The teammate side of this has become more important to me. A useful handoff lets someone understand the intended behavior, the evidence behind it, and any remaining limits without reconstructing my entire investigation.
+
+That doesn’t mean writing a novel for every small fix. It means providing enough context for the next person to make a sound decision.
+
+I still enjoy finishing a feature and seeing it work. What has changed is where I place the finish line: I want to know what I’ve established, communicate it accurately, and leave the work in a state someone else can confidently pick up.
+
+The green checkmark still gets its moment. It just has a little more supporting evidence now.

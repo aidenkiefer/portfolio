@@ -1,64 +1,73 @@
 ---
 title: "From Solo Projects to a Multi-Repository Product"
 slug: "from-solo-projects-to-a-multi-repository-product"
-date: "2026-11-06"
-excerpt: "How my LaneLink internship expanded the way I trace workflows, preserve data history, and verify changes across system boundaries."
+date: "2026-07-23"
+excerpt: "A month into my internship, I’m learning to follow a user’s workflow across boundaries—and to be a little less impressed when something works on my machine."
 featured: true
-tags: ["Software Engineering", "Integration Testing", "Reporting", "System Design"]
+tags: ["Software Engineering", "Systems Thinking", "Architecture", "Career Development"]
 relatedLinks:
-  - label: "Selected LaneLink Engineering Work"
-    url: "lanelink-engineering"
-    type: "project"
   - label: "What I Look for First in an Unfamiliar Codebase"
     url: "what-i-look-for-first-in-an-unfamiliar-codebase"
     type: "blog"
+  - label: "Why I Care More About Clarity Than Cleverness in Software"
+    url: "clarity-over-cleverness-in-software"
+    type: "blog"
 ---
 
-Since late June, I’ve been working full-time as a Software Engineer Intern on OPENLANE’s LaneLink team. My independent projects gave me experience designing applications end to end. Working within an existing multi-repository product has added another dimension: understanding the contracts a change touches before deciding how to implement it.
+On a solo project, I have a very convenient source of architectural context: the person who made all the decisions is usually me.
 
-The examples below are simplified to focus on the engineering decisions and lessons.
+Sometimes that person left helpful notes. Sometimes he named something `final` and moved on with his life. Either way, I can usually reconstruct what happened.
 
-## Follow the Workflow Beyond the Interface
+I joined OPENLANE’s LaneLink team in late June, and working full-time on an existing product has started to stretch that habit. I’m learning to understand a change as part of a larger workflow, even when the relevant behavior lives in several places.
 
-An interface action can look small while changing behavior across several services. In my auction transfer work, selecting a new destination was only the start. The active vehicle state, prior auction history, audit trail, and later integration updates all needed to remain coherent.
+The following examples are simplified and fictional. The lessons are personal; the systems described here are illustrative.
 
-The useful unit of investigation was the user’s workflow. Starting from the interface, I traced which service accepted the request, what data changed, and which later updates depended on that state. That gave me a way to reason about the change across repositories without treating each repository as an isolated task.
+## The repository is one piece of the map
 
-## Separate Current State From History
+In my [earlier post about unfamiliar codebases](/blog/what-i-look-for-first-in-an-unfamiliar-codebase), I focused on getting oriented: finding entry points, following data, and understanding what persists. Those questions still help. The next challenge is following the thread when it leaves the codebase I started in.
 
-A transfer illustrates a broader modeling problem. A system needs to show where something is now while retaining enough information to explain how it got there.
+For a generic web product, a user action might involve an interface, a service, stored information, and a later background update. Each part can look reasonable on its own while the complete experience is confusing.
 
-In a fictional delivery application, changing the assigned depot should update the active route without erasing earlier delivery attempts. The same distinction applies to many operational workflows: the current state serves the next action, while history supports explanation and reporting.
+That has changed where I start. Before looking for a file to edit, I try to describe what the person using the software is trying to accomplish. Then I follow that action far enough to understand which boundaries matter.
 
-That distinction changes verification. Checking that a new destination appears in the interface is useful, but incomplete. Earlier history and subsequent updates also need to make sense.
+My mental map now includes the spaces between the boxes.
 
-## Make Reports Explain Themselves
+## A small button can have a long story
 
-My inventory reporting work involved nine lifecycle KPIs and matching vehicle-level drilldowns. The important contract was that a summary count and its detail view described the same population under the same filters and permissions.
+Auction transfer work has been a useful example of this kind of reasoning. The general idea sounds straightforward: move something from one auction to another.
 
-A current-state metric also answers a different question from a period-based activity metric. “What is active now?” and “What happened last month?” can both be valid reports, but applying the same date rule to both can produce a misleading result.
+To keep the example separate from work, imagine a small community auction app. A donated bicycle was assigned to Saturday’s sale, but a volunteer needs to move it to the following week.
 
-A drilldown makes that definition inspectable. When a user can see the records behind a count, the report becomes easier to understand and verify.
+The visible action might be a single button. The questions behind it are more interesting. What should the volunteer see afterward? What should remain visible about the earlier assignment? Could another part of the application still be showing the previous information?
 
-## Test Tools Have Users Too
+I can’t answer those questions by looking at the button alone. I need to understand the meaning of the action across the whole experience.
 
-I also built an authenticated dashboard for test vehicles and extended a lifecycle simulator. That work combined interface design with state modeling: engineers needed a controlled way to prepare realistic scenarios, advance supported states, and clean up afterward.
+The button has excellent branding. The complexity is doing its best to remain anonymous.
 
-A simulator has to do more than display a plausible status. Its transitions and events need to exercise the downstream behavior being tested. Invalid actions and teardown paths matter because they determine whether a scenario can be repeated without manual repair.
+## Understanding where it runs matters too
 
-## Verify What Happens After the First Success
+I’m also paying more attention to the difference between code being correct in isolation and a change working in its intended environment.
 
-Scheduled automation brought another useful perspective. A job can complete some actions and then fail. Retrying the entire run may repeat work that already succeeded.
+In a hypothetical application, an interactive feature and a background task may run under different conditions. A local walkthrough can tell me something useful about the interface without answering whether a later action will happen as expected.
 
-For recurring reminders, grouping recipients, avoiding overlapping execution, and treating partial sends carefully were part of the implementation. More generally, I now look for the second execution as well as the first: repeated events, retries, and existing human overrides can reveal assumptions that a successful first run hides.
+That doesn’t mean every task needs an infrastructure expedition. It means my confidence should match what I actually checked. If I only exercised one part of a workflow, I should be able to say which part.
 
-## What Has Changed in My Approach
+“I saw the screen update” is a useful observation. It leaves some questions open.
 
-I still enjoy designing an application from a blank page. LaneLink has expanded the questions I ask when changing an existing product:
+## Asking a smaller, better question
 
-- Which user workflow does this change support?
-- Which services and data contracts does it touch?
-- What should remain true about history and authorization?
-- How will I verify later updates, repeated actions, and partial completion?
+With personal projects, I can disappear into research until the whole design feels comfortable. On an existing product, trying to understand everything before contributing would be a very effective way to contribute nothing.
 
-Those questions make the work more concrete. They connect the code I’m changing to the people and systems that depend on its behavior.
+I’m learning to work with a bounded slice: enough context to explain the behavior I’m changing, the assumptions it depends on, and the parts I still need help understanding.
+
+That also makes my questions more useful. “Can you explain the entire application?” asks someone else to organize my uncertainty. “I traced the action this far; am I misunderstanding what happens next?” gives us something concrete to discuss.
+
+There is still plenty I don’t know. Having a more precise description of it feels like progress.
+
+## A different kind of ownership
+
+I still like the freedom of building an application from scratch. Working in an existing product is developing a different skill: making a focused change while understanding enough of the surrounding system to respect it.
+
+A month in, I’m spending more effort connecting the user’s action to the behavior around it. I’m also getting more comfortable explaining the limits of what I understand.
+
+My solo projects taught me to build the pieces. This experience is teaching me to notice the joins.

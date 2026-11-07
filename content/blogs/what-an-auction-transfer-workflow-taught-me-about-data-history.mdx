@@ -1,0 +1,77 @@
+---
+title: "What an Auction Transfer Workflow Taught Me About Data History"
+slug: "what-an-auction-transfer-workflow-taught-me-about-data-history"
+date: "2026-09-16"
+excerpt: "A simple transfer raises a surprisingly useful question: how do you show what’s true now without losing the story of what happened before?"
+featured: true
+tags: ["Data Modeling", "System Design", "Software Engineering", "Testing"]
+relatedLinks:
+  - label: "From Solo Projects to a Multi-Repository Product"
+    url: "from-solo-projects-to-a-multi-repository-product"
+    type: "blog"
+  - label: "Why I Care More About Clarity Than Cleverness in Software"
+    url: "clarity-over-cleverness-in-software"
+    type: "blog"
+---
+
+“Move this to the next auction” sounds like a request with a short implementation and an early lunch.
+
+Then you ask what should happen to the information from the previous auction.
+
+Lunch can wait.
+
+Working on auction transfer behavior during my internship has made me think more carefully about a common software problem: keeping the present useful while preserving enough of the past to explain it. This post uses a fictional community auction, with no employer implementation details.
+
+## One bicycle, two perfectly reasonable questions
+
+Imagine a volunteer-run auction that sells donated bicycles. A blue bicycle is assigned to Saturday’s event. Before the sale, a volunteer moves it to an event the following weekend.
+
+Someone preparing the upcoming event needs to know where the bicycle is assigned now. Someone reviewing the earlier event needs to understand why it disappeared from that event’s list.
+
+Both questions are reasonable. They need different views of the same story.
+
+If the application only shows the newest assignment, the next event may look correct while the earlier event becomes difficult to explain. If the application preserves everything but makes the active assignment unclear, the volunteer preparing the sale still has a problem.
+
+I’ve become more interested in defining those questions before deciding how the application should represent the answers.
+
+## Updating the present can accidentally rewrite the explanation
+
+It’s easy to treat earlier information as something that has simply been replaced. Sometimes that is exactly what a product needs. Correcting a spelling mistake usually shouldn’t require an archaeological dig.
+
+A meaningful transition is different. Moving an item between events changes what people should do next, but the previous assignment may still matter when someone asks how the item got there.
+
+That is the distinction I had to get clearer about: which information describes the current situation, and which information explains an earlier one?
+
+There isn’t a universal answer to how much history an application should retain. Keeping more has costs: additional complexity, more interpretation, and decisions about what users actually need to see. The goal is a useful explanation at the level the product requires.
+
+A history view that contains every possible detail can be just as confusing as one that contains too little.
+
+## The workflow continues after the confirmation
+
+A transfer can cross system boundaries because several parts of a product may participate in the experience: the screen where the action starts, the behavior that applies it, and other views that later show the result.
+
+In our fictional auction app, imagine a summary prepared before the transfer becomes visible afterward. Does that summary still describe the earlier event, or could someone mistake it for information about the current assignment?
+
+That question doesn’t require an exotic failure. It follows from the ordinary fact that different parts of a system can observe a change at different times.
+
+I now pay more attention to the meaning of a later update. Knowing that something arrived is only part of the story. Understanding what it refers to matters too.
+
+## Checking the story from both directions
+
+The most useful way I found to reason about this was to walk through a simple before-and-after narrative. Could I explain the current situation and still explain the previous one without contradicting myself?
+
+Applied to the fictional bicycle, that means checking more than whether its new event appears on screen. I’d also want to look back at the earlier event, consider a delayed summary, and walk through a second transfer.
+
+These scenarios answer different questions. The first checks the immediate action. The others test whether the explanation stays coherent as the story gets longer.
+
+I also find it helpful to describe what should remain true in ordinary language. “The volunteer can identify the active event” and “the earlier assignment can still be understood” are easier to discuss than a technical solution presented before everyone agrees on the behavior.
+
+## History is part of the experience
+
+I used to think of historical information mainly as something for debugging or reporting. I’m starting to see how directly it affects whether a product makes sense to its users.
+
+People need to know what to do next. They also sometimes need to explain what happened yesterday. An application earns trust when those answers fit together.
+
+That has been the lasting lesson for me: when changing where something is now, take a moment to ask what someone will need to understand about where it used to be.
+
+Even when the whole adventure begins with one bicycle and a very optimistic button.
